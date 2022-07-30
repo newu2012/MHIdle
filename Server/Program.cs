@@ -1,0 +1,48 @@
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+builder.Services.AddSpaStaticFiles(config =>
+{
+    config.RootPath = "client/dist";
+});
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.WebHost.UseKestrel(options =>
+{
+    options.ListenAnyIP(int.Parse(Environment.GetEnvironmentVariable("PORT") ?? "5000"));
+});
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseRouting();
+
+app.UseAuthorization();
+
+app.UseEndpoints(endpoints => { endpoints.MapDefaultControllerRoute(); });
+
+// app.UseHttpsRedirection();
+
+app.MapControllers();
+
+app.UseSpaStaticFiles();
+
+app.UseSpa(config =>
+{
+    if (app.Environment.IsDevelopment())
+    {
+        config.UseProxyToSpaDevelopmentServer("http://localhost:3000/");
+    }
+});
+
+app.Run();
