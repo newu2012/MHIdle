@@ -21,12 +21,6 @@ public static class MHIdleContextExtensions
             {
                 var connectionVariables = Environment.GetEnvironmentVariables();
                 connectionString =
-                    //  TODO Use env vars
-                    // $"Host=ec2-54-228-218-84.eu-west-1.compute.amazonaws.com;" +
-                    // $"Port=5432;" +
-                    // $"Database=d93clgr3hjqq5a;" +
-                    // $"Username=vayactprrpihiq;" +
-                    // $"Password=dd0bb9f65d02539ac6ba1d62adcbc00d12a414f419cc982ebbd7b28ad1fac0e1";
                     $"Host={connectionVariables["POSTGRESQL_HOST"]};" +
                     $"Port={connectionVariables["POSTGRESQL_PORT"]};" +
                     $"Database={connectionVariables["POSTGRESQL_DATABASE"]};" +
