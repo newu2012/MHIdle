@@ -2,7 +2,7 @@ using DataContext.Postgresql;
 
 var builder = WebApplication.CreateBuilder(args);
 
-DotNetEnv.Env.Load(builder.Environment.IsDevelopment() ? "development.env" : "production.env");   //  To load .env files
+DotNetEnv.Env.Load(builder.Environment.IsDevelopment() ? "development.env" : "production.env"); //  To load .env files
 
 // Add services to the container.
 builder.Services.AddMHIdleContext();
@@ -11,9 +11,6 @@ builder.Services.AddControllers();
 builder.Services.AddSpaStaticFiles(config => { config.RootPath = "client/dist"; });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddHealthChecks()
-    .AddDbContextCheck<MHIdleContext>();
 
 builder.WebHost.UseKestrel(options =>
 {
@@ -28,7 +25,6 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseHealthChecks(path: "/howdoyoufeel");
 }
 
 app.UseRouting();
