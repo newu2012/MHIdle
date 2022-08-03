@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DataContext.Postgresql;
@@ -19,16 +20,12 @@ public static class MHIdleContextExtensions
         {
             if (connectionString == "")
             {
-                var connectionVariables = Environment.GetEnvironmentVariables();
-                connectionString =
-                    $"Host={connectionVariables["POSTGRESQL_HOST"]};" +
-                    $"Port={connectionVariables["POSTGRESQL_PORT"]};" +
-                    $"Database={connectionVariables["POSTGRESQL_DATABASE"]};" +
-                    $"Username={connectionVariables["POSTGRESQL_USERNAME"]};" +
-                    $"Password={connectionVariables["POSTGRESQL_PASSWORD"]}";
+                var m = Regex.Match(Environment.GetEnvironmentVariable("DATABASE_URL")!,
+                    @"postgres://(.*):(.*)@(.*):(.*)/(.*)");
+                options.UseNpgsql(
+                    $"Server={m.Groups[3]};Port={m.Groups[4]};User Id={m.Groups[1]};Password={m.Groups[2]};Database={m.Groups[5]};sslmode=Prefer;Trust Server Certificate=true",
+                    b => b.MigrationsAssembly("Server"));
             }
-
-            options.UseNpgsql(connectionString, b => b.MigrationsAssembly("Server"));
 
             options.LogTo(Console.WriteLine, // Console
                 new[]
