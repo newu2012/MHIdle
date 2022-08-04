@@ -1,11 +1,6 @@
 <script lang="ts" setup>
 
 import {Feature} from "../models/Feature";
-
-import TheInventoryPanel from "./TheInventoryPanel.vue";
-import TheRegionPanel from "./TheRegionPanel.vue";
-import TheCraftingPanel from "./TheCraftingPanel.vue";
-
 const props = defineProps<{
   currentFeature: Feature
 }>()
@@ -14,9 +9,7 @@ const props = defineProps<{
 
 <template>
   <div class="TheMainPanel">
-    <TheInventoryPanel v-if="props.currentFeature.name === 'Inventory'"></TheInventoryPanel>
-    <TheRegionPanel v-else-if="props.currentFeature.name === 'Region'"></TheRegionPanel>
-    <TheCraftingPanel v-else-if="props.currentFeature.name === 'Crafting'"></TheCraftingPanel>
+    <component :is="props.currentFeature.componentPanel"></component>
   </div>
 </template>
 
