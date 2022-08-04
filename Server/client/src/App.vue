@@ -14,11 +14,20 @@ function ChangeActiveFeature(activeFeatureName: string) {
     features.value[i].active = features.value[i].name === activeFeatureName;
   }
 }
+
+function FindActiveFeature(features: Feature[]) {
+  const activeFeature = features.find(f => f.active);
+  if (activeFeature === undefined) {
+    throw new TypeError("No active feature found.")
+  }
+
+  return activeFeature;
+}
 </script>
 
 <template>
   <TheMainMenuPanel :model-value="features" @update:modelValue="newValue => ChangeActiveFeature(newValue)"/>
-  <TheMainPanel :currentFeature="features.find(f => f.active)"/>
+  <TheMainPanel :currentFeature="FindActiveFeature(features)"/>
 </template>
 
 <style scoped>
