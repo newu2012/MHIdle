@@ -6,7 +6,7 @@ import {ResourceHerb} from "../models/items/ResourceHerb";
 
 const character: Ref<Character> = inject("character") as Ref<Character>;
 
-let herbs = ref(0);
+let herbs = ref(character.value.currentInventory.CountItems("simpleHerb") ?? 0);
 
 function GatherHerbs() {
   character.value.currentInventory
