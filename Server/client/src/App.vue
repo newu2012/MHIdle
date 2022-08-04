@@ -7,7 +7,7 @@ import {Feature} from "./models/Feature";
 const features = ref([
   new Feature("Inventory", true),
   new Feature("Region", false),
-  new Feature("Craft", false),])
+  new Feature("Crafting", false),])
 
 function ChangeActiveFeature(activeFeatureName: string) {
   for (let i = 0; i < features.value.length; i++) {
@@ -18,7 +18,7 @@ function ChangeActiveFeature(activeFeatureName: string) {
 
 <template>
   <TheMainMenuPanel :model-value="features" @update:modelValue="newValue => ChangeActiveFeature(newValue)"/>
-  <TheMainPanel/>
+  <TheMainPanel :currentFeature="features.find(f => f.active)"/>
 </template>
 
 <style scoped>
