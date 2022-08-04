@@ -1,15 +1,24 @@
 <script lang="ts" setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import TheMainMenuPanel from './components/TheMainMenuPanel.vue';
 import TheMainPanel from './components/TheMainPanel.vue';
-// import HelloWorld from './components/HelloWorld.vue';
+import {ref} from "vue";
+import {Feature} from "./models/Feature";
+
+const features = ref([
+  new Feature("Inventory", true),
+  new Feature("Region", false),
+  new Feature("Craft", false),])
+
+function ChangeActiveFeature(activeFeatureName: string) {
+  for (let i = 0; i < features.value.length; i++) {
+    features.value[i].active = features.value[i].name === activeFeatureName;
+  }
+}
 </script>
 
 <template>
-  <TheMainMenuPanel/>
+  <TheMainMenuPanel :model-value="features" @update:modelValue="newValue => ChangeActiveFeature(newValue)"/>
   <TheMainPanel/>
-  <!--  <HelloWorld msg="Vite + Vue + MHIdle"/>-->
 </template>
 
 <style scoped>

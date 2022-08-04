@@ -1,18 +1,8 @@
 <script lang="ts" setup>
 import TheMainMenuPanelItem from "./TheMainMenuPanelItem.vue";
 import {Feature} from "../models/Feature";
-import {ref} from "vue";
 
-const features = ref([
-  new Feature("Inventory", true),
-  new Feature("Region", false),
-  new Feature("Craft", false),])
-
-function ChangeActiveFeature(activeFeatureName: string) {
-  for (let i = 0; i < features.value.length; i++) {
-    features.value[i].active = features.value[i].name === activeFeatureName;
-  }
-}
+defineProps<{ modelValue: Feature[] }>()
 </script>
 
 <template>
@@ -20,10 +10,10 @@ function ChangeActiveFeature(activeFeatureName: string) {
     <ul>
       <li>
         <TheMainMenuPanelItem
-            v-for="feature in features"
+            v-for="feature in modelValue"
             :key="feature.name"
             :feature="feature"
-            @set-active="ChangeActiveFeature(feature.name)"
+            @set-active="$emit('update:modelValue', feature.name)"
         >
           {{ feature.name }}
         </TheMainMenuPanelItem>
