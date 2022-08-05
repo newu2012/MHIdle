@@ -1,15 +1,16 @@
 <script lang="ts" setup>
 
-import {Feature} from "../models/Feature";
+import { Feature } from "../models/Feature";
+
 const props = defineProps<{
   currentFeature: Feature
-}>()
+}>();
 
 </script>
 
 <template>
   <div class="TheMainPanel">
-    <component :is="props.currentFeature.componentPanel"></component>
+    <component :is="props.currentFeature.componentPanel" />
   </div>
 </template>
 

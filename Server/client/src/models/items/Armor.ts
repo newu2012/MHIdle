@@ -1,10 +1,9 @@
-import {Equipment} from "./Equipment";
+import { Equipment } from "./Equipment";
 
 export class Armor implements Equipment {
-    name: string;
-    description: string;
-    id: number;
-    maximumInStack: number;
-    value: number;
-
+  id: number;
+  name: string;
+  description: string;
+  maximumInStack: number;
+  value: number;
 }

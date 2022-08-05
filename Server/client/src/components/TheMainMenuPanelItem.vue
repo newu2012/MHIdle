@@ -1,16 +1,20 @@
 <script lang="ts" setup>
-import {Feature} from "../models/Feature";
+import { Feature } from "../models/Feature";
 
 const props = defineProps<{
   feature: Feature
 }>();
 
+defineEmits(["set-active"]);
 </script>
 
 <template>
   <div class="TheMainMenuPanelItem">
-    <button :class="{ active:props.feature.active }" @click="$emit('set-active', props.feature.name)">
-      <slot/>
+    <button
+      :class="{ active:props.feature.active }"
+      @click="$emit('set-active', props.feature.name)"
+    >
+      <slot />
     </button>
   </div>
 </template>

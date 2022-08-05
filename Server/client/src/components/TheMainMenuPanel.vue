@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import TheMainMenuPanelItem from "./TheMainMenuPanelItem.vue";
-import {Feature} from "../models/Feature";
+import { Feature } from "../models/Feature";
 
-defineProps<{ modelValue: Feature[] }>()
+defineProps<{ modelValue: Feature[] }>();
+
+defineEmits(["update:model-value"]);
 </script>
 
 <template>
@@ -10,10 +12,10 @@ defineProps<{ modelValue: Feature[] }>()
     <ul>
       <li>
         <TheMainMenuPanelItem
-            v-for="feature in modelValue"
-            :key="feature.name"
-            :feature="feature"
-            @set-active="$emit('update:modelValue', feature.name)"
+          v-for="feature in modelValue"
+          :key="feature.name"
+          :feature="feature"
+          @set-active="$emit('update:model-value', feature.name)"
         >
           {{ feature.name }}
         </TheMainMenuPanelItem>
