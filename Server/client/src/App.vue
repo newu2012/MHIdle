@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { markRaw, provide, ref } from "vue";
+import { markRaw, ref } from "vue";
 
 import TheMainMenuPanel from "./components/TheMainMenuPanel.vue";
 import TheMainPanel from "./components/TheMainPanel.vue";
@@ -8,14 +8,11 @@ import TheRegionPanel from "./components/TheRegionPanel.vue";
 import TheCraftingPanel from "./components/TheCraftingPanel.vue";
 
 import { Feature } from "./models/Feature";
-import { Character } from "./models/character/Character";
 
 const features = ref([
   new Feature("Inventory", true, markRaw(TheInventoryPanel)),
   new Feature("Region", false, markRaw(TheRegionPanel)),
   new Feature("Crafting", false, markRaw(TheCraftingPanel))]);
-
-const character = ref(new Character());
 
 function ChangeActiveFeature(activeFeatureName: string) {
   for (let i = 0; i < features.value.length; i++) {
@@ -31,8 +28,6 @@ function FindActiveFeature(features: Feature[]) {
 
   return activeFeature;
 }
-
-provide("character", character);
 </script>
 
 <template>

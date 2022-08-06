@@ -1,7 +1,9 @@
 import { CharacterEquipment } from "./CharacterEquipment";
 import { Inventory } from "./Inventory";
 import { CharacterStats } from "./CharacterStats";
+import { injectable } from "inversify";
 
+@injectable()
 export class Character {
   constructor(
     name: string = "Hunter",

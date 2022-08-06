@@ -1,32 +1,27 @@
 <script lang="ts" setup>
 
-import { inject, ref, Ref } from "vue";
+import { ref } from "vue";
 import { Character } from "../models/character/Character";
-import { ResourceHerb } from "../models/items/ResourceHerb";
+import { RegionService } from "../services/RegionService";
+import TYPES from "../types";
+import container from "../inversify.config";
 
-const character: Ref<Character> = inject("character") as Ref<Character>;
+const character: Character = container.get<Character>(TYPES.Character);
+const regionService: RegionService = container.get<RegionService>(TYPES.RegionService);
 
-let herbs = ref(character.value.currentInventory
+const herbs = ref(character.currentInventory
   .CountItems("simpleHerb") ?? 0);
 
-function GatherHerbs() {
-  character.value.currentInventory
-    .AddItem(new ResourceHerb(
-        1,
-        "simpleHerb",
-        "Herb",
-        5,
-        1),
-      1);
-  console.log(character.value.currentInventory);
-  herbs.value = character.value.currentInventory
-    .CountItems("simpleHerb");
+function Gather() {
+  herbs.value = regionService.GatherHerbs();
 }
+
+console.log(character.currentInventory);
 </script>
 
 <template>
   <h1>Region</h1>
-  <button @click="GatherHerbs">
+  <button @click="Gather">
     Gather Herbs
   </button>
   <h4>Herbs in inventory: {{ herbs }}</h4>
