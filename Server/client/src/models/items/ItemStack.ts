@@ -8,4 +8,6 @@ export class ItemStack {
 
   item?: Item;
   quantity: number;
+
+  AtMaximumCapacity = (): boolean => this.item?.maximumInStack === this.quantity;
 }
