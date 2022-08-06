@@ -20,41 +20,52 @@ export class Inventory {
   stacksQuantity: number;
   itemStacks: ItemStack[];
 
-  FindItem(itemName: string, quantityToAdd: number = 1) {
+  FindItemIndex(itemName: string): number {
     for (let i = 0; i < this.itemStacks.length; i++) {
       if (this.itemStacks[i].item?.name === itemName) {
-        if (quantityToAdd + this.itemStacks[i].quantity <= this.itemStacks[i].item!.maximumInStack) {
-          return this.itemStacks[i];
-        }
+        return i;
       }
     }
-    return null;
+    return -1;
+  }
+
+  FindEmptyItemStackIndex(): number {
+    return this.itemStacks.findIndex((is) => is.item === undefined);
+  }
+
+  GetItemOrEmptyItemStack(itemName: string) {
+    const itemIndex = this.FindItemIndex(itemName);
+    return itemIndex >= 0 ? this.itemStacks[itemIndex] : this.itemStacks[this.FindEmptyItemStackIndex()];
   }
 
   AddItem(item: Item, quantity: number = 1) {
-    const foundItem = this.FindItem(item.name, quantity) ?? this.itemStacks.find(is => is.item === undefined);
+    let foundItemIndex = this.FindItemIndex(item.name);
+    if (foundItemIndex === -1) {
+      foundItemIndex = this.FindEmptyItemStackIndex();
+    }
 
-    if (foundItem !== null && foundItem !== undefined) {
-      if (foundItem!.item?.name === item.name) {
-        foundItem!.quantity += quantity;
-      } else {
-        foundItem!.item = item;
-        foundItem!.quantity += quantity;
-      }
+    let result: string;
+
+    if (foundItemIndex === -1) {
+      result = "No more space in inventory for new item.";
+    } else if (this.itemStacks[foundItemIndex].AtMaximumCapacity()) {
+      result = `No more space for item ${item.name}.`;
     } else {
-      alert("No more space in inventory");
-    }
-  }
+      if (this.itemStacks[foundItemIndex]!.item?.name !== item.name) {
+        this.itemStacks[foundItemIndex]!.item = item;
+      }
+      const itemsToAdd = Math.min(item.maximumInStack -
+        this.itemStacks[foundItemIndex]!.quantity, quantity);
+      this.itemStacks[foundItemIndex]!.quantity += itemsToAdd;
 
-  CountItems(itemName: string) {
-    let count = 0;
-
-    for (let i = 0; i < this.itemStacks.length; i++) {
-      if (this.itemStacks[i].item !== undefined && this.itemStacks[i].item!.name === itemName) {
-        count += this.itemStacks[i].quantity;
+      result = `Added ${itemsToAdd} ${item.name} to inventory.`;
+      if (itemsToAdd !== quantity) {
+        result += ` ${quantity - itemsToAdd} of ${item.name} was lost because there's no more space for this item.`;
       }
     }
 
-    return count;
+    console.log(result);
+    console.log(this.itemStacks);
+    return;
   }
 }

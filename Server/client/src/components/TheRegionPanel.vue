@@ -9,14 +9,13 @@ import container from "../inversify.config";
 const character: Character = container.get<Character>(TYPES.Character);
 const regionService: RegionService = container.get<RegionService>(TYPES.RegionService);
 
-const herbs = ref(character.currentInventory
-  .CountItems("simpleHerb") ?? 0);
+const herbsInInventory = ref(character.currentInventory
+  .GetItemOrEmptyItemStack("simpleHerb"));
 
 function Gather() {
-  herbs.value = regionService.GatherHerbs();
+  regionService.GatherHerbs();
+  console.log(herbsInInventory);
 }
-
-console.log(character.currentInventory);
 </script>
 
 <template>
@@ -24,7 +23,7 @@ console.log(character.currentInventory);
   <button @click="Gather">
     Gather Herbs
   </button>
-  <h4>Herbs in inventory: {{ herbs }}</h4>
+  <h4>Herbs in inventory: {{ herbsInInventory.quantity }}</h4>
 </template>
 
 <style scoped>

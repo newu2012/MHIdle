@@ -7,18 +7,23 @@ import TYPES from "../types";
 export class RegionService {
   @inject(TYPES.Character) character: Character;
 
-  GatherHerbs() {
+  constructor() {
+    this.AutoGather();
+  }
+
+  AutoGather() {
+    setInterval(() => {
+      this.GatherHerbs(Math.round((Math.random() * 3) + 1));
+    }, 10000);
+  }
+
+  GatherHerbs(amount: number = 1) {
     this.character.currentInventory
       .AddItem(new ResourceHerb(
           1,
           "simpleHerb",
           "Herb",
-          5,
           1),
-        1);
-    console.log(this.character.currentInventory);
-
-    return this.character.currentInventory
-      .CountItems("simpleHerb");
+        amount);
   }
 }
