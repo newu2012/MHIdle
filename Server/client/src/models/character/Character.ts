@@ -2,19 +2,20 @@ import { CharacterEquipment } from "./CharacterEquipment";
 import { Inventory } from "./Inventory";
 import { CharacterStats } from "./CharacterStats";
 import { injectable } from "inversify";
+import { ref } from "vue";
 
 @injectable()
 export class Character {
   constructor(
-    name: string = "Hunter",
-    maxHealth: number = 100,
-    health: number = maxHealth,
-    maxStamina: number = 50,
-    stamina: number = maxStamina,
-    equipment: CharacterEquipment = new CharacterEquipment(),
-    currentInventory: Inventory = new Inventory(10, []),
-    storageInventory: Inventory = new Inventory(20, []),
-    stats: CharacterStats = new CharacterStats()) {
+    name = ref("Hunter"),
+    maxHealth = ref(100),
+    health = ref(maxHealth),
+    maxStamina = ref(50),
+    stamina = ref(maxStamina),
+    equipment = ref(new CharacterEquipment()),
+    currentInventory = ref(new Inventory(10, [])),
+    storageInventory = ref(new Inventory(20, [])),
+    stats = ref(new CharacterStats())) {
     this.name = name;
     this.maxHealth = maxHealth;
     this.health = health;
@@ -26,13 +27,13 @@ export class Character {
     this.stats = stats;
   }
 
-  name: string;
-  maxHealth: number;
-  health: number;
-  maxStamina: number;
-  stamina: number;
-  equipment: CharacterEquipment;
-  currentInventory: Inventory;
-  storageInventory: Inventory;
-  stats: CharacterStats;
+  name;
+  maxHealth;
+  health;
+  maxStamina;
+  stamina;
+  equipment;
+  currentInventory;
+  storageInventory;
+  stats;
 }

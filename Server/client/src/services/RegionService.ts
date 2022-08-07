@@ -18,7 +18,7 @@ export class RegionService {
   }
 
   GatherHerbs(amount: number = 1) {
-    this.character.currentInventory
+    this.character.currentInventory.value
       .AddItem(new ResourceHerb(
           1,
           "simpleHerb",
