@@ -24,10 +24,14 @@ defineEmits(["update:itemStackProp"]);
   position: relative;
 }
 
+.itemStack:hover {
+  cursor: pointer;
+}
+
 .quantity {
   margin: 0;
   position: absolute;
-  bottom: -4px;
+  bottom: 0;
   font-size: small;
   text-align: center;
   width: 100%;

@@ -4,6 +4,7 @@ import container from "../inversify.config";
 import { Character } from "../models/character/Character";
 import InventoryItemStack from "./InventoryItemStack.vue";
 import { computed, ref } from "vue";
+import TheInventoryItemPanel from "./TheInventoryItemPanel.vue";
 
 const character = ref(container.get<Character>(TYPES.Character));
 
@@ -26,27 +27,40 @@ const selectedInventory = computed(() => {
     </label>
     <p>Current</p>
   </div>
-  <div class="grid-container">
-    <div
-      v-for="(itemStack, index) in selectedInventory"
-      :key="index"
-      class="grid-item"
-    >
-      <InventoryItemStack
-        :item-stack-prop="itemStack"
-      />
+  <div class="inventory-panel">
+    <div class="grid-container">
+      <div
+        v-for="(itemStack, index) in selectedInventory"
+        :key="index"
+        class="grid-item"
+      >
+        <InventoryItemStack
+          :item-stack-prop="itemStack"
+        />
+      </div>
     </div>
+    <TheInventoryItemPanel class="the-inventory-item-panel"/>
   </div>
 </template>
 
 <style scoped>
+.inventory-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .grid-container {
+  flex-grow: 1;
   display: grid;
-  padding: 32px;
+  padding: 16px;
   grid-template-columns: repeat(auto-fill, 64px);
   grid-auto-rows: 64px;
   grid-gap: 16px;
   justify-content: center;
+  border: inset darkgoldenrod;
+  border-radius: 16px;
+  margin: 16px;
 }
 
 .grid-item {
@@ -57,10 +71,14 @@ const selectedInventory = computed(() => {
   background-color: rgba(135, 147, 154, 0.96);
 }
 
-.inventory-switch {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+.inventory-panel {
+  display: flex;
+  flex-flow: row;
+}
+
+.the-inventory-item-panel {
+  flex-basis: 320px;
+  width: 320px;
 }
 
 /* The switch - the box around the slider */

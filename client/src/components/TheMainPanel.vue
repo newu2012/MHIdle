@@ -18,7 +18,6 @@ const props = defineProps<{
 .TheMainPanel {
   flex-grow: 1;
   text-align: center;
-  height: 100%;
   background-color: rgb(43, 43, 43);
 }
 </style>
