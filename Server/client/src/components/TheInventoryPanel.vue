@@ -28,8 +28,8 @@ const selectedInventory = computed(() => {
   </div>
   <div class="grid-container">
     <div
-      v-for="itemStack in selectedInventory"
-      :key="itemStack.quantity"
+      v-for="(itemStack, index) in selectedInventory"
+      :key="index"
       class="grid-item"
     >
       <InventoryItemStack
