@@ -8,7 +8,7 @@ DotNetEnv.Env.Load(builder.Environment.IsDevelopment() ? "development.env" : "pr
 builder.Services.AddMHIdleContext();
 
 builder.Services.AddControllers();
-builder.Services.AddSpaStaticFiles(config => { config.RootPath = "client/dist"; });
+builder.Services.AddSpaStaticFiles(config => { config.RootPath = "dist"; });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

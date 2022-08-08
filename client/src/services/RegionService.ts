@@ -34,8 +34,6 @@ export class RegionService {
 
   GatherHerbs(...args: any[]) {
     const character = args[0][0];
-    // const amount = args[0][1] ??
-    //   this.randomService.GetRandIntBetween({ from: 0, to: 3 });
     const amount = ref(container.get<RandomService>(TYPES.RandomService)).value
       .GetRandIntBetween({ from: 0, to: 3 });
     character.currentInventory

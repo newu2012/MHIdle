@@ -21,7 +21,7 @@ RUN dotnet publish -c Release -o out
 # Build vue app
 FROM node AS node-builder
 WORKDIR /node
-COPY ./Server/client /node
+COPY ./client /node
 RUN npm install
 RUN npm run build
 
@@ -29,7 +29,7 @@ RUN npm run build
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build-env /app/out ./
-COPY --from=node-builder /node/dist ./client/dist
+COPY --from=node-builder /node/dist ./dist
 
 # Copy .env file with configs
 COPY ./Server/production.env ./
