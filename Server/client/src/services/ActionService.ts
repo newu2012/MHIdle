@@ -9,31 +9,26 @@ export class ActionService {
 
   lastTime: number;
   handle: number;
+  update: Function = this.Update.bind(this);
 
-  RefreshAction() {
+  Update() {
     if (this.elapsed.value === this.action.value?.duration) {
       this.elapsed.value = 0;
       this.lastTime = performance.now();
       this.action.value.Execute(this.action.value.funcArgs);
-      this.Update();
     } else {
-      this.Update();
+      const time = performance.now();
+      this.elapsed.value += Math.min(time - this.lastTime, this.action.value?.duration! - this.elapsed.value);
+      this.lastTime = time;
     }
-  }
 
-  Update() {
-    const time = performance.now();
-    this.elapsed.value += Math.min(time - this.lastTime, this.action.value?.duration! - this.elapsed.value);
-    this.lastTime = time;
-    this.handle = requestAnimationFrame(this.Update);
+    this.handle = requestAnimationFrame(<FrameRequestCallback>this.update);
   }
 
   SetCurrentAction(action: Action) {
     this.action = ref(action);
     this.elapsed.value = 0;
     this.lastTime = performance.now();
-    setInterval(() => {
-      this.RefreshAction();
-    }, 1000);
+    this.update();
   }
 }
