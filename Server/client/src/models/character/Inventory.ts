@@ -35,10 +35,16 @@ export class Inventory {
 
   GetItemOrEmptyItemStack(itemName: string) {
     const itemIndex = this.FindItemIndex(itemName);
-    return itemIndex >= 0 ? this.itemStacks[itemIndex] : this.itemStacks[this.FindEmptyItemStackIndex()];
+    return itemIndex >= 0 ?
+      this.itemStacks[itemIndex] :
+      this.itemStacks[this.FindEmptyItemStackIndex()];
   }
 
   AddItem(item: Item, quantity: number = 1) {
+    if (quantity === 0) {
+      return;
+    }
+
     let foundItemIndex = this.FindItemIndex(item.name);
     if (foundItemIndex === -1) {
       foundItemIndex = this.FindEmptyItemStackIndex();
