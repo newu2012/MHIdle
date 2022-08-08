@@ -3,26 +3,13 @@ import { onUnmounted, ref } from "vue";
 import container from "../inversify.config";
 import { Character } from "../models/character/Character";
 import TYPES from "../types";
+import { ActionService } from "../services/ActionService";
 
 const character = ref(container.get<Character>(TYPES.Character));
+const actionService = ref(container.get<ActionService>(TYPES.ActionService));
 
-//  TODO Change to actual action progress
-const duration = ref(15 * 1000);
-const elapsed = ref(0);
-const actionName = ref("Exploring");
-
-let lastTime = performance.now();
-let handle: number;
-const update = () => {
-  const time = performance.now();
-  elapsed.value += Math.min(time - lastTime, duration.value - elapsed.value);
-  lastTime = time;
-  handle = requestAnimationFrame(update);
-};
-
-update();
 onUnmounted(() => {
-  cancelAnimationFrame(handle);
+  cancelAnimationFrame(actionService.value.handle);
 });
 </script>
 
@@ -40,10 +27,10 @@ onUnmounted(() => {
     </div>
     <div class="current-action">
       <p class="action-name">
-        {{ actionName }}
+        {{ actionService.action?.name ?? "Nothing" }}
       </p>
-      <progress :value="elapsed / duration" />
-      <p>{{ (duration / 1000 - elapsed / 1000).toFixed(1) }}s</p>
+      <progress :value="(actionService.elapsed / actionService.action?.duration)" />
+      <p>{{ (actionService.action?.duration / 1000 - actionService.elapsed / 1000).toFixed(1) ?? "0" }}s</p>
     </div>
   </div>
 </template>
