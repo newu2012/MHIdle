@@ -3,7 +3,6 @@ import TYPES from "../types";
 import container from "../inversify.config";
 import { Character } from "../models/character/Character";
 import InventoryItemStack from "./InventoryItemStack.vue";
-import { ItemStack } from "../models/items/ItemStack";
 import { computed, ref } from "vue";
 
 const character = ref(container.get<Character>(TYPES.Character));
@@ -12,10 +11,6 @@ const currentInventory = ref(true);
 const selectedInventory = computed(() => {
   return currentInventory.value ? character.value.currentInventory.itemStacks : character.value.storageInventory.itemStacks;
 });
-
-defineProps<{ itemStackProp: ItemStack }>();
-
-defineEmits(["update:itemStackProp"]);
 </script>
 
 <template>
@@ -40,7 +35,6 @@ defineEmits(["update:itemStackProp"]);
     >
       <InventoryItemStack
         :item-stack-prop="itemStack"
-        @add="$emit('update:itemStackProp', itemStackProp)"
       />
     </div>
   </div>
