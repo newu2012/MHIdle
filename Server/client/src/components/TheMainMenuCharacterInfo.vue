@@ -11,6 +11,8 @@ const actionService = ref(container.get<ActionService>(TYPES.ActionService));
 onUnmounted(() => {
   cancelAnimationFrame(actionService.value.handle);
 });
+
+//  TODO Change stats to currencies (money and research points)
 </script>
 
 <template>
@@ -34,8 +36,8 @@ onUnmounted(() => {
       <p class="action-name">
         {{ actionService.action?.name ?? "Nothing" }}
       </p>
-      <progress :value="(actionService.elapsed / actionService.action?.duration)" />
-      <p>{{ (actionService.action?.duration / 1000 - actionService.elapsed / 1000).toFixed(1) ?? "0" }}s</p>
+      <progress :value="(actionService.elapsed / (actionService.action?.duration ?? 1000))" />
+      <p>{{ ((actionService.action?.duration ?? 1000) / 1000 - actionService.elapsed / 1000).toFixed(1) ?? "0" }}s</p>
     </div>
   </div>
 </template>
