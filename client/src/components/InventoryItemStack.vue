@@ -11,10 +11,8 @@ defineEmits(["update:itemStackProp"]);
 
 <template>
   <div class="itemStack">
-    <p>
-      {{ itemStackProp?.item?.name ?? "" }} ({{ itemStackProp?.quantity }}/{{
-        itemStackProp?.item?.maximumInStack ?? 0
-      }})
+    <p class="quantity">
+      {{ itemStackProp?.quantity }}
     </p>
   </div>
 </template>
@@ -23,5 +21,15 @@ defineEmits(["update:itemStackProp"]);
 <style scoped>
 .itemStack {
   width: inherit;
+  position: relative;
+}
+
+.quantity {
+  margin: 0;
+  position: absolute;
+  bottom: -4px;
+  font-size: small;
+  text-align: center;
+  width: 100%;
 }
 </style>
