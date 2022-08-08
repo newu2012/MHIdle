@@ -20,9 +20,14 @@ onUnmounted(() => {
     </p>
     <div class="stats">
       <div>
-        <span>Items </span>
+        <span>Health </span>
         <img>
-        <span>{{ character.currentInventory.itemStacks.length }}</span>
+        <span>{{ character.health }}/{{ character.maxHealth }}</span>
+      </div>
+      <div>
+        <span>Stamina </span>
+        <img>
+        <span>{{ character.stamina }}/{{ character.maxStamina }}</span>
       </div>
     </div>
     <div class="current-action">
@@ -47,6 +52,12 @@ onUnmounted(() => {
 .character-name {
   font-size: larger;
   font-weight: 600;
+}
+
+.stats {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
 }
 
 .current-action {

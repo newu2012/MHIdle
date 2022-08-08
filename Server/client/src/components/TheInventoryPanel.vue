@@ -26,7 +26,6 @@ const selectedInventory = computed(() => {
     </label>
     <p>Current</p>
   </div>
-
   <div class="grid-container">
     <div
       v-for="itemStack in selectedInventory"
@@ -61,6 +60,7 @@ const selectedInventory = computed(() => {
 .inventory-switch {
   display: inline-flex;
   align-items: center;
+  gap: 8px;
 }
 
 /* The switch - the box around the slider */
