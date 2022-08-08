@@ -53,9 +53,9 @@ export class Inventory {
     let result: string;
 
     if (foundItemIndex === -1) {
-      result = "No more space in inventory for new item.";
+      result = `No more space in inventory for any new item. Lost ${quantity} of ${item.name}.`;
     } else if (this.itemStacks[foundItemIndex].AtMaximumCapacity()) {
-      result = `No more space for item ${item.name}.`;
+      result = `No more space for item ${item.name}. Lost ${quantity} of ${item.name}.`;
     } else {
       if (this.itemStacks[foundItemIndex]!.item?.name !== item.name) {
         this.itemStacks[foundItemIndex]!.item = item;
