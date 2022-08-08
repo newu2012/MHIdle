@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import TheMainMenuPanelItem from "./TheMainMenuPanelItem.vue";
+import TheMainMenuCharacterInfo from "./TheMainMenuCharacterInfo.vue";
 import { Feature } from "../models/Feature";
 
 defineProps<{ modelValue: Feature[] }>();
@@ -10,16 +11,15 @@ defineEmits(["update:model-value"]);
 <template>
   <div class="TheMainMenuPanel">
     <ul>
-      <li>
-        <TheMainMenuPanelItem
-          v-for="feature in modelValue"
-          :key="feature.name"
-          :feature="feature"
-          @set-active="$emit('update:model-value', feature.name)"
-        >
-          {{ feature.name }}
-        </TheMainMenuPanelItem>
-      </li>
+      <TheMainMenuCharacterInfo />
+      <TheMainMenuPanelItem
+        v-for="feature in modelValue"
+        :key="feature.name"
+        :feature="feature"
+        @set-active="$emit('update:model-value', feature.name)"
+      >
+        {{ feature.name }}
+      </TheMainMenuPanelItem>
     </ul>
   </div>
 </template>
@@ -27,6 +27,7 @@ defineEmits(["update:model-value"]);
 <style scoped>
 .TheMainMenuPanel {
   flex-basis: 320px;
+  width: 320px;
   height: 100%;
   background-color: rgb(60, 63, 65);
 }
