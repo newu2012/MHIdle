@@ -15,7 +15,7 @@ defineEmits(["update:itemPanelProp", 'sell-item']);
       v-if="itemPanelProp !== undefined"
       class="item"
     >
-      <h4>{{ itemPanelProp.item.name }}</h4>
+      <h4>{{ itemPanelProp.item?.name }}</h4>
       <button @click="$emit('sell-item', 1)">
         Sell 1
       </button>
