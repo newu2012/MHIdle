@@ -12,6 +12,21 @@ const currentInventory = ref(true);
 const selectedInventory = computed(() => {
   return currentInventory.value ? character.value.currentInventory.itemStacks : character.value.storageInventory.itemStacks;
 });
+
+let selectedItemIndex = ref(-1);
+let selectedItemStack =
+  computed(() => selectedItemIndex.value !== -1 &&
+  selectedInventory.value[selectedItemIndex.value].item === undefined ?
+    undefined :
+    selectedInventory.value[selectedItemIndex.value]);
+
+function SetActive(itemStackIndex: number) {
+  selectedItemIndex.value = itemStackIndex;
+}
+
+function SellItem(quantity: number) {
+  selectedInventory.value[selectedItemIndex.value].quantity -= quantity;
+}
 </script>
 
 <template>
@@ -33,13 +48,18 @@ const selectedInventory = computed(() => {
         v-for="(itemStack, index) in selectedInventory"
         :key="index"
         class="grid-item"
+        @click="SetActive(index)"
       >
         <InventoryItemStack
           :item-stack-prop="itemStack"
         />
       </div>
     </div>
-    <TheInventoryItemPanel class="the-inventory-item-panel"/>
+    <TheInventoryItemPanel
+      :item-panel-prop="selectedItemStack"
+      class="the-inventory-item-panel"
+      @sell-item="newValue => SellItem(newValue)"
+    />
   </div>
 </template>
 
