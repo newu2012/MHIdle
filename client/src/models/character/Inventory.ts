@@ -1,5 +1,9 @@
 import { ItemStack } from "../items/ItemStack";
 import { Item } from "../items/Item";
+import { ref } from "vue";
+import container from "../../inversify.config";
+import TYPES from "../../types";
+import { Character } from "./Character";
 
 export class Inventory {
   constructor(
@@ -73,5 +77,26 @@ export class Inventory {
     console.log(result);
     console.log(this.itemStacks);
     return;
+  }
+
+  SellItem(itemId: number, quantity: number = 1) {
+    const itemStack = this.itemStacks.find((is) => is.item?.id === itemId);
+    if (itemStack === undefined) {
+      throw new Error(`Can't find ${itemId} in ${this.itemStacks}`);
+    }
+
+    const quantityToSell = itemStack.quantity - quantity >= 0 ?
+      quantity :
+      itemStack.quantity;
+
+    const character = ref(container.get<Character>(TYPES.Character)).value;
+    const sellValue = quantityToSell * itemStack.item?.value!;
+    character.currencies.money += sellValue;
+    itemStack.quantity -= quantityToSell;
+    console.log(`Sold ${quantityToSell} of ${itemStack.item?.name} for ${sellValue}`);
+
+    if (itemStack.quantity === 0) {
+      itemStack.item = undefined;
+    }
   }
 }

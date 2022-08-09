@@ -1,8 +1,9 @@
+import { injectable } from "inversify";
+import { ref } from "vue";
 import { CharacterEquipment } from "./CharacterEquipment";
 import { Inventory } from "./Inventory";
 import { CharacterStats } from "./CharacterStats";
-import { injectable } from "inversify";
-import { ref } from "vue";
+import { CharacterCurrencies } from "./CharacterCurrencies";
 
 @injectable()
 export class Character {
@@ -15,7 +16,8 @@ export class Character {
     equipment = ref(new CharacterEquipment()),
     currentInventory = ref(new Inventory(10, [])),
     storageInventory = ref(new Inventory(20, [])),
-    stats = ref(new CharacterStats())) {
+    stats = ref(new CharacterStats()),
+    currencies = ref(new CharacterCurrencies())) {
     this.name = name;
     this.maxHealth = maxHealth;
     this.health = health;
@@ -25,6 +27,7 @@ export class Character {
     this.currentInventory = currentInventory;
     this.storageInventory = storageInventory;
     this.stats = stats;
+    this.currencies = currencies;
   }
 
   name;
@@ -36,4 +39,5 @@ export class Character {
   currentInventory;
   storageInventory;
   stats;
+  currencies;
 }

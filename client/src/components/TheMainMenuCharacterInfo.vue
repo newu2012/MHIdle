@@ -20,16 +20,16 @@ onUnmounted(() => {
     <p class="character-name">
       {{ character.name }}
     </p>
-    <div class="stats">
+    <div class="currencies">
       <div>
-        <span>Health </span>
+        <span>Money </span>
         <img>
-        <span>{{ character.health }}/{{ character.maxHealth }}</span>
+        <span>{{ character.currencies.moneyFormatted }}</span>
       </div>
       <div>
-        <span>Stamina </span>
+        <span>ResearchPoints </span>
         <img>
-        <span>{{ character.stamina }}/{{ character.maxStamina }}</span>
+        <span>{{ character.currencies.researchPointsFormatted }}</span>
       </div>
     </div>
     <div class="current-action">
@@ -56,7 +56,7 @@ onUnmounted(() => {
   font-weight: 600;
 }
 
-.stats {
+.currencies {
   display: flex;
   gap: 8px;
   justify-content: space-between;
