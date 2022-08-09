@@ -6,6 +6,7 @@ export class Weapon implements Equipment {
   id: number;
   rarity: number;
   value: number;
+  imagePath: string;
   maximumInInventory: number;
   maximumInStorage: number;
 }

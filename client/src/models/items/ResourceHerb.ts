@@ -6,6 +6,7 @@ export class ResourceHerb implements Resource {
               description: string,
               rarity: number,
               value: number,
+              imagePath: string,
               maximumInInventory: number = 10,
               maximumInStorage: number = 10000) {
     this.id = id;
@@ -13,6 +14,7 @@ export class ResourceHerb implements Resource {
     this.description = description;
     this.rarity = rarity;
     this.value = value;
+    this.imagePath = imagePath;
     this.maximumInInventory = maximumInInventory;
     this.maximumInStorage = maximumInStorage;
   }
@@ -22,6 +24,7 @@ export class ResourceHerb implements Resource {
   description: string;
   rarity: number
   value: number;
+  imagePath: string;
   maximumInInventory: number;
   maximumInStorage: number;
 }
