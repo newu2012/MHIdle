@@ -1,30 +1,18 @@
-import { ItemStack } from "../items/ItemStack";
 import { Item } from "../items/Item";
-import { ref } from "vue";
-import container from "../../inversify.config";
-import TYPES from "../../types";
-import { Character } from "./Character";
+import { reactive } from "vue";
+import { ItemStack } from "../items/ItemStack";
 
 export class Inventory {
-  constructor(
-    stacksQuantity: number = 10,
-    itemStacks: ItemStack[]) {
-    this.stacksQuantity = stacksQuantity;
+  itemStacks;
 
-    if (Array.isArray(itemStacks) && itemStacks.length) {
-      this.itemStacks = itemStacks;
-    } else {
-      this.itemStacks = [];
-      for (let i = 0; i < stacksQuantity; i++) {
-        this.itemStacks.push(new ItemStack(undefined, 0));
-      }
+  constructor(stacksQuantity: number) {
+    this.itemStacks = reactive(new Array(stacksQuantity));
+    for (let i = 0; i < stacksQuantity; i++) {
+      this.itemStacks[i] = new ItemStack();
     }
   }
 
-  stacksQuantity: number;
-  itemStacks: ItemStack[];
-
-  FindItemIndex(itemName: string): number {
+  FindItemIndexByName(itemName: string): number {
     for (let i = 0; i < this.itemStacks.length; i++) {
       if (this.itemStacks[i].item?.name === itemName) {
         return i;
@@ -38,7 +26,7 @@ export class Inventory {
   }
 
   GetItemOrEmptyItemStack(itemName: string) {
-    const itemIndex = this.FindItemIndex(itemName);
+    const itemIndex = this.FindItemIndexByName(itemName);
     return itemIndex >= 0 ?
       this.itemStacks[itemIndex] :
       this.itemStacks[this.FindEmptyItemStackIndex()];
@@ -49,16 +37,18 @@ export class Inventory {
       return;
     }
 
-    let foundItemIndex = this.FindItemIndex(item.name);
+    let foundItemIndex = this.FindItemIndexByName(item.name);
     if (foundItemIndex === -1) {
       foundItemIndex = this.FindEmptyItemStackIndex();
     }
 
     let result: string;
 
+    // eslint-disable-next-line no-debugger
+    debugger;
     if (foundItemIndex === -1) {
       result = `No more space in inventory for any new item. Lost ${quantity} of ${item.name}.`;
-    } else if (this.itemStacks[foundItemIndex].AtMaximumCapacity()) {
+    } else if (this.itemStacks[foundItemIndex].AtMaximumCapacity(this)) {
       result = `No more space for item ${item.name}. Lost ${quantity} of ${item.name}.`;
     } else {
       if (this.itemStacks[foundItemIndex]!.item?.name !== item.name) {
@@ -77,26 +67,5 @@ export class Inventory {
     console.log(result);
     console.log(this.itemStacks);
     return;
-  }
-
-  SellItem(itemId: number, quantity: number = 1) {
-    const itemStack = this.itemStacks.find((is) => is.item?.id === itemId);
-    if (itemStack === undefined) {
-      throw new Error(`Can't find ${itemId} in ${this.itemStacks}`);
-    }
-
-    const quantityToSell = itemStack.quantity - quantity >= 0 ?
-      quantity :
-      itemStack.quantity;
-
-    const character = ref(container.get<Character>(TYPES.Character)).value;
-    const sellValue = quantityToSell * itemStack.item?.value!;
-    character.currencies.zenny += sellValue;
-    itemStack.quantity -= quantityToSell;
-    console.log(`Sold ${quantityToSell} of ${itemStack.item?.name} for ${sellValue}`);
-
-    if (itemStack.quantity === 0) {
-      itemStack.item = undefined;
-    }
   }
 }
