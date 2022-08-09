@@ -26,6 +26,9 @@ function SetActive(itemStackIndex: number) {
 
 function SellItem(quantity: number) {
   selectedInventory.value.SellItem(selectedInventory.value.itemStacks[selectedItemIndex.value].item!.id!, quantity);
+  if (selectedInventory.value.itemStacks[selectedItemIndex.value].item === undefined) {
+    selectedItemIndex.value = -1;
+  }
 }
 </script>
 
@@ -70,9 +73,22 @@ function SellItem(quantity: number) {
   gap: 8px;
 }
 
+.inventory-panel {
+  display: flex;
+  flex-flow: row;
+  padding: 32px;
+  gap: 32px;
+}
+
+.the-inventory-item-panel {
+  flex-basis: 400px;
+  width: 400px;
+}
+
 .grid-container {
   flex-grow: 1;
   display: grid;
+  height: min-content;
   padding: 16px;
   grid-template-columns: repeat(auto-fill, 64px);
   grid-auto-rows: 64px;
@@ -80,7 +96,6 @@ function SellItem(quantity: number) {
   justify-content: center;
   border: inset darkgoldenrod;
   border-radius: 16px;
-  margin: 16px;
 }
 
 .grid-item {
@@ -89,16 +104,6 @@ function SellItem(quantity: number) {
   width: 64px;
   border-radius: 16px;
   background-color: rgba(135, 147, 154, 0.96);
-}
-
-.inventory-panel {
-  display: flex;
-  flex-flow: row;
-}
-
-.the-inventory-item-panel {
-  flex-basis: 320px;
-  width: 320px;
 }
 
 /* The switch - the box around the slider */

@@ -12,7 +12,6 @@ onUnmounted(() => {
   cancelAnimationFrame(actionService.value.handle);
 });
 
-//  TODO Change stats to currencies (money and research points)
 </script>
 
 <template>
@@ -22,9 +21,9 @@ onUnmounted(() => {
     </p>
     <div class="currencies">
       <div>
-        <span>Money </span>
+        <span>Zenny </span>
         <img>
-        <span>{{ character.currencies.moneyFormatted }}</span>
+        <span>{{ character.currencies.zennyFormatted }}</span>
       </div>
       <div>
         <span>ResearchPoints </span>

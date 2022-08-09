@@ -5,20 +5,43 @@ defineProps<{
   itemPanelProp?: ItemStack
 }>();
 
-defineEmits(["update:itemPanelProp", 'sell-item']);
+defineEmits(["update:itemPanelProp", "sell-item"]);
 </script>
 
 <template>
   <div class="the-inventory-item-panel">
-    <h3>TheInventoryItemPanel</h3>
+    <h2
+      v-if="itemPanelProp === undefined"
+      class="no-item-selected"
+    >
+      No item selected
+    </h2>
     <div
-      v-if="itemPanelProp !== undefined"
+      v-else
       class="item"
     >
-      <h4>{{ itemPanelProp.item?.name }}</h4>
-      <button @click="$emit('sell-item', 1)">
-        Sell 1
-      </button>
+      <h3 class="item-name">
+        {{ itemPanelProp.item.name }}
+      </h3>
+      <div class="item-info">
+        <p class="item-description">
+          {{ itemPanelProp.item.description }}
+        </p>
+      </div>
+      <div class="actions-row">
+        <div class="sell-one">
+          <button @click="$emit('sell-item', 1)">
+            Sell 1
+          </button>
+          <span>{{ itemPanelProp.item.value }} zenny</span>
+        </div>
+        <div class="sell-all">
+          <button @click="$emit('sell-item', itemPanelProp.quantity)">
+            Sell All
+          </button>
+          <span>{{ itemPanelProp.item.value * itemPanelProp.quantity }} zenny</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -28,5 +51,45 @@ defineEmits(["update:itemPanelProp", 'sell-item']);
   width: 100%;
   background-color: #3c3f41;
   border-radius: 16px;
+  padding: 16px;
+}
+
+.no-item-selected {
+  margin: 0;
+  padding: 16px;
+}
+
+.item {
+  display: flex;
+  flex-flow: column;
+  gap: 8px;
+}
+
+.item-name {
+  margin: 0;
+}
+
+.item-info {
+  text-align: start;
+}
+
+.item-description {
+  margin: 0;
+}
+
+.actions-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.actions-row > div {
+  display: flex;
+  flex-flow: column;
+  gap: 4px;
+}
+
+.actions-row > div > button {
+  border-color: maroon;
+  border-radius: 8px;
 }
 </style>
