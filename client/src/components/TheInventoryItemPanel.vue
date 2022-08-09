@@ -29,6 +29,11 @@ defineEmits([
         {{ itemPanelProp.item.name }}
       </h3>
       <div class="item-info">
+        <img
+          alt="Item image"
+          class="item-icon"
+          src="~@/assets/icons/Herb_Icon_Green.png"
+        >
         <p class="item-description">
           {{ itemPanelProp.item.description }}
         </p>
@@ -93,7 +98,15 @@ defineEmits([
 }
 
 .item-info {
+  display: flex;
+  flex-flow: row;
+  gap: 8px;
   text-align: start;
+}
+
+.item-icon {
+  height: 40px;
+  width: 40px;
 }
 
 .item-description {

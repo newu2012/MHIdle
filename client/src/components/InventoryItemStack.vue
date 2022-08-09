@@ -1,16 +1,28 @@
 <script lang="ts" setup>
 import { ItemStack } from "../models/items/ItemStack";
+// import { computed } from "vue";
+
+// const imagePath = computed(() => {
+//   return props.itemStackProp.item?.imagePath;
+// });
 
 defineProps<{
   itemStackProp: ItemStack
 }>();
 
 defineEmits(["update:itemStackProp"]);
-
 </script>
 
 <template>
-  <div class="itemStack">
+  <div
+    v-if="itemStackProp.item !== undefined"
+    class="itemStack"
+    :style="{'backgroundImage': 'url(' + require('@/assets/icons/Herb_Icon_Green.png') +')'}"
+  >
+<!--    <img-->
+<!--      alt="Item Icon"-->
+<!--      :src="require(`@/assets/icons/Herb_Icon_Green.png`)"-->
+<!--    >-->
     <p class="quantity">
       {{ itemStackProp?.quantity }}
     </p>
@@ -22,6 +34,9 @@ defineEmits(["update:itemStackProp"]);
 .itemStack {
   width: inherit;
   position: relative;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 40px 40px;
 }
 
 .itemStack:hover {
