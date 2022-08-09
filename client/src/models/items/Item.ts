@@ -2,6 +2,8 @@ export interface Item {
   id: number;
   name: string;
   description?: string;
-  maximumInStack: number;
+  rarity: number;
   value: number;
+  maximumInInventory: number;
+  maximumInStorage: number;
 }

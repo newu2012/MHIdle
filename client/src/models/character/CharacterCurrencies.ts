@@ -1,15 +1,15 @@
 export class CharacterCurrencies {
-  constructor(money: number = 0, researchPoints: number = 0) {
-    this.money = money;
+  constructor(zenny: number = 0, researchPoints: number = 0) {
+    this.zenny = zenny;
     this.researchPoints = researchPoints;
   }
 
-  money: number;
+  zenny: number;
   researchPoints: number;
   numberFormatter = new Intl.NumberFormat();
 
-  get moneyFormatted() {
-    return this.numberFormatter.format(this.money);
+  get zennyFormatted() {
+    return this.numberFormatter.format(this.zenny);
   }
 
   get researchPointsFormatted() {

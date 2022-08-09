@@ -4,18 +4,24 @@ export class ResourceHerb implements Resource {
   constructor(id: number,
               name: string,
               description: string,
+              rarity: number,
               value: number,
-              maximumInStack: number = 10) {
+              maximumInInventory: number = 10,
+              maximumInStorage: number = 10000) {
     this.id = id;
     this.name = name;
     this.description = description;
+    this.rarity = rarity;
     this.value = value;
-    this.maximumInStack = maximumInStack;
+    this.maximumInInventory = maximumInInventory;
+    this.maximumInStorage = maximumInStorage;
   }
 
   id: number;
   name: string;
   description: string;
-  maximumInStack: number;
+  rarity: number
   value: number;
+  maximumInInventory: number;
+  maximumInStorage: number;
 }

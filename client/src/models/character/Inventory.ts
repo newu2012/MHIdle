@@ -64,7 +64,7 @@ export class Inventory {
       if (this.itemStacks[foundItemIndex]!.item?.name !== item.name) {
         this.itemStacks[foundItemIndex]!.item = item;
       }
-      const itemsToAdd = Math.min(item.maximumInStack -
+      const itemsToAdd = Math.min(item.maximumInInventory -
         this.itemStacks[foundItemIndex]!.quantity, quantity);
       this.itemStacks[foundItemIndex]!.quantity += itemsToAdd;
 
@@ -91,7 +91,7 @@ export class Inventory {
 
     const character = ref(container.get<Character>(TYPES.Character)).value;
     const sellValue = quantityToSell * itemStack.item?.value!;
-    character.currencies.money += sellValue;
+    character.currencies.zenny += sellValue;
     itemStack.quantity -= quantityToSell;
     console.log(`Sold ${quantityToSell} of ${itemStack.item?.name} for ${sellValue}`);
 
