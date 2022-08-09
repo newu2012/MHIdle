@@ -5,14 +5,17 @@ import { Character } from "../models/character/Character";
 import InventoryItemStack from "./InventoryItemStack.vue";
 import { computed, ref } from "vue";
 import TheInventoryItemPanel from "./TheInventoryItemPanel.vue";
+import { ItemStack } from "../models/items/ItemStack";
 
 const character = ref(container.get<Character>(TYPES.Character));
 
-const currentInventory = ref(true);
-const selectedInventory = computed(() => {
-  return currentInventory.value ? character.value.currentInventory : character.value.storageInventory;
-});
+const activeInventory = ref(true);
+const currentInventory = character.value.currentInventory;
+const storageInventory = character.value.storageInventory;
 
+const selectedInventory = computed(() => {
+  return activeInventory.value ? currentInventory : storageInventory;
+});
 let selectedItemIndex = ref(-1);
 let selectedItemStack =
   computed(() => selectedItemIndex.value !== -1 &&
@@ -20,15 +23,30 @@ let selectedItemStack =
     undefined :
     selectedInventory.value.itemStacks[selectedItemIndex.value]);
 
+function ResetSelectedItemIndex() {
+  selectedItemIndex.value = -1;
+}
+
 function SetActive(itemStackIndex: number) {
   selectedItemIndex.value = itemStackIndex;
 }
 
 function SellItem(quantity: number) {
-  selectedInventory.value.SellItem(selectedInventory.value.itemStacks[selectedItemIndex.value].item!.id!, quantity);
+  storageInventory.SellItem(
+    selectedInventory.value.itemStacks[selectedItemIndex.value].item!.id!, quantity);
   if (selectedInventory.value.itemStacks[selectedItemIndex.value].item === undefined) {
     selectedItemIndex.value = -1;
   }
+}
+
+function SendToCurrentInventory(newValue: ItemStack) {
+  storageInventory.MoveToCurrentInventory(newValue);
+  ResetSelectedItemIndex();
+}
+
+function SendToStorageInventory(newValue: ItemStack) {
+  currentInventory.MoveToStorageInventory(newValue);
+  ResetSelectedItemIndex();
 }
 </script>
 
@@ -38,8 +56,9 @@ function SellItem(quantity: number) {
     <p>Storage</p>
     <label class="switch">
       <input
-        v-model="currentInventory"
+        v-model="activeInventory"
         type="checkbox"
+        @click="ResetSelectedItemIndex"
       >
       <span class="slider round" />
     </label>
@@ -59,9 +78,12 @@ function SellItem(quantity: number) {
       </div>
     </div>
     <TheInventoryItemPanel
+      :is-storage="selectedInventory.isStorage"
       :item-panel-prop="selectedItemStack"
       class="the-inventory-item-panel"
       @sell-item="newValue => SellItem(newValue)"
+      @send-to-current="newValue => SendToCurrentInventory(newValue)"
+      @send-to-storage="newValue => SendToStorageInventory(newValue)"
     />
   </div>
 </template>

@@ -33,12 +33,11 @@ export class Inventory {
       this.itemStacks[this.FindEmptyItemStackIndex()];
   }
 
-  AtMaximumCapacity = (item: Item, quantity: number): boolean => {
-    if (this.isStorage) {
-      return item.maximumInStorage === quantity;
-    } else {
-      return item.maximumInInventory === quantity;
-    }
+  AtMaximumCapacity = (item: Item, foundItemIndex: number): boolean => {
+    return this.isStorage ?
+      item.maximumInStorage === this.itemStacks[foundItemIndex].quantity :
+      item.maximumInInventory === this.itemStacks[foundItemIndex].quantity;
+
   };
 
   AddItem(item: Item, quantity: number = 1) {
@@ -55,7 +54,7 @@ export class Inventory {
 
     if (foundItemIndex === -1) {
       result = `No more space in inventory for any new item. Lost ${quantity} of ${item.name}.`;
-    } else if (this.AtMaximumCapacity(item, quantity)) {
+    } else if (this.AtMaximumCapacity(item, foundItemIndex)) {
       result = `No more space for item ${item.name}. Lost ${quantity} of ${item.name}.`;
     } else {
       if (this.itemStacks[foundItemIndex]!.item?.name !== item.name) {
@@ -66,7 +65,7 @@ export class Inventory {
         this.itemStacks[foundItemIndex]!.quantity, quantity);
       this.itemStacks[foundItemIndex]!.quantity += itemsToAdd;
 
-      result = `Added ${itemsToAdd} ${item.name} to inventory.`;
+      result = `Added ${itemsToAdd} ${item.name} to ${this.isStorage ? "storage" : "current"} inventory.`;
       if (itemsToAdd !== quantity) {
         result += ` ${quantity - itemsToAdd} of ${item.name} was lost because there's no more space for this item.`;
       }
@@ -74,5 +73,28 @@ export class Inventory {
 
     console.log(result);
     return;
+  }
+
+  Remove(item: Item, quantity: number = 1) {
+    if (quantity === 0) {
+      return;
+    }
+
+    let foundItemIndex = this.FindItemIndexByName(item.name);
+    if (foundItemIndex === -1) {
+      foundItemIndex = this.FindEmptyItemStackIndex();
+    }
+
+    if (foundItemIndex === -1) {
+      return;
+    } else {
+      this.itemStacks[foundItemIndex].quantity -=
+        Math.min(quantity, this.itemStacks[foundItemIndex].quantity);
+      if (quantity >= this.itemStacks[foundItemIndex]) {
+        this.itemStacks[foundItemIndex]!.item = undefined;
+      }
+
+      console.log(`Removed ${quantity} ${item.name} from ${this.isStorage ? "storage" : "current"} inventory.`);
+    }
   }
 }

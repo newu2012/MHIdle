@@ -3,9 +3,24 @@ import { ref } from "vue";
 import container from "../../inversify.config";
 import { Character } from "./Character";
 import TYPES from "../../types";
+import { ItemStack } from "../items/ItemStack";
 
 export class StorageInventory extends Inventory {
   isStorage = true;
+
+  MoveToCurrentInventory(itemStack: ItemStack) {
+    const character = ref(container.get<Character>(TYPES.Character));
+
+    // eslint-disable-next-line no-debugger
+    debugger;
+    const currentlyInInventory = character.value.currentInventory.itemStacks[character.value.currentInventory
+      .FindItemIndexByName(itemStack.item?.name!)] ?? 0;
+    const quantityToChange = Math.min(itemStack.quantity,
+      itemStack.item?.maximumInInventory! - currentlyInInventory.quantity);
+    character.value.currentInventory.AddItem(itemStack.item!,
+      quantityToChange);
+    this.Remove(itemStack.item!, quantityToChange);
+  }
 
   SellItem(itemId: number, quantity: number = 1) {
     const itemStack = this.itemStacks.find((is) => is.item?.id === itemId);

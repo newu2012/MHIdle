@@ -2,10 +2,15 @@
 import { ItemStack } from "../models/items/ItemStack";
 
 defineProps<{
-  itemPanelProp?: ItemStack
+  itemPanelProp?: ItemStack,
+  isStorage: boolean,
 }>();
 
-defineEmits(["update:itemPanelProp", "sell-item"]);
+defineEmits([
+  "update:itemPanelProp",
+  "sell-item",
+  "send-to-current",
+  "send-to-storage"]);
 </script>
 
 <template>
@@ -28,7 +33,10 @@ defineEmits(["update:itemPanelProp", "sell-item"]);
           {{ itemPanelProp.item.description }}
         </p>
       </div>
-      <div class="actions-row">
+      <div
+        v-if="isStorage"
+        class="actions-row"
+      >
         <div class="sell-one">
           <button @click="$emit('sell-item', 1)">
             Sell 1
@@ -40,6 +48,21 @@ defineEmits(["update:itemPanelProp", "sell-item"]);
             Sell All
           </button>
           <span>{{ itemPanelProp.item.value * itemPanelProp.quantity }} zenny</span>
+        </div>
+        <div class="send-to-current">
+          <button @click="$emit('send-to-current', itemPanelProp)">
+            Send to inventory
+          </button>
+        </div>
+      </div>
+      <div
+        v-else
+        class="actions-row"
+      >
+        <div class="send-to-storage">
+          <button @click="$emit('send-to-storage', itemPanelProp)">
+            Send to storage
+          </button>
         </div>
       </div>
     </div>
