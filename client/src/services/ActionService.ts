@@ -31,4 +31,16 @@ export class ActionService {
     this.lastTime = performance.now();
     this.update();
   }
+
+  //  TODO Set changing currentAction only by selection from list of Actions
+  availableActions = {
+    explore: this.#Explore,
+  };
+
+  #Explore() {
+    // return new Action(
+    //   "Gather herbs",
+    //   10 * 1000,
+    //   this.regionService.GatherHerbs, this.character);
+  }
 }

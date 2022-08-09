@@ -1,27 +1,23 @@
 import { ResourceHerb } from "../models/items/ResourceHerb";
-import { Character } from "../models/character/Character";
 import { inject, injectable } from "inversify";
 import TYPES from "../types";
 import { ActionService } from "./ActionService";
-import { Action } from "../models/Action";
 import { RandomService } from "./RandomService";
 import { ref } from "vue";
 import container from "../inversify.config";
+import { Action } from "../models/Action";
+import { Character } from "../models/character/Character";
 
 @injectable()
 export class RegionService {
-  character: Character;
   actionService: ActionService;
-  randomService: RandomService;
+  character: Character;
 
   constructor(
-    @inject(TYPES.Character) character: Character,
     @inject(TYPES.ActionService) actionService: ActionService,
-    @inject(TYPES.RandomService) randomService: RandomService,
-  ) {
-    this.character = character;
+    @inject(TYPES.Character) character: Character) {
     this.actionService = actionService;
-    this.randomService = randomService;
+    this.character = character;
     this.AutoGather();
   }
 
