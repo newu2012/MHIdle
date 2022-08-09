@@ -4,6 +4,7 @@ import { ItemStack } from "../items/ItemStack";
 
 export class Inventory {
   itemStacks;
+  isStorage = false;
 
   constructor(stacksQuantity: number) {
     this.itemStacks = reactive(new Array(stacksQuantity));
@@ -32,6 +33,14 @@ export class Inventory {
       this.itemStacks[this.FindEmptyItemStackIndex()];
   }
 
+  AtMaximumCapacity = (item: Item, quantity: number): boolean => {
+    if (this.isStorage) {
+      return item.maximumInStorage === quantity;
+    } else {
+      return item.maximumInInventory === quantity;
+    }
+  };
+
   AddItem(item: Item, quantity: number = 1) {
     if (quantity === 0) {
       return;
@@ -44,17 +53,16 @@ export class Inventory {
 
     let result: string;
 
-    // eslint-disable-next-line no-debugger
-    debugger;
     if (foundItemIndex === -1) {
       result = `No more space in inventory for any new item. Lost ${quantity} of ${item.name}.`;
-    } else if (this.itemStacks[foundItemIndex].AtMaximumCapacity(this)) {
+    } else if (this.AtMaximumCapacity(item, quantity)) {
       result = `No more space for item ${item.name}. Lost ${quantity} of ${item.name}.`;
     } else {
       if (this.itemStacks[foundItemIndex]!.item?.name !== item.name) {
         this.itemStacks[foundItemIndex]!.item = item;
       }
-      const itemsToAdd = Math.min(item.maximumInInventory -
+      const itemsToAdd = Math.min(
+        (this.isStorage ? item.maximumInStorage : item.maximumInInventory) -
         this.itemStacks[foundItemIndex]!.quantity, quantity);
       this.itemStacks[foundItemIndex]!.quantity += itemsToAdd;
 
@@ -65,7 +73,6 @@ export class Inventory {
     }
 
     console.log(result);
-    console.log(this.itemStacks);
     return;
   }
 }

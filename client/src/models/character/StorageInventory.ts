@@ -5,6 +5,8 @@ import { Character } from "./Character";
 import TYPES from "../../types";
 
 export class StorageInventory extends Inventory {
+  isStorage = true;
+
   SellItem(itemId: number, quantity: number = 1) {
     const itemStack = this.itemStacks.find((is) => is.item?.id === itemId);
     if (itemStack === undefined) {
