@@ -32,12 +32,11 @@ export class RegionService {
     const character = args[0][0];
     const amount = ref(container.get<RandomService>(TYPES.RandomService)).value
       .GetRandIntBetween({ from: 0, to: 3 });
+    const newResource = new ResourceHerb(1, "simpleHerb", "Herb", 1);
+
     character.currentInventory
-      .AddItem(new ResourceHerb(
-          1,
-          "simpleHerb",
-          "Herb",
-          1),
+      .AddItem(newResource,
         amount);
+    character.currencies.researchPoints += amount * newResource.value;
   }
 }
