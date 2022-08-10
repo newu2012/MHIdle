@@ -34,7 +34,7 @@ defineEmits([
       class="item"
     >
       <h3 class="item-name">
-        {{ itemPanelProp.item.name }}
+        {{ itemPanelProp.item?.name }}
       </h3>
       <div class="item-info">
         <img
@@ -43,7 +43,7 @@ defineEmits([
           :src="require('@/assets/icons/' + iconFilename)"
         >
         <p class="item-description">
-          {{ itemPanelProp.item.description }}
+          {{ itemPanelProp.item?.description }}
         </p>
       </div>
       <div
@@ -54,13 +54,13 @@ defineEmits([
           <button @click="$emit('sell-item', 1)">
             Sell 1
           </button>
-          <span>{{ itemPanelProp.item.value }} zenny</span>
+          <span>{{ itemPanelProp.item?.value }} zenny</span>
         </div>
         <div class="sell-all">
-          <button @click="$emit('sell-item', itemPanelProp.quantity)">
+          <button @click="$emit('sell-item', itemPanelProp?.quantity)">
             Sell All
           </button>
-          <span>{{ itemPanelProp.item.value * itemPanelProp.quantity }} zenny</span>
+          <span>{{ (itemPanelProp.item?.value ?? 0) * itemPanelProp?.quantity }} zenny</span>
         </div>
         <div class="send-to-current">
           <button @click="$emit('send-to-current', itemPanelProp)">

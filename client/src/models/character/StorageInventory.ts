@@ -11,8 +11,6 @@ export class StorageInventory extends Inventory {
   MoveToCurrentInventory(itemStack: ItemStack) {
     const character = ref(container.get<Character>(TYPES.Character));
 
-    // eslint-disable-next-line no-debugger
-    debugger;
     const currentlyInInventory = character.value.currentInventory.itemStacks[character.value.currentInventory
       .FindItemIndexByName(itemStack.item?.name!)] ?? 0;
     const quantityToChange = Math.min(itemStack.quantity,
