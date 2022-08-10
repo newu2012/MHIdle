@@ -80,17 +80,14 @@ export class Inventory {
       return;
     }
 
-    let foundItemIndex = this.FindItemIndexByName(item.name);
-    if (foundItemIndex === -1) {
-      foundItemIndex = this.FindEmptyItemStackIndex();
-    }
+    const foundItemIndex = this.FindItemIndexByName(item.name);
 
     if (foundItemIndex === -1) {
       return;
     } else {
       this.itemStacks[foundItemIndex].quantity -=
         Math.min(quantity, this.itemStacks[foundItemIndex].quantity);
-      if (quantity >= this.itemStacks[foundItemIndex]) {
+      if (this.itemStacks[foundItemIndex].quantity === 0) {
         this.itemStacks[foundItemIndex]!.item = undefined;
       }
 

@@ -11,10 +11,13 @@ export class StorageInventory extends Inventory {
   MoveToCurrentInventory(itemStack: ItemStack) {
     const character = ref(container.get<Character>(TYPES.Character));
 
-    const currentlyInInventory = character.value.currentInventory.itemStacks[character.value.currentInventory
-      .FindItemIndexByName(itemStack.item?.name!)] ?? 0;
+    const foundInCurrentItemIndex = character.value.currentInventory
+      .FindItemIndexByName(itemStack.item?.name!);
+    const currentlyInInventory = foundInCurrentItemIndex !== -1 ?
+      character.value.currentInventory.itemStacks[foundInCurrentItemIndex].quantity
+      : 0;
     const quantityToChange = Math.min(itemStack.quantity,
-      itemStack.item?.maximumInInventory! - currentlyInInventory.quantity);
+      itemStack.item?.maximumInInventory! - currentlyInInventory);
     character.value.currentInventory.AddItem(itemStack.item!,
       quantityToChange);
     this.Remove(itemStack.item!, quantityToChange);
