@@ -7,6 +7,10 @@ const iconFilename = computed(() => {
   return pathElements[pathElements.length - 1];
 });
 
+const itemQuantityFull = computed(() => {
+  return props.itemPanelProp!.quantity === (props.isStorage ? props.itemPanelProp!.item?.maximumInStorage : props.itemPanelProp!.item?.maximumInInventory);
+});
+
 const props = defineProps<{
   itemPanelProp?: ItemStack,
   isStorage: boolean,
@@ -17,8 +21,6 @@ defineEmits([
   "sell-item",
   "send-to-current",
   "send-to-storage"]);
-
-//  TODO set undefined for itemStack when it sends to other inventory
 </script>
 
 <template>
@@ -37,14 +39,33 @@ defineEmits([
         {{ itemPanelProp.item?.name }}
       </h3>
       <div class="item-info">
-        <img
-          alt="Item image"
-          class="item-icon"
-          :src="`/icons/${iconFilename}`"
-        >
-        <p class="item-description">
-          {{ itemPanelProp.item?.description }}
-        </p>
+        <div class="item-description-row">
+          <img
+            :src="`/icons/${iconFilename}`"
+            alt="Item image"
+            class="item-icon"
+          >
+          <p class="item-description">
+            {{ itemPanelProp.item?.description }}
+          </p>
+        </div>
+        <div class="item-additional-info">
+          <p class="item-rarity">
+            Rarity {{ itemPanelProp.item?.rarity }}
+          </p>
+          <p class="item-value">
+            Value {{ itemPanelProp.item?.value }}
+          </p>
+          <p
+            :class="{'item-quantity-full': itemQuantityFull }"
+            class="item-quantity"
+          >
+            In {{ isStorage ? "storage" : "current" }}
+            {{ itemPanelProp.quantity }}/{{
+              isStorage ? itemPanelProp.item?.maximumInStorage : itemPanelProp.item?.maximumInInventory
+            }}
+          </p>
+        </div>
       </div>
       <div
         v-if="isStorage"
@@ -107,9 +128,15 @@ defineEmits([
 
 .item-info {
   display: flex;
-  flex-flow: row;
+  flex-flow: column;
   gap: 8px;
   text-align: start;
+}
+
+.item-description-row {
+  display: flex;
+  flex-flow: row;
+  gap: 8px;
 }
 
 .item-icon {
@@ -119,6 +146,29 @@ defineEmits([
 
 .item-description {
   margin: 0;
+}
+
+.item-additional-info {
+  display: flex;
+  flex-flow: row;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.item-rarity {
+  margin: 0;
+}
+
+.item-value {
+  margin: 0;
+}
+
+.item-quantity {
+  margin: 0;
+}
+
+.item-quantity-full {
+  color: darkorange;
 }
 
 .actions-row {

@@ -6,7 +6,7 @@ export class ResourceHerb implements Resource {
               description: string,
               rarity: number,
               value: number,
-              imagePath: string,
+              imagePath: string = "/icons/Herb_Icon_Green.png",
               maximumInInventory: number = 10,
               maximumInStorage: number = 10000) {
     this.id = id;
