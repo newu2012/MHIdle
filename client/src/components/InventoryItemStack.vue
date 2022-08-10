@@ -4,7 +4,6 @@ import { computed } from "vue";
 
 const iconFilename = computed(() => {
   const pathElements = props.itemStackProp.item?.imagePath!.split("/")!;
-  console.log("/icons/"+ pathElements[pathElements.length - 1])
   return pathElements[pathElements.length - 1];
 });
 
@@ -44,7 +43,7 @@ defineEmits(["update:itemStackProp"]);
 .quantity {
   margin: 0;
   position: absolute;
-  bottom: 0;
+  bottom: -4px;
   font-size: small;
   text-align: center;
   width: 100%;
