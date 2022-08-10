@@ -38,7 +38,7 @@ export class RegionService {
       "Some simple herb needed to create various potions and build basic stuff. Nothing special.",
       1,
       1,
-      "@/assets/icons/Herb_Icon_Green.png");
+      "/icons/Herb_Icon_Green.png");
 
     character.currentInventory
       .AddItem(newResource,

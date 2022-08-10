@@ -40,7 +40,7 @@ defineEmits([
         <img
           alt="Item image"
           class="item-icon"
-          :src="require('@/assets/icons/' + iconFilename)"
+          :src="`/icons/${iconFilename}`"
         >
         <p class="item-description">
           {{ itemPanelProp.item?.description }}

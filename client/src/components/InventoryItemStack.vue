@@ -4,6 +4,7 @@ import { computed } from "vue";
 
 const iconFilename = computed(() => {
   const pathElements = props.itemStackProp.item?.imagePath!.split("/")!;
+  console.log("/icons/"+ pathElements[pathElements.length - 1])
   return pathElements[pathElements.length - 1];
 });
 
@@ -17,10 +18,9 @@ defineEmits(["update:itemStackProp"]);
 <template>
   <div
     v-if="itemStackProp.item !== undefined"
-    :style="{backgroundImage: `url(${require('@/assets/icons/' + iconFilename)})`}"
+    :style="{backgroundImage: `url(/icons/${iconFilename})`}"
     class="itemStack"
   >
-    <!--    :style="{backgroundImage: `url(${require('@/assets/icons/Herb_Icon_Green.png')})`}"-->
     <p class="quantity">
       {{ itemStackProp?.quantity }}
     </p>
