@@ -1,7 +1,13 @@
 <script lang="ts" setup>
 import { ItemStack } from "../models/items/ItemStack";
+import { computed } from "vue";
 
-defineProps<{
+const iconFilename = computed(() => {
+  const pathElements = props.itemPanelProp!.item?.imagePath!.split("/")!;
+  return pathElements[pathElements.length - 1];
+});
+
+const props = defineProps<{
   itemPanelProp?: ItemStack,
   isStorage: boolean,
 }>();
@@ -11,6 +17,8 @@ defineEmits([
   "sell-item",
   "send-to-current",
   "send-to-storage"]);
+
+//  TODO set undefined for itemStack when it sends to other inventory
 </script>
 
 <template>
@@ -32,7 +40,7 @@ defineEmits([
         <img
           alt="Item image"
           class="item-icon"
-          src="~@/assets/icons/Herb_Icon_Green.png"
+          :src="require('@/assets/icons/' + iconFilename)"
         >
         <p class="item-description">
           {{ itemPanelProp.item.description }}

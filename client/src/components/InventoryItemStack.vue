@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { ItemStack } from "../models/items/ItemStack";
-// import { computed } from "vue";
+import { computed } from "vue";
 
-// const imagePath = computed(() => {
-//   return props.itemStackProp.item?.imagePath;
-// });
+const iconFilename = computed(() => {
+  const pathElements = props.itemStackProp.item?.imagePath!.split("/")!;
+  return pathElements[pathElements.length - 1];
+});
 
-defineProps<{
+const props = defineProps<{
   itemStackProp: ItemStack
 }>();
 
@@ -16,13 +17,10 @@ defineEmits(["update:itemStackProp"]);
 <template>
   <div
     v-if="itemStackProp.item !== undefined"
+    :style="{backgroundImage: `url(${require('@/assets/icons/' + iconFilename)})`}"
     class="itemStack"
-    :style="{'backgroundImage': 'url(' + require('@/assets/icons/Herb_Icon_Green.png') +')'}"
   >
-<!--    <img-->
-<!--      alt="Item Icon"-->
-<!--      :src="require(`@/assets/icons/Herb_Icon_Green.png`)"-->
-<!--    >-->
+    <!--    :style="{backgroundImage: `url(${require('@/assets/icons/Herb_Icon_Green.png')})`}"-->
     <p class="quantity">
       {{ itemStackProp?.quantity }}
     </p>
