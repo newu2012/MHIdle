@@ -1,11 +1,5 @@
 <script lang="ts" setup>
 import { ItemStack } from "../models/items/ItemStack";
-import { computed } from "vue";
-
-const iconFilename = computed(() => {
-  const pathElements = props.itemStackProp.item?.imagePath!.split("/")!;
-  return pathElements[pathElements.length - 1];
-});
 
 const props = defineProps<{
   itemStackProp: ItemStack
@@ -17,7 +11,7 @@ defineEmits(["update:itemStackProp"]);
 <template>
   <div
     v-if="itemStackProp.item !== undefined"
-    :style="{backgroundImage: `url(/icons/${iconFilename})`}"
+    :style="{backgroundImage: `url(${props.itemStackProp.item?.imagePath})`}"
     class="itemStack"
   >
     <p class="quantity">

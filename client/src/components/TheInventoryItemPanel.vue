@@ -2,11 +2,6 @@
 import { ItemStack } from "../models/items/ItemStack";
 import { computed } from "vue";
 
-const iconFilename = computed(() => {
-  const pathElements = props.itemPanelProp!.item?.imagePath!.split("/")!;
-  return pathElements[pathElements.length - 1];
-});
-
 const itemQuantityFull = computed(() => {
   return props.itemPanelProp!.quantity === (props.isStorage ? props.itemPanelProp!.item?.maximumInStorage : props.itemPanelProp!.item?.maximumInInventory);
 });
@@ -41,7 +36,7 @@ defineEmits([
       <div class="item-info">
         <div class="item-description-row">
           <img
-            :src="`/icons/${iconFilename}`"
+            :src="`${props.itemPanelProp.item?.imagePath}`"
             alt="Item image"
             class="item-icon"
           >
