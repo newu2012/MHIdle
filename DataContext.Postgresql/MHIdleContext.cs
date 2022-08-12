@@ -13,6 +13,7 @@ public partial class MHIdleContext : DbContext
     //  TODO sort variables alphabetically
     public virtual DbSet<Region> Regions { get; set; } = null!;
     public virtual DbSet<Territory> Territories { get; set; } = null!;
+    public virtual DbSet<Resource> Resources { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -51,6 +52,8 @@ public partial class MHIdleContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Territories_Region");
         });
+
+        modelBuilder.Entity<Resource>(entity => { entity.HasKey(e => e.ResourceId); });
 
         OnModelCreatingPartial(modelBuilder);
     }
