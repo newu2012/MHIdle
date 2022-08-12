@@ -15,7 +15,7 @@ export class RegionService {
   actionService: ActionService;
   character: Character;
   foundItems: Item[] = [];
-  itemsInRegion: any[] = [];
+  itemsInRegion: Item[] = [];
 
   constructor(
     @inject(TYPES.ActionService) actionService: ActionService,
@@ -28,31 +28,29 @@ export class RegionService {
   }
 
   async GenerateItemsFromDb() {
-    const response: HttpResponse<[]> = await useFetch<[]>("/weatherforecast");
+    const response: HttpResponse<[]> = await useFetch<[]>("/api/region");
+    const json = response!.parsedBody!;
+
+    console.log(json);
 
     //  TODO convert response to array of items
-    this.itemsInRegion = response!.parsedBody!;
+    for (let i = 0; i < json.length; i++) {
+      const resource = new ResourceHerb(
+        json[i]["resourceId"],
+        json[i]["resourceType"],
+        json[i]["resourceName"],
+        json[i]["resourceDescription"],
+        json[i]["resourceRarity"],
+        json[i]["resourceValue"],
+        json[i]["resourceImagePath"],
+        json[i]["resourceMaximumInInventory"],
+        json[i]["resourceMaximumInStorage"],
+      );
 
-    for (let i = 0; i < this.itemsInRegion.length; i++) {
-      console.log(this.itemsInRegion[i]);
+      this.itemsInRegion.push(resource);
     }
 
-    const firstResource = new ResourceHerb(
-      0,
-      "Simple Herb",
-      "Some simple herb needed to create various potions and build basic stuff. Nothing special.",
-      1,
-      1,
-      "/icons/Herb_Icon_Green.png");
-    const secondResource = new ResourceHerb(
-      0,
-      "Not so simple Herb",
-      "Other herb.",
-      2,
-      10,
-      "/icons/Herb_Icon_Red.png");
-
-    this.itemsInRegion = [firstResource, secondResource];
+    console.log(this.itemsInRegion);
   }
 
   TestGenerateRandomItems() {
@@ -60,6 +58,7 @@ export class RegionService {
       const rarity = Math.round(Math.random() * 10);
       this.foundItems.push(new ResourceHerb(
         i,
+        `Herb`,
         `Item #${i}`,
         `Description of Item #${i}`,
         rarity,

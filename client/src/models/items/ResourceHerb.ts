@@ -2,6 +2,7 @@ import { Resource } from "./Resource";
 
 export class ResourceHerb implements Resource {
   constructor(id: number,
+              type: string,
               name: string,
               description: string,
               rarity: number,
@@ -10,6 +11,7 @@ export class ResourceHerb implements Resource {
               maximumInInventory: number = 10,
               maximumInStorage: number = 10000) {
     this.id = id;
+    this.type = type;
     this.name = name;
     this.description = description;
     this.rarity = rarity;
@@ -20,6 +22,7 @@ export class ResourceHerb implements Resource {
   }
 
   id: number;
+  type: string;
   name: string;
   description: string;
   rarity: number

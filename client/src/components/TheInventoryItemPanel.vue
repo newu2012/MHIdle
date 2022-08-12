@@ -36,7 +36,7 @@ defineEmits([
       <div class="item-info">
         <div class="item-description-row">
           <img
-            :src="`${props.itemPanelProp.item?.imagePath}`"
+            :src="`${props.itemPanelProp?.item?.imagePath}`"
             alt="Item image"
             class="item-icon"
           >
