@@ -1,6 +1,8 @@
-﻿using DataContext.Postgresql;
+﻿using System.Reflection;
+using DataContext.Postgresql;
 using EntityModels.Postgresql;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Server.Controllers.Admin;
 
@@ -20,26 +22,26 @@ public class AdminController : ControllerBase
     {
         //  TODO Change to HttpPut with line below
         //  TODO Add file and name parameter for individual reseeding with custom files through API
-        Reseed();
-        await _db.SaveChangesAsync();
+        await ReseedAll();
 
         return;
     }
 
-    private void Reseed()
+    private async Task ReseedAll()
     {
-        var newResources = EntitySeeding.Seeding<Resource>().ToArray();
-        //  TODO Delete items that are not in Seed file 
-        for (var i = 0; i < newResources.Length; i++)
-        {
-            if (_db.Resources.Any(r => r.ResourceId == newResources[i].ResourceId))
-            {
-                _db.Resources.Update(newResources[i]);
-            }
-            else
-            {
-                _db.Resources.Add(newResources[i]);
-            }
-        }
+        Reseed<Resource>();
+        await _db.SaveChangesAsync();
+    }
+
+    private void Reseed<T>() where T : class
+    {
+        var newObjects = EntitySeeding.Seeding<T>().ToArray();
+        var table = _db.Set<T>();
+
+        //  TODO Set up Equals for Entities to update entities without deleting all the time
+
+        //  Delete all current rows and add new from Seeds file
+        _db.Database.ExecuteSqlRaw($"TRUNCATE \"{typeof(T).Name}\" RESTART IDENTITY");
+        table.AddRangeAsync(newObjects);
     }
 }

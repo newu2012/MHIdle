@@ -8,7 +8,7 @@ public partial class Resource
 {
     public Resource() { }
 
-    [Key] [Column("ResourceID")] public int ResourceId { get; set; }
+    [Column("id")] public int ResourceId { get; set; }
     [StringLength(50)] public string ResourceType { get; set; } = null!;
     [StringLength(50)] public string ResourceName { get; set; } = null!;
     [StringLength(1000)] public string ResourceDescription { get; set; } = null!;

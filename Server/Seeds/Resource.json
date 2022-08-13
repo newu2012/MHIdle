@@ -1,6 +1,6 @@
 ﻿[
   {
-    "resourceId": 1,
+    "id": 1,
     "resourceType": "Herb",
     "resourceName": "Simple herb",
     "resourceDescription": "Some simple herb needed to create various potions and build basic stuff. Nothing special.",
@@ -11,7 +11,7 @@
     "resourceMaximumInStorage": 10000
   },
   {
-    "resourceId": 2,
+    "id": 2,
     "resourceType": "Herb",
     "resourceName": "Not so simple herb",
     "resourceDescription": "Other herb.",
@@ -22,7 +22,7 @@
     "resourceMaximumInStorage": 10000
   },
   {
-    "resourceId": 3,
+    "id": 3,
     "resourceType": "Herb",
     "resourceName": "Another herb",
     "resourceDescription": "Somewhat rare herb.",
