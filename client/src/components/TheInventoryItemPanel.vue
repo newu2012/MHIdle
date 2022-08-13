@@ -30,9 +30,15 @@ defineEmits([
       v-else
       class="item"
     >
-      <h3 class="item-name">
-        {{ itemPanelProp.item?.name }}
-      </h3>
+      <div class="item-name-and-type">
+        <h3 class="item-name">
+          {{ itemPanelProp.item?.name }}
+        </h3>
+        <h3 class="item-type">
+          {{ itemPanelProp.item?.type }}
+        </h3>
+      </div>
+
       <div class="item-info">
         <div class="item-description-row">
           <img
@@ -117,7 +123,16 @@ defineEmits([
   gap: 8px;
 }
 
+.item-name-and-type {
+  display: flex;
+  justify-content: space-between;
+}
+
 .item-name {
+  margin: 0;
+}
+
+.item-type {
   margin: 0;
 }
 
