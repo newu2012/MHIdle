@@ -20,6 +20,8 @@ public class AdminController : ControllerBase
     [HttpGet]
     public async Task UpdateSeeds()
     {
+        //  TODO Add identity check
+        
         //  TODO Change to HttpPut with line below
         //  TODO Add file and name parameter for individual reseeding with custom files through API
         await ReseedAll();

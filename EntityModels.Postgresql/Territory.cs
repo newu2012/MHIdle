@@ -13,7 +13,7 @@ public partial class Territory
     }
 
     [Key]
-    [Column("TerritoryID")]
+    [Column("id")]
     [StringLength(20)]
     public string TerritoryId { get; set; } = null!;
 
