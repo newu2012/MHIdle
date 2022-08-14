@@ -9,13 +9,15 @@ import { Action } from "../models/Action";
 import { Character } from "../models/character/Character";
 import { Item } from "../models/items/Item";
 import { HttpResponse, useFetch } from "../fetch";
+import { ResourceNode } from "../models/region/ResourceNode";
+import { ObjectWithProportion as owp } from "../models/ObjectWithProportion";
+import { Resource } from "../models/items/Resource";
 
 @injectable()
 export class RegionService {
   actionService: ActionService;
   character: Character;
-  foundItems: Item[] = [];
-  itemsInRegion: Item[] = [];
+  eventsInRegion: owp<any>[] = [];
 
   constructor(
     @inject(TYPES.ActionService) actionService: ActionService,
@@ -23,17 +25,16 @@ export class RegionService {
     this.actionService = actionService;
     this.character = character;
     this.GenerateItemsFromDb();
-    // this.TestGenerateRandomItems();
-    this.AutoGather();
+    this.AutoExplore();
   }
 
   async GenerateItemsFromDb() {
     const response: HttpResponse<[]> = await useFetch<[]>("/api/region");
     const json = response!.parsedBody!;
 
-    console.log(json);
+    //  TODO convert response to array of explorationEvents
+    const basicResourceNodeResources = [];
 
-    //  TODO convert response to array of items
     for (let i = 0; i < json.length; i++) {
       const resource = new ResourceHerb(
         json[i]["resourceId"],
@@ -47,44 +48,40 @@ export class RegionService {
         json[i]["resourceMaximumInStorage"],
       );
 
-      this.itemsInRegion.push(resource);
+      basicResourceNodeResources.push(new owp(
+        resource,
+        1 / (Math.pow(1.5, resource.rarity - 1)),
+      ));
     }
 
-    console.log(this.itemsInRegion);
+    //  TODO Add value calculation based on events, when there will be more than 1 event
+    this.eventsInRegion.push(new ResourceNode(basicResourceNodeResources,
+      1,
+      "herb patch",
+    ));
+
+    console.log(this.eventsInRegion);
   }
 
-  TestGenerateRandomItems() {
-    for (let i = 1; i < 677; i++) {
-      const rarity = Math.round(Math.random() * 10);
-      this.foundItems.push(new ResourceHerb(
-        i,
-        `Herb`,
-        `Item #${i}`,
-        `Description of Item #${i}`,
-        rarity,
-        rarity * 10,
-        `/test/icon(${i}).png`));
-    }
-  }
-
-  AutoGather() {
+  AutoExplore() {
     this.actionService.SetCurrentAction(new Action(
-      "Gather herbs",
+      "Exploring",
       10 * 1000,
-      this.GatherHerbs, this.character));
+      this.Explore, this.character));
   }
 
-  GatherHerbs(...args: any[]) {
+  Explore(...args: any[]) {
     const character = args[0][0];
     const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
     const randomService = ref(container.get<RandomService>(TYPES.RandomService)).value;
 
-    const randomItemId = randomService.GetRandIntBetween({ from: 0, to: regionService.itemsInRegion.length - 1 });
-    const randomItem = regionService.itemsInRegion[randomItemId];
+    //  TODO Change from owp<ResourceNode> to owp<any> ???
+    const randomEvent: owp<Resource>[] = randomService.GetRandFromProportion(regionService.eventsInRegion);
+    const randomResource = randomService.GetRandFromProportion(randomEvent);
     const amount = randomService.GetRandIntBetween({ from: 0, to: 3 });
 
     character.currentInventory
-      .AddItem(randomItem, amount);
-    character.currencies.researchPoints += amount * randomItem.value;
+      .AddItem(randomResource, amount);
+    character.currencies.researchPoints += amount * randomResource.value;
   }
 }
