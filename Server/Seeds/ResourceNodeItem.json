@@ -1,0 +1,20 @@
+﻿[
+  {
+    "id": 1,
+    "ProportionValue": 90.0,
+    "ItemId": 1,
+    "ResourceNodeEventId": 1
+  },
+  {
+    "id": 2,
+    "ProportionValue": 9.0,
+    "ItemId": 2,
+    "ResourceNodeEventId": 1
+  },
+  {
+    "id": 3,
+    "ProportionValue": 1.0,
+    "ItemId": 3,
+    "ResourceNodeEventId": 1
+  }
+]
