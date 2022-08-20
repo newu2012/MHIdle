@@ -8,9 +8,9 @@ import TheRegionPanel from "./components/TheRegionPanel.vue";
 import TheCraftingPanel from "./components/TheCraftingPanel.vue";
 
 import { Feature } from "./models/Feature";
-import { RegionService } from "./services/RegionService";
 import TYPES from "./types";
 import container from "./inversify.config";
+import { StartupLoadService } from "./services/StartupLoadService";
 
 const features = ref([
   new Feature("Inventory", true, markRaw(TheInventoryPanel)),
@@ -32,7 +32,7 @@ function FindActiveFeature(features: Feature[]) {
   return activeFeature;
 }
 
-container.get<RegionService>(TYPES.RegionService);
+container.get<StartupLoadService>(TYPES.StartupLoadService);
 </script>
 
 <template>
