@@ -15,6 +15,8 @@ public partial class MHIdleContext : DbContext
     public virtual DbSet<Region> Regions { get; set; } = null!;
     public virtual DbSet<Territory> Territories { get; set; } = null!;
     public virtual DbSet<ResourceNodeEvent> ResourceNodeEvents { get; set; } = null!;
+    public virtual DbSet<ResourceNodeProportion> ResourceNodeProportions { get; set; } = null!;
+    public virtual DbSet<ResourceNodeItem> ResourceNodeItems { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

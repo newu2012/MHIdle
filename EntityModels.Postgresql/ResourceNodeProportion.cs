@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntityModels.Postgresql;
 
-[Table("ResourceNodeEventProportion")]
-public partial class ResourceNodeEventProportion
+[Table("ResourceNodeProportion")]
+public partial class ResourceNodeProportion
 {
     [Key] [Column("id")] public int Id { get; set; }
     public double ProportionValue { get; set; } = 1;

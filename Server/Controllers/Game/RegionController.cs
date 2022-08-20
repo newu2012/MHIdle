@@ -47,8 +47,20 @@ public class RegionController : ControllerBase
     }
     
     [HttpGet("/api/event")]
-    public ResourceNodeEvent[] TerritoryEventInfo()
+    public ResourceNodeEvent[] EventsInfo()
     {
         return _db.ResourceNodeEvents.ToArray();
+    }
+    
+    [HttpGet("/api/eventProportion")]
+    public ResourceNodeProportion[] EventsProportionsInfo()
+    {
+        return _db.ResourceNodeProportions.ToArray();
+    }
+    
+    [HttpGet("/api/eventItem")]
+    public ResourceNodeItem[] EventsItemsInfo()
+    {
+        return _db.ResourceNodeItems.ToArray();
     }
 }

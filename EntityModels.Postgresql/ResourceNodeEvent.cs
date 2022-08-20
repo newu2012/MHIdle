@@ -11,5 +11,5 @@ public partial class ResourceNodeEvent : ITerritoryEvent
 
     //  Resources and other types of items that can be found in this node through <item-id>
     public ICollection<ResourceNodeItem> ResourceNodeItems { get; set; } = null!;
-    public ICollection<ResourceNodeEventProportion> ResourceNodeEventProportions { get; set; } = null!;
+    public ICollection<ResourceNodeProportion> ResourceNodeProportions { get; set; } = null!;
 }
