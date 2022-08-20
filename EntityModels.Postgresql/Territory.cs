@@ -20,5 +20,5 @@ public partial class Territory
     public int? RegionId { get; set; }
     [ForeignKey("RegionId")] public virtual Region? Region { get; set; } = null!;
 
-    public virtual ICollection<TerritoryEvent> TerritoryEvents { get; set; }
+    public ICollection<ResourceNodeEventProportion> ResourceNodeEventProportions { get; set; }
 }

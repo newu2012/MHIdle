@@ -34,7 +34,7 @@ public class AdminController : ControllerBase
         Reseed<Item>();
         Reseed<Region>();
         Reseed<Territory>();
-        Reseed<TerritoryEvent>();
+        Reseed<ResourceNodeEvent>();
         
         await _db.SaveChangesAsync();
     }

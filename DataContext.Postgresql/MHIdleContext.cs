@@ -14,7 +14,7 @@ public partial class MHIdleContext : DbContext
     public virtual DbSet<Item> Items { get; set; } = null!;
     public virtual DbSet<Region> Regions { get; set; } = null!;
     public virtual DbSet<Territory> Territories { get; set; } = null!;
-    public virtual DbSet<TerritoryEvent> TerritoryEvents { get; set; } = null!;
+    public virtual DbSet<ResourceNodeEvent> ResourceNodeEvents { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -35,7 +35,7 @@ public partial class MHIdleContext : DbContext
         modelBuilder.Entity<Item>().Property(i => i.Id).ValueGeneratedNever();
         modelBuilder.Entity<Region>().Property(r => r.Id).ValueGeneratedNever();
         modelBuilder.Entity<Territory>().Property(t => t.Id).ValueGeneratedNever();
-        modelBuilder.Entity<TerritoryEvent>().Property(te => te.Id).ValueGeneratedNever();
+        modelBuilder.Entity<ResourceNodeEvent>().Property(rne => rne.Id).ValueGeneratedNever();
 
         OnModelCreatingPartial(modelBuilder);
     }
