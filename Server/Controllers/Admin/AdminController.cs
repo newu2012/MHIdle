@@ -21,7 +21,7 @@ public class AdminController : ControllerBase
     public async Task UpdateSeeds()
     {
         //  TODO Add identity check
-        
+
         //  TODO Change to HttpPut with line below
         //  TODO Add file and name parameter for individual reseeding with custom files through API
         await ReseedAll();
@@ -31,7 +31,11 @@ public class AdminController : ControllerBase
 
     private async Task ReseedAll()
     {
-        Reseed<Resource>();
+        Reseed<Item>();
+        Reseed<Region>();
+        Reseed<Territory>();
+        Reseed<TerritoryEvent>();
+        
         await _db.SaveChangesAsync();
     }
 
@@ -43,7 +47,19 @@ public class AdminController : ControllerBase
         //  TODO Set up Equals for Entities to update entities without deleting all the time
 
         //  Delete all current rows and add new from Seeds file
-        _db.Database.ExecuteSqlRaw($"TRUNCATE \"{typeof(T).Name}\" RESTART IDENTITY");
-        table.AddRangeAsync(newObjects);
+        // _db.Database.ExecuteSqlRaw($"TRUNCATE \"{typeof(T).Name}\" RESTART IDENTITY");
+        foreach (var obj in newObjects)
+        {
+            if (table.AsNoTracking().AsEnumerable().Any(r => r.GetType().GetProperty("id") == obj.GetType().GetProperty("id")))
+            {
+                table.Update(obj);
+            }
+            else
+            {
+                table.Add(obj);
+            }
+        }
+
+        _db.SaveChanges();
     }
 }

@@ -12,19 +12,13 @@ public partial class Territory
         // TerritoryActivities = new HashSet<TerritoryActivity>();
     }
 
-    [Key]
-    [Column("id")]
-    [StringLength(20)]
-    public string TerritoryId { get; set; } = null!;
+    [Key] [Column("id")] public int Id { get; set; } = 1;
 
-    [StringLength(50)] public string TerritoryDescription { get; set; } = null!;
-    [Column("RegionID")] public int RegionId { get; set; }
+    [StringLength(50)] public string Name { get; set; } = null!;
+    [StringLength(1000)] public string Description { get; set; } = null!;
 
-    [ForeignKey("RegionId")]
-    [InverseProperty("Territories")]
-    public virtual Region Region { get; set; } = null!;
+    public int? RegionId { get; set; }
+    [ForeignKey("RegionId")] public virtual Region? Region { get; set; } = null!;
 
-    // [ForeignKey("TerritoryId")]
-    // [InverseProperty("Territories")]
-    // public virtual ICollection<TerritoryActivity> TerritoryActivities { get; set; }
+    public virtual ICollection<TerritoryEvent> TerritoryEvents { get; set; }
 }

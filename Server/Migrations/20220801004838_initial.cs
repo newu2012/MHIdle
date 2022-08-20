@@ -13,7 +13,8 @@ namespace Server.Migrations
                 columns: table => new
                 {
                     RegionID = table.Column<int>(type: "integer", nullable: false),
-                    RegionDescription = table.Column<string>(type: "character(50)", fixedLength: true, maxLength: 50, nullable: false)
+                    Name = table.Column<string>(type: "character(50)", fixedLength: true, maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "character(1000)", fixedLength: true, maxLength: 1000, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -24,16 +25,17 @@ namespace Server.Migrations
                 name: "Territory",
                 columns: table => new
                 {
-                    TerritoryID = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    TerritoryDescription = table.Column<string>(type: "character(50)", fixedLength: true, maxLength: 50, nullable: false),
-                    RegionID = table.Column<int>(type: "integer", nullable: false)
+                    TerritoryID = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "character(50)", fixedLength: true, maxLength: 50, nullable: false),
+                    TerritoryDescription = table.Column<string>(type: "character(1000)", fixedLength: true, maxLength: 1000, nullable: false),
+                    RegionId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Territory", x => x.TerritoryID);
                     table.ForeignKey(
                         name: "FK_Territories_Region",
-                        column: x => x.RegionID,
+                        column: x => x.RegionId,
                         principalTable: "Region",
                         principalColumn: "RegionID");
                 });
@@ -41,7 +43,7 @@ namespace Server.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Territory_RegionID",
                 table: "Territory",
-                column: "RegionID");
+                column: "RegionId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

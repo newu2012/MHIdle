@@ -17,9 +17,9 @@ public class RegionController : ControllerBase
 
     //  TODO Change to     "/api/region/${i}"
     [HttpGet("/api/region")]
-    public Resource[] RegionInfo()
+    public Item[] RegionInfo()
     {
         //  TODO select all resources that Region mentions
-        return _db.Resources.ToArray();
+        return _db.Items.ToArray();
     }
 }

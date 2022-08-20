@@ -21,8 +21,4 @@
         <ProjectReference Include="..\DataContext.Postgresql\DataContext.Postgresql.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Include="Seeds\Resource.json" />
-    </ItemGroup>
-
 </Project>

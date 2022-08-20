@@ -11,9 +11,10 @@ public partial class MHIdleContext : DbContext
         : base(options) { }
 
     //  TODO sort variables alphabetically
+    public virtual DbSet<Item> Items { get; set; } = null!;
     public virtual DbSet<Region> Regions { get; set; } = null!;
     public virtual DbSet<Territory> Territories { get; set; } = null!;
-    public virtual DbSet<Resource> Resources { get; set; } = null!;
+    public virtual DbSet<TerritoryEvent> TerritoryEvents { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -31,29 +32,10 @@ public partial class MHIdleContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Region>(entity =>
-        {
-            entity.HasKey(e => e.RegionId);
-
-            entity.Property(e => e.RegionId).ValueGeneratedNever();
-
-            entity.Property(e => e.RegionDescription).IsFixedLength();
-        });
-
-        modelBuilder.Entity<Territory>(entity =>
-        {
-            entity.HasKey(e => e.TerritoryId);
-
-            entity.Property(e => e.TerritoryDescription).IsFixedLength();
-
-            entity.HasOne(d => d.Region)
-                .WithMany(p => p.Territories)
-                .HasForeignKey(d => d.RegionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Territories_Region");
-        });
-
-        modelBuilder.Entity<Resource>(entity => { entity.HasKey(e => e.ResourceId); });
+        modelBuilder.Entity<Item>().Property(i => i.Id).ValueGeneratedNever();
+        modelBuilder.Entity<Region>().Property(r => r.Id).ValueGeneratedNever();
+        modelBuilder.Entity<Territory>().Property(t => t.Id).ValueGeneratedNever();
+        modelBuilder.Entity<TerritoryEvent>().Property(te => te.Id).ValueGeneratedNever();
 
         OnModelCreatingPartial(modelBuilder);
     }
