@@ -16,5 +16,6 @@ public class TerritoryEvent
     //  TODO Give this value in Territory and not save in TerritoryEvent?
     public double ProportionValue { get; set; } = 1;
 
-    public ICollection<Territory> Territories { get; set; }
+    public int? TerritoryId { get; set; }
+    [ForeignKey("TerritoryId")] public virtual ICollection<Territory> Territories { get; set; }
 }

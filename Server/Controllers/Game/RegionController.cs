@@ -1,6 +1,7 @@
 ﻿using DataContext.Postgresql;
 using EntityModels.Postgresql;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Server.Controllers.Game;
 
@@ -15,11 +16,34 @@ public class RegionController : ControllerBase
         _db = db;
     }
 
-    //  TODO Change to     "/api/region/${i}"
     [HttpGet("/api/region")]
-    public Item[] RegionInfo()
+    public Region[] RegionsInfo()
+    {
+        return _db.Regions.ToArray();
+    }
+
+    [HttpGet("/api/region/{i:int}")]
+    public Territory[] SelectedRegionInfo(int i)
     {
         //  TODO select all resources that Region mentions
+        // var regionInfo = (from r in _db.Regions
+        //     join t in _db.Territories on r.Id equals t.RegionId
+        //     select new { Reg = r, Ter = t }).ToArray();
+
+        var territory = _db.Territories.Where(t => t.RegionId == i).ToArray();
+
+        return territory;
+    }
+    
+    [HttpGet("/api/territory")]
+    public Territory[] TerritoriesInfo()
+    {
+        return _db.Territories.ToArray();
+    }
+    
+    [HttpGet("/api/item")]
+    public Item[] ItemsInfo()
+    {
         return _db.Items.ToArray();
     }
 }
