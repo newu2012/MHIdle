@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Server.Migrations
 {
     [DbContext(typeof(MHIdleContext))]
-    [Migration("20220820195223_ResourceNodeEventFixOnceAgain")]
-    partial class ResourceNodeEventFixOnceAgain
+    [Migration("20220820225153_KeyFromResourceNodeEventToResourceNodeItem")]
+    partial class KeyFromResourceNodeEventToResourceNodeItem
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -106,7 +106,34 @@ namespace Server.Migrations
                     b.ToTable("ResourceNodeEvent");
                 });
 
-            modelBuilder.Entity("EntityModels.Postgresql.ResourceNodeEventProportion", b =>
+            modelBuilder.Entity("EntityModels.Postgresql.ResourceNodeItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("ProportionValue")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("ResourceNodeEventId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("ResourceNodeEventId");
+
+                    b.ToTable("ResourceNodeItem");
+                });
+
+            modelBuilder.Entity("EntityModels.Postgresql.ResourceNodeProportion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -130,29 +157,7 @@ namespace Server.Migrations
 
                     b.HasIndex("TerritoryId");
 
-                    b.ToTable("ResourceNodeEventProportion");
-                });
-
-            modelBuilder.Entity("EntityModels.Postgresql.ResourceNodeItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("ResourceNodeEventId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("ResourceNodeItem");
+                    b.ToTable("ResourceNodeProportion");
                 });
 
             modelBuilder.Entity("EntityModels.Postgresql.Territory", b =>
@@ -181,40 +186,6 @@ namespace Server.Migrations
                     b.ToTable("Territory");
                 });
 
-            modelBuilder.Entity("ResourceNodeEventResourceNodeItem", b =>
-                {
-                    b.Property<int>("ResourceNodeEventId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ResourceNodeEventsId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("ResourceNodeEventId", "ResourceNodeEventsId");
-
-                    b.HasIndex("ResourceNodeEventsId");
-
-                    b.ToTable("ResourceNodeEventResourceNodeItem");
-                });
-
-            modelBuilder.Entity("EntityModels.Postgresql.ResourceNodeEventProportion", b =>
-                {
-                    b.HasOne("EntityModels.Postgresql.ResourceNodeEvent", "ResourceNodeEvent")
-                        .WithMany("ResourceNodeEventProportions")
-                        .HasForeignKey("ResourceNodeEventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EntityModels.Postgresql.Territory", "Territory")
-                        .WithMany("ResourceNodeEventProportions")
-                        .HasForeignKey("TerritoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ResourceNodeEvent");
-
-                    b.Navigation("Territory");
-                });
-
             modelBuilder.Entity("EntityModels.Postgresql.ResourceNodeItem", b =>
                 {
                     b.HasOne("EntityModels.Postgresql.Item", "Item")
@@ -223,7 +194,34 @@ namespace Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("EntityModels.Postgresql.ResourceNodeEvent", "ResourceNodeEvent")
+                        .WithMany("ResourceNodeItems")
+                        .HasForeignKey("ResourceNodeEventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Item");
+
+                    b.Navigation("ResourceNodeEvent");
+                });
+
+            modelBuilder.Entity("EntityModels.Postgresql.ResourceNodeProportion", b =>
+                {
+                    b.HasOne("EntityModels.Postgresql.ResourceNodeEvent", "ResourceNodeEvent")
+                        .WithMany("ResourceNodeProportions")
+                        .HasForeignKey("ResourceNodeEventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EntityModels.Postgresql.Territory", "Territory")
+                        .WithMany("ResourceNodeProportions")
+                        .HasForeignKey("TerritoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ResourceNodeEvent");
+
+                    b.Navigation("Territory");
                 });
 
             modelBuilder.Entity("EntityModels.Postgresql.Territory", b =>
@@ -235,21 +233,6 @@ namespace Server.Migrations
                     b.Navigation("Region");
                 });
 
-            modelBuilder.Entity("ResourceNodeEventResourceNodeItem", b =>
-                {
-                    b.HasOne("EntityModels.Postgresql.ResourceNodeItem", null)
-                        .WithMany()
-                        .HasForeignKey("ResourceNodeEventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EntityModels.Postgresql.ResourceNodeEvent", null)
-                        .WithMany()
-                        .HasForeignKey("ResourceNodeEventsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("EntityModels.Postgresql.Region", b =>
                 {
                     b.Navigation("Territories");
@@ -257,12 +240,14 @@ namespace Server.Migrations
 
             modelBuilder.Entity("EntityModels.Postgresql.ResourceNodeEvent", b =>
                 {
-                    b.Navigation("ResourceNodeEventProportions");
+                    b.Navigation("ResourceNodeItems");
+
+                    b.Navigation("ResourceNodeProportions");
                 });
 
             modelBuilder.Entity("EntityModels.Postgresql.Territory", b =>
                 {
-                    b.Navigation("ResourceNodeEventProportions");
+                    b.Navigation("ResourceNodeProportions");
                 });
 #pragma warning restore 612, 618
         }

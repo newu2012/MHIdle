@@ -119,7 +119,7 @@ namespace Server.Migrations
                     b.Property<double>("ProportionValue")
                         .HasColumnType("double precision");
 
-                    b.Property<int?>("ResourceNodeEventId")
+                    b.Property<int>("ResourceNodeEventId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -192,11 +192,15 @@ namespace Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EntityModels.Postgresql.ResourceNodeEvent", null)
+                    b.HasOne("EntityModels.Postgresql.ResourceNodeEvent", "ResourceNodeEvent")
                         .WithMany("ResourceNodeItems")
-                        .HasForeignKey("ResourceNodeEventId");
+                        .HasForeignKey("ResourceNodeEventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Item");
+
+                    b.Navigation("ResourceNodeEvent");
                 });
 
             modelBuilder.Entity("EntityModels.Postgresql.ResourceNodeProportion", b =>

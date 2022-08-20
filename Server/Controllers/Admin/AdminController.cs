@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using DataContext.Postgresql;
+﻿using DataContext.Postgresql;
 using EntityModels.Postgresql;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +34,9 @@ public class AdminController : ControllerBase
         Reseed<Region>();
         Reseed<Territory>();
         Reseed<ResourceNodeEvent>();
-        
+        Reseed<ResourceNodeItem>();
+        Reseed<ResourceNodeProportion>();
+
         await _db.SaveChangesAsync();
     }
 
@@ -50,7 +51,8 @@ public class AdminController : ControllerBase
         // _db.Database.ExecuteSqlRaw($"TRUNCATE \"{typeof(T).Name}\" RESTART IDENTITY");
         foreach (var obj in newObjects)
         {
-            if (table.AsNoTracking().AsEnumerable().Any(r => r.GetType().GetProperty("id") == obj.GetType().GetProperty("id")))
+            if (table.AsNoTracking().AsEnumerable()
+                .Any(r => r.GetType().GetProperty("id") == obj.GetType().GetProperty("id")))
             {
                 table.Update(obj);
             }

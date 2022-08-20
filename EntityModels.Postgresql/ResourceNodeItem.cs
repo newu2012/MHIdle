@@ -11,4 +11,7 @@ public partial class ResourceNodeItem
 
     public int ItemId { get; set; }
     public Item Item { get; set; } = null!;
+    
+    public int ResourceNodeEventId { get; set; }
+    public ResourceNodeEvent ResourceNodeEvent { get; set; } = null!;
 }
