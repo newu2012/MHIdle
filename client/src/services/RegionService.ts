@@ -7,7 +7,6 @@ import { ref } from "vue";
 import container from "../inversify.config";
 import { Action } from "../models/Action";
 import { Character } from "../models/character/Character";
-import { Item } from "../models/items/Item";
 import { HttpResponse, useFetch } from "../fetch";
 import { ResourceNode } from "../models/region/ResourceNode";
 import { ObjectWithProportion as owp } from "../models/ObjectWithProportion";
@@ -37,15 +36,15 @@ export class RegionService {
 
     for (let i = 0; i < json.length; i++) {
       const resource = new ResourceHerb(
-        json[i]["resourceId"],
-        json[i]["resourceType"],
-        json[i]["resourceName"],
-        json[i]["resourceDescription"],
-        json[i]["resourceRarity"],
-        json[i]["resourceValue"],
-        json[i]["resourceImagePath"],
-        json[i]["resourceMaximumInInventory"],
-        json[i]["resourceMaximumInStorage"],
+        json[i]["id"],
+        json[i]["type"],
+        json[i]["name"],
+        json[i]["description"],
+        json[i]["rarity"],
+        json[i]["value"],
+        json[i]["imagePath"],
+        json[i]["maximumInInventory"],
+        json[i]["maximumInStorage"],
       );
 
       basicResourceNodeResources.push(new owp(
@@ -55,7 +54,8 @@ export class RegionService {
     }
 
     //  TODO Add value calculation based on events, when there will be more than 1 event
-    this.eventsInRegion.push(new ResourceNode(basicResourceNodeResources,
+    this.eventsInRegion.push(new ResourceNode(
+      basicResourceNodeResources,
       1,
       "herb patch",
     ));
