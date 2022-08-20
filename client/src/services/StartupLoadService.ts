@@ -16,20 +16,47 @@ export class StartupLoadService {
     @inject(TYPES.ModelsService) modelsService: ModelsService,
     @inject(TYPES.RegionService) regionService: RegionService,
   ) {
+    this.LoadItemsFromServer().then(
+      result => modelsService.items = result,
+    );
     this.LoadRegionsFromServer().then(
       result => modelsService.regions = result,
     );
     this.LoadTerritoriesFromServer().then(
       result => modelsService.territories = result,
     );
-    this.LoadItemsFromServer().then(
-      result => modelsService.items = result,
-    );
     this.LoadResourceNodesFromServer().then(
       result => regionService.eventsInTerritories = result,
     );
 
     regionService.AutoExplore();
+  }
+
+  async LoadItemsFromServer(): Promise<Item[]> {
+    //  TODO Change to load items
+    const response: HttpResponse<[]> = await useFetch<[]>("/api/item");
+    const json = response!.parsedBody!;
+
+    const items = [];
+
+    for (let i = 0; i < json.length; i++) {
+      const item = new ResourceHerb(
+        json[i]["id"],
+        json[i]["type"],
+        json[i]["name"],
+        json[i]["description"],
+        json[i]["rarity"],
+        json[i]["value"],
+        json[i]["imagePath"],
+        json[i]["maximumInInventory"],
+        json[i]["maximumInStorage"],
+      );
+
+      items.push(item);
+    }
+
+    console.log(items);
+    return items;
   }
 
   async LoadRegionsFromServer(): Promise<Region[]> {
@@ -113,32 +140,5 @@ export class StartupLoadService {
 
     console.log(resourceNodes);
     return resourceNodes;
-  }
-
-  async LoadItemsFromServer(): Promise<Item[]> {
-    //  TODO Change to load items
-    const response: HttpResponse<[]> = await useFetch<[]>("/api/item");
-    const json = response!.parsedBody!;
-
-    const items = [];
-
-    for (let i = 0; i < json.length; i++) {
-      const item = new ResourceHerb(
-        json[i]["id"],
-        json[i]["type"],
-        json[i]["name"],
-        json[i]["description"],
-        json[i]["rarity"],
-        json[i]["value"],
-        json[i]["imagePath"],
-        json[i]["maximumInInventory"],
-        json[i]["maximumInStorage"],
-      );
-
-      items.push(item);
-    }
-
-    console.log(items);
-    return items;
   }
 }
