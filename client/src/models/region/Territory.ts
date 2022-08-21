@@ -1,7 +1,7 @@
-import { ObjectWithProportion } from "../ObjectWithProportion";
+import { ObjectWithProportion as owp } from "../ObjectWithProportion";
 
 export class Territory {
-  constructor(id: number, name: string, description: string, regionId: number, territoryEvents: ObjectWithProportion<any>[]) {
+  constructor(id: number, name: string, description: string, regionId: number, territoryEvents: owp<any>[]) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -13,5 +13,5 @@ export class Territory {
   name: string;
   description: string;
   regionId: number;
-  territoryEvents: ObjectWithProportion<any>[];
+  territoryEvents: owp<any>[];
 }

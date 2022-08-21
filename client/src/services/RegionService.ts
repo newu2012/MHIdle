@@ -6,10 +6,9 @@ import { ref } from "vue";
 import container from "../inversify.config";
 import { Action } from "../models/Action";
 import { Character } from "../models/character/Character";
-import { ObjectWithProportion as owp } from "../models/ObjectWithProportion";
-import { Resource } from "../models/items/Resource";
 import { Territory } from "../models/region/Territory";
 import { ModelsService } from "./ModelsService";
+import { ResourceNode } from "../models/region/ResourceNode";
 
 @injectable()
 export class RegionService {
@@ -39,12 +38,10 @@ export class RegionService {
     const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
     const randomService = ref(container.get<RandomService>(TYPES.RandomService)).value;
 
-    //  TODO Change from owp<ResourceNode> to owp<any> ???
-    const randomEvent: owp<Resource>[] = randomService.GetRandFromProportion(
-      modelsService.resourceNodeEvents
-        .filter(rne => rne.inTerritoryIds
-          .includes(regionService.activeTerritory.id)));
-    const randomResource = randomService.GetRandFromProportion(randomEvent);
+    //  TODO Change from ResourceNode to owp<any> ???
+    const randomEvent: ResourceNode = randomService.GetRandFromProportion(
+      regionService.activeTerritory.territoryEvents);
+    const randomResource = randomService.GetRandFromProportion(randomEvent.obj);
     const amount = randomService.GetRandIntBetween({ from: 0, to: 3 });
 
     character.currentInventory.AddItem(randomResource, amount);

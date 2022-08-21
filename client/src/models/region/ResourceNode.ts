@@ -7,17 +7,14 @@ export class ResourceNode extends owp<owp<Item>[]> {
               id: number,
               name: string,
               description: string,
-              capacity: number,
-              inTerritoryIds: number[]) {
+              capacity: number) {
     super(obj, value, name, description);
     this.obj = obj;
     this.id = id;
     this.capacity = capacity;
-    this.inTerritoryIds = inTerritoryIds;
   }
 
   declare obj: owp<Item>[];
   id: number;
   capacity: number;
-  inTerritoryIds: number[];
 }

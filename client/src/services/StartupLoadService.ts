@@ -30,14 +30,14 @@ export class StartupLoadService {
     await this.LoadRegionsFromServer().then(
       result => modelsService.regions = result,
     );
-    await this.LoadTerritoriesFromServer().then(
+    await this.LoadResourceNodeEventsFromServer(modelsService).then(
+      result => modelsService.resourceNodeEvents = result,
+    );
+    await this.LoadTerritoriesFromServer(modelsService).then(
       result => {
         modelsService.territories = result;
         regionService.activeTerritory = modelsService.territories[0];
       },
-    );
-    await this.LoadResourceNodeEventsFromServer(modelsService).then(
-      result => modelsService.resourceNodeEvents = result,
     );
   }
 
@@ -89,29 +89,6 @@ export class StartupLoadService {
     return regions;
   }
 
-  async LoadTerritoriesFromServer(): Promise<Territory[]> {
-    const response: HttpResponse<[]> = await useFetch<[]>("/api/territory");
-    const json = response!.parsedBody!;
-
-    const territories: Territory[] = [];
-
-    for (let i = 0; i < json.length; i++) {
-      const region = new Territory(
-        json[i]["id"],
-        json[i]["name"],
-        json[i]["description"],
-        json[i]["regionId"],
-        json[i]["territoryEvents"],
-      );
-
-      territories.push(region);
-    }
-
-    console.log(territories);
-
-    return territories;
-  }
-
   async LoadResourceNodeEventsFromServer(modelsService: ModelsService): Promise<ResourceNode[]> {
     const response: HttpResponse<[]> = await useFetch<[]>("/api/event");
     const json = response!.parsedBody!;
@@ -132,8 +109,6 @@ export class StartupLoadService {
         json[i]["name"],
         json[i]["description"],
         json[i]["capacity"],
-        (json[i]["resourceNodeProportions"] as ResourceNodeProportion[])
-          .filter(rnp => rnp.resourceNodeEventId === json[i]["id"]).map(rnp => rnp.territoryId),
       );
 
       //  TODO Add value calculation based on events, when there will be more than 1 event
@@ -142,5 +117,32 @@ export class StartupLoadService {
 
     console.log(resourceNodes);
     return resourceNodes;
+  }
+
+  async LoadTerritoriesFromServer(modelsService: ModelsService): Promise<Territory[]> {
+    const response: HttpResponse<[]> = await useFetch<[]>("/api/territory");
+    const json = response!.parsedBody!;
+    console.log(json);
+
+    const territories: Territory[] = [];
+
+    for (let i = 0; i < json.length; i++) {
+      const region = new Territory(
+        json[i]["id"],
+        json[i]["name"],
+        json[i]["description"],
+        json[i]["regionId"],
+        (json[i]["resourceNodeProportions"] as ResourceNodeProportion[])
+          .map(rnp => new owp(
+            modelsService.resourceNodeEvents.filter(rne => rne.id === rnp.resourceNodeEventId)[0],
+            rnp.proportionValue)),
+      );
+
+      territories.push(region);
+    }
+
+    console.log(territories);
+
+    return territories;
   }
 }
