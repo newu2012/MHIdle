@@ -38,7 +38,7 @@ public class RegionController : ControllerBase
     [HttpGet("/api/territory")]
     public Territory[] TerritoriesInfo()
     {
-        return _db.Territories.ToArray();
+        return _db.Territories.Include(t => t.ResourceNodeProportions).ToArray();
     }
 
     [HttpGet("/api/item")]
