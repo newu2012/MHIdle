@@ -64,7 +64,6 @@ export class StartupLoadService {
       items.push(item);
     }
 
-    console.log(items);
     return items;
   }
 
@@ -84,8 +83,6 @@ export class StartupLoadService {
 
       regions.push(region);
     }
-
-    console.log(regions);
 
     return regions;
   }
@@ -116,14 +113,12 @@ export class StartupLoadService {
       resourceNodes.push(resourceNode);
     }
 
-    console.log(resourceNodes);
     return resourceNodes;
   }
 
   async LoadTerritoriesFromServer(modelsService: ModelsService): Promise<Territory[]> {
     const response: HttpResponse<[]> = await useFetch<[]>("/api/territory");
     const json = response!.parsedBody!;
-    console.log(json);
 
     const territories: Territory[] = [];
 
@@ -141,8 +136,6 @@ export class StartupLoadService {
 
       territories.push(region);
     }
-
-    console.log(territories);
 
     return territories;
   }

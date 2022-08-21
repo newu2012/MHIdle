@@ -13,7 +13,7 @@ export class ActionService {
 
   Update() {
     if (this.elapsed.value === this.action.value?.duration) {
-      this.elapsed.value = 0;
+      this.RestartActionTimer();
       this.lastTime = performance.now();
       this.action.value.Execute(this.action.value.funcArgs);
     } else {
@@ -27,9 +27,13 @@ export class ActionService {
 
   SetCurrentAction(action: Action) {
     this.action = ref(action);
-    this.elapsed.value = 0;
+    this.RestartActionTimer();
     this.lastTime = performance.now();
     this.update();
+  }
+
+  RestartActionTimer() {
+    this.elapsed.value = 0;
   }
 
   //  TODO Set changing currentAction only by selection from list of Actions

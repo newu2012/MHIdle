@@ -26,6 +26,7 @@ export class RegionService {
 
   ChangeTerritory(territory: Territory) {
     console.log(`You moved from ${this.activeTerritory.name} to ${territory.name}`);
+    this.actionService.RestartActionTimer();
     this.activeTerritory = territory;
   }
 
