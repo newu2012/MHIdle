@@ -24,6 +24,11 @@ export class RegionService {
     this.character = character;
   }
 
+  ChangeTerritory(territory: Territory) {
+    console.log(`You moved from ${this.activeTerritory.name} to ${territory.name}`);
+    this.activeTerritory = territory;
+  }
+
   AutoExplore() {
     //  TODO Move out duration time and it calculation to some stats class
     this.actionService.SetCurrentAction(new Action(
