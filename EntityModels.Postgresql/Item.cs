@@ -8,6 +8,7 @@ public partial class Item
 {
     public Item() { }
 
+    //  TODO Add min and max drop quantity
     [Key] [Column("id")] public int Id { get; set; }
     [StringLength(50)] public string Type { get; set; } = null!;
     [StringLength(50)] public string Name { get; set; } = null!;
