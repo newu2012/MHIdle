@@ -18,20 +18,27 @@ export class StartupLoadService {
     @inject(TYPES.ModelsService) modelsService: ModelsService,
     @inject(TYPES.RegionService) regionService: RegionService,
   ) {
-    this.LoadItemsFromServer().then(
-      result => modelsService.items = result,
-    );
-    this.LoadRegionsFromServer().then(
-      result => modelsService.regions = result,
-    );
-    this.LoadTerritoriesFromServer().then(
-      result => modelsService.territories = result,
-    );
-    this.LoadResourceNodeEventsFromServer(modelsService).then(
-      result => regionService.eventsInTerritories = result,
-    );
+    this.LoadServices(modelsService, regionService);
 
     regionService.AutoExplore();
+  }
+
+  async LoadServices(modelsService: ModelsService, regionService: RegionService) {
+    await this.LoadItemsFromServer().then(
+      result => modelsService.items = result,
+    );
+    await this.LoadRegionsFromServer().then(
+      result => modelsService.regions = result,
+    );
+    await this.LoadTerritoriesFromServer().then(
+      result => {
+        modelsService.territories = result;
+        regionService.activeTerritory = modelsService.territories[0];
+      },
+    );
+    await this.LoadResourceNodeEventsFromServer(modelsService).then(
+      result => modelsService.resourceNodeEvents = result,
+    );
   }
 
   async LoadItemsFromServer(): Promise<Item[]> {
@@ -109,7 +116,6 @@ export class StartupLoadService {
     const response: HttpResponse<[]> = await useFetch<[]>("/api/event");
     const json = response!.parsedBody!;
 
-    console.log(json);
     const resourceNodes = [];
 
     for (let i = 0; i < json.length; i++) {
@@ -126,6 +132,8 @@ export class StartupLoadService {
         json[i]["name"],
         json[i]["description"],
         json[i]["capacity"],
+        (json[i]["resourceNodeProportions"] as ResourceNodeProportion[])
+          .filter(rnp => rnp.resourceNodeEventId === json[i]["id"]).map(rnp => rnp.territoryId),
       );
 
       //  TODO Add value calculation based on events, when there will be more than 1 event

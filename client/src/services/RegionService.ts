@@ -8,16 +8,19 @@ import { Action } from "../models/Action";
 import { Character } from "../models/character/Character";
 import { ObjectWithProportion as owp } from "../models/ObjectWithProportion";
 import { Resource } from "../models/items/Resource";
+import { Territory } from "../models/region/Territory";
+import { ModelsService } from "./ModelsService";
 
 @injectable()
 export class RegionService {
   actionService: ActionService;
   character: Character;
-  eventsInTerritories: owp<any>[] = [];
+  activeTerritory: Territory;
 
   constructor(
     @inject(TYPES.ActionService) actionService: ActionService,
-    @inject(TYPES.Character) character: Character) {
+    @inject(TYPES.Character) character: Character,
+  ) {
     this.actionService = actionService;
     this.character = character;
   }
@@ -32,11 +35,15 @@ export class RegionService {
 
   Explore(...args: any[]) {
     const character = args[0][0];
+    const modelsService = ref(container.get<ModelsService>(TYPES.ModelsService)).value;
     const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
     const randomService = ref(container.get<RandomService>(TYPES.RandomService)).value;
 
     //  TODO Change from owp<ResourceNode> to owp<any> ???
-    const randomEvent: owp<Resource>[] = randomService.GetRandFromProportion(regionService.eventsInTerritories);
+    const randomEvent: owp<Resource>[] = randomService.GetRandFromProportion(
+      modelsService.resourceNodeEvents
+        .filter(rne => rne.inTerritoryIds
+          .includes(regionService.activeTerritory.id)));
     const randomResource = randomService.GetRandFromProportion(randomEvent);
     const amount = randomService.GetRandIntBetween({ from: 0, to: 3 });
 
