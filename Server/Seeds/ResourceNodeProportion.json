@@ -4,5 +4,23 @@
     "ProportionValue": 10.0,
     "TerritoryId": 1,
     "ResourceNodeEventId": 1
+  },
+  {
+    "id": 2,
+    "ProportionValue": 1.0,
+    "TerritoryId": 1,
+    "ResourceNodeEventId": 2
+  },
+  {
+    "id": 3,
+    "ProportionValue": 10.0,
+    "TerritoryId": 2,
+    "ResourceNodeEventId": 2
+  },
+  {
+    "id": 4,
+    "ProportionValue": 1.0,
+    "TerritoryId": 2,
+    "ResourceNodeEventId": 1
   }
 ]

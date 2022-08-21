@@ -31,5 +31,16 @@
     "ImagePath": "/icons/Herb_Icon_Blue.png",
     "MaximumInInventory": 10,
     "MaximumInStorage": 10000
+  },
+  {
+    "id": 4,
+    "Type": "Rock",
+    "Name": "Pebble",
+    "Description": "Simple pebble.",
+    "Rarity": 1,
+    "Value": 1,
+    "ImagePath": "/icons/Ore_Icon_Grey.png",
+    "MaximumInInventory": 10,
+    "MaximumInStorage": 10000
   }
 ]

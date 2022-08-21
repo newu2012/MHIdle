@@ -4,5 +4,11 @@
     "Name": "Outskirts",
     "Description": "You can find some basic resources there.",
     "RegionId": 1
+  },
+  {
+    "id": 2,
+    "Name": "Abandoned mine",
+    "Description": "Different stones are lying here and there.",
+    "RegionId": 1
   }
 ]
