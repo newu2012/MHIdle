@@ -40,8 +40,7 @@ export class RegionService {
     const randomResource = randomService.GetRandFromProportion(randomEvent);
     const amount = randomService.GetRandIntBetween({ from: 0, to: 3 });
 
-    character.currentInventory
-      .AddItem(randomResource, amount);
+    character.currentInventory.AddItem(randomResource, amount);
     character.currencies.researchPoints += amount * randomResource.value;
   }
 }
