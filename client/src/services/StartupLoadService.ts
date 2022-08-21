@@ -9,6 +9,8 @@ import { Territory } from "../models/region/Territory";
 import { ResourceNode } from "../models/region/ResourceNode";
 import { ModelsService } from "./ModelsService";
 import { Item } from "../models/items/Item";
+import { ResourceNodeItem } from "../models/region/ResourceNodeItem";
+import { ResourceNodeProportion } from "../models/region/ResourceNodeProportion";
 
 @injectable()
 export class StartupLoadService {
@@ -25,15 +27,24 @@ export class StartupLoadService {
     this.LoadTerritoriesFromServer().then(
       result => modelsService.territories = result,
     );
-    this.LoadResourceNodesFromServer().then(
-      result => regionService.eventsInTerritories = result,
+    this.LoadResourceNodeItemsFromServer().then(
+      result => {
+        modelsService.resourceNodeItems = result;
+        this.LoadResourceNodeProportionsFromServer().then(
+          result => {
+            modelsService.resourceNodeProportions = result;
+            this.LoadResourceNodeEventsFromServer(modelsService).then(
+              result => regionService.eventsInTerritories = result,
+            );
+          },
+        );
+      },
     );
 
     regionService.AutoExplore();
   }
 
   async LoadItemsFromServer(): Promise<Item[]> {
-    //  TODO Change to load items
     const response: HttpResponse<[]> = await useFetch<[]>("/api/item");
     const json = response!.parsedBody!;
 
@@ -104,40 +115,77 @@ export class StartupLoadService {
     return territories;
   }
 
-  async LoadResourceNodesFromServer(): Promise<ResourceNode[]> {
-    //  TODO Change to load items
-    const response: HttpResponse<[]> = await useFetch<[]>("/api/item");
+  async LoadResourceNodeItemsFromServer(): Promise<ResourceNodeItem[]> {
+    const response: HttpResponse<[]> = await useFetch<[]>("/api/eventItem");
     const json = response!.parsedBody!;
 
-    const basicResourceNodeResources = [];
+    console.log(json);
+    const resourceNodeItems = [];
 
     for (let i = 0; i < json.length; i++) {
-      const resource = new ResourceHerb(
+      const resourceNodeItem = new ResourceNodeItem(
         json[i]["id"],
-        json[i]["type"],
-        json[i]["name"],
-        json[i]["description"],
-        json[i]["rarity"],
-        json[i]["value"],
-        json[i]["imagePath"],
-        json[i]["maximumInInventory"],
-        json[i]["maximumInStorage"],
+        json[i]["proportionValue"],
+        json[i]["itemId"],
+        json[i]["resourceNodeEventId"],
       );
 
-      basicResourceNodeResources.push(new owp(
-        resource,
-        1 / (Math.pow(1.5, resource.rarity - 1)),
-      ));
+      resourceNodeItems.push(resourceNodeItem);
     }
 
-    //  TODO Add value calculation based on events, when there will be more than 1 event
+    console.log(resourceNodeItems);
+    return resourceNodeItems;
+  }
+
+  async LoadResourceNodeProportionsFromServer(): Promise<ResourceNodeProportion[]> {
+    const response: HttpResponse<[]> = await useFetch<[]>("/api/eventProportion");
+    const json = response!.parsedBody!;
+
+    console.log(json);
+    const resourceNodeProportions = [];
+
+    for (let i = 0; i < json.length; i++) {
+      const resourceNodeProportion = new ResourceNodeProportion(
+        json[i]["id"],
+        json[i]["proportionValue"],
+        json[i]["territoryId"],
+        json[i]["resourceNodeEventId"],
+      );
+
+      resourceNodeProportions.push(resourceNodeProportion);
+    }
+
+    console.log(resourceNodeProportions);
+    return resourceNodeProportions;
+  }
+
+  async LoadResourceNodeEventsFromServer(modelsService: ModelsService): Promise<ResourceNode[]> {
+    const response: HttpResponse<[]> = await useFetch<[]>("/api/event");
+    const json = response!.parsedBody!;
+
+    console.log(json);
     const resourceNodes = [];
-    resourceNodes.push(new ResourceNode(
-      basicResourceNodeResources,
-      1,
-      "herb patch",
-      3,
-    ));
+
+    for (let i = 0; i < json.length; i++) {
+      const resourceNodeItemsWithEventId = modelsService.resourceNodeItems
+        .filter(rni => rni.resourceNodeEventId === json[i]["id"]);
+      const resourceNodeItems: owp<Item>[] = resourceNodeItemsWithEventId
+        .map(rni => new owp<Item>(
+          modelsService.items.filter(i => i.id === rni.itemId)[0],
+          rni.proportionValue,
+        ));
+      const resourceNode = new ResourceNode(
+        resourceNodeItems,
+        modelsService.resourceNodeProportions.filter(rnp => rnp.resourceNodeEventId === json[i]["id"])[0].proportionValue,
+        json[i]["id"],
+        json[i]["name"],
+        json[i]["description"],
+        json[i]["capacity"],
+      );
+
+      //  TODO Add value calculation based on events, when there will be more than 1 event
+      resourceNodes.push(resourceNode);
+    }
 
     console.log(resourceNodes);
     return resourceNodes;
