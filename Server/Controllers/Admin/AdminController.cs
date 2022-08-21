@@ -51,8 +51,7 @@ public class AdminController : ControllerBase
         // _db.Database.ExecuteSqlRaw($"TRUNCATE \"{typeof(T).Name}\" RESTART IDENTITY");
         foreach (var obj in newObjects)
         {
-            if (table.AsNoTracking().AsEnumerable()
-                .Any(r => r.GetType().GetProperty("id") == obj.GetType().GetProperty("id")))
+            if (table.AsNoTracking().AsEnumerable().Any(r => PropertiesAreEqual(r, obj)))
             {
                 table.Update(obj);
             }
@@ -63,5 +62,15 @@ public class AdminController : ControllerBase
         }
 
         _db.SaveChanges();
+    }
+
+    private bool PropertiesAreEqual<T>(T val, T obj)
+    {
+        var valId = (int)(val?.GetType().GetProperty("Id")?.GetValue(val) ?? 0);
+        var objId = (int)(obj?.GetType().GetProperty("Id")?.GetValue(obj) ?? 0);
+        Console.WriteLine(valId);
+        Console.WriteLine(objId);
+
+        return valId == objId;
     }
 }

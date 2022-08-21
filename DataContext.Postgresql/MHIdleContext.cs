@@ -38,6 +38,8 @@ public partial class MHIdleContext : DbContext
         modelBuilder.Entity<Region>().Property(r => r.Id).ValueGeneratedNever();
         modelBuilder.Entity<Territory>().Property(t => t.Id).ValueGeneratedNever();
         modelBuilder.Entity<ResourceNodeEvent>().Property(rne => rne.Id).ValueGeneratedNever();
+        modelBuilder.Entity<ResourceNodeItem>().Property(rne => rne.Id).ValueGeneratedNever();
+        modelBuilder.Entity<ResourceNodeProportion>().Property(rne => rne.Id).ValueGeneratedNever();
 
         OnModelCreatingPartial(modelBuilder);
     }
