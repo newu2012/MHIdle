@@ -1,6 +1,7 @@
 ﻿using DataContext.Postgresql;
 using EntityModels.Postgresql;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Server.Controllers.Game;
 
@@ -33,31 +34,31 @@ public class RegionController : ControllerBase
 
         return territory;
     }
-    
+
     [HttpGet("/api/territory")]
     public Territory[] TerritoriesInfo()
     {
         return _db.Territories.ToArray();
     }
-    
+
     [HttpGet("/api/item")]
     public Item[] ItemsInfo()
     {
         return _db.Items.ToArray();
     }
-    
+
     [HttpGet("/api/event")]
     public ResourceNodeEvent[] EventsInfo()
     {
         return _db.ResourceNodeEvents.ToArray();
     }
-    
+
     [HttpGet("/api/eventProportion")]
     public ResourceNodeProportion[] EventsProportionsInfo()
     {
         return _db.ResourceNodeProportions.ToArray();
     }
-    
+
     [HttpGet("/api/eventItem")]
     public ResourceNodeItem[] EventsItemsInfo()
     {

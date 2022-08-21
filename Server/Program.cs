@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using DataContext.Postgresql;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,10 @@ DotNetEnv.Env.Load(builder.Environment.IsDevelopment() ? "development.env" : "pr
 // Add services to the container.
 builder.Services.AddMHIdleContext();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
 builder.Services.AddSpaStaticFiles(config => { config.RootPath = "dist"; });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
