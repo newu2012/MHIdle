@@ -23,9 +23,10 @@ export class RegionService {
   }
 
   AutoExplore() {
+    //  TODO Move out duration time and it calculation to some stats class
     this.actionService.SetCurrentAction(new Action(
       "Exploring",
-      10 * 1000,
+      3 * 1000,
       this.Explore, this.character));
   }
 
