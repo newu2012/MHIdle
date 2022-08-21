@@ -136,6 +136,7 @@ export class StartupLoadService {
       basicResourceNodeResources,
       1,
       "herb patch",
+      3,
     ));
 
     console.log(resourceNodes);
