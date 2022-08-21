@@ -1,6 +1,6 @@
 import { inject, injectable } from "inversify";
 import { HttpResponse, useFetch } from "../fetch";
-import { ResourceHerb } from "../models/items/ResourceHerb";
+import { Resource } from "../models/items/Resource";
 import { ObjectWithProportion as owp } from "../models/ObjectWithProportion";
 import TYPES from "../types";
 import { RegionService } from "./RegionService";
@@ -48,7 +48,8 @@ export class StartupLoadService {
     const items = [];
 
     for (let i = 0; i < json.length; i++) {
-      const item = new ResourceHerb(
+      //  TODO Add other item types (armor, etc.)
+      const item = new Resource(
         json[i]["id"],
         json[i]["type"],
         json[i]["name"],
