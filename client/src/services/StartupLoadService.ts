@@ -11,16 +11,20 @@ import { ModelsService } from "./ModelsService";
 import { Item } from "../models/items/Item";
 import { ResourceNodeItem } from "../models/region/ResourceNodeItem";
 import { ResourceNodeProportion } from "../models/region/ResourceNodeProportion";
+import { ref } from "vue";
 
 @injectable()
 export class StartupLoadService {
+  isLoaded = ref(false);
+
   constructor(
     @inject(TYPES.ModelsService) modelsService: ModelsService,
     @inject(TYPES.RegionService) regionService: RegionService,
   ) {
-    this.LoadServices(modelsService, regionService);
-
-    regionService.AutoExplore();
+    this.LoadServices(modelsService, regionService).then(r => {
+      this.isLoaded.value = true;
+      regionService.AutoExplore();
+    });
   }
 
   async LoadServices(modelsService: ModelsService, regionService: RegionService) {
