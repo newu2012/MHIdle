@@ -10,5 +10,11 @@
     "Name": "Abandoned mine",
     "Description": "Different stones are lying here and there.",
     "RegionId": 1
+  },
+  {
+    "id": 3,
+    "Name": "Glade",
+    "Description": "Pleasantly lit by the soft sun glade. Here you can find some useful herbs.",
+    "RegionId": 2
   }
 ]

@@ -22,5 +22,17 @@
     "ProportionValue": 1.0,
     "TerritoryId": 2,
     "ResourceNodeEventId": 1
+  },
+  {
+    "id": 5,
+    "ProportionValue": 3.0,
+    "TerritoryId": 3,
+    "ResourceNodeEventId": 1
+  },
+  {
+    "id": 6,
+    "ProportionValue": 1.0,
+    "TerritoryId": 3,
+    "ResourceNodeEventId": 3
   }
 ]

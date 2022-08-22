@@ -10,5 +10,11 @@
     "Name": "Pile of pebbles",
     "Description": "Something different small rocks.",
     "Capacity": 3
+  },
+  {
+    "id": 3,
+    "Name": "Small useful herb patch",
+    "Description": "Some flowers and useful herbs, much better than what grows in city.",
+    "Capacity": 3
   }
 ]
