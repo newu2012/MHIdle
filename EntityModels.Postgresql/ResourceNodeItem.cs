@@ -6,12 +6,13 @@ namespace EntityModels.Postgresql;
 [Table("ResourceNodeItem")]
 public partial class ResourceNodeItem
 {
+    //  TODO Add min and max drop quantity
     [Key] [Column("id")] public int Id { get; set; }
     public double ProportionValue { get; set; } = 1;
 
     public int ItemId { get; set; }
     public Item Item { get; set; } = null!;
-    
+
     public int ResourceNodeEventId { get; set; }
     public ResourceNodeEvent ResourceNodeEvent { get; set; } = null!;
 }
