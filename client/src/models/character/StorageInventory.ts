@@ -11,6 +11,7 @@ export class StorageInventory extends Inventory {
 
   MoveToCurrentInventory(itemStack: ItemStack) {
     const regionService = ref(container.get<RegionService>(TYPES.RegionService));
+    //  TODO Move to new method and check it from UI
     if (!regionService.value.inCity) {
       alert("You should be in City to move items.");
       return;
@@ -32,6 +33,7 @@ export class StorageInventory extends Inventory {
 
   SellItem(itemId: number, quantity: number = 1) {
     const regionService = ref(container.get<RegionService>(TYPES.RegionService));
+    //  TODO Move to new method and check it from UI
     if (!regionService.value.inCity) {
       alert("You should be in City to move items.");
       return;

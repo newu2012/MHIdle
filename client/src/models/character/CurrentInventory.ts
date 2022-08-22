@@ -9,6 +9,7 @@ import { RegionService } from "../../services/RegionService";
 export class CurrentInventory extends Inventory {
   MoveToStorageInventory(itemStack: ItemStack) {
     const regionService = ref(container.get<RegionService>(TYPES.RegionService));
+    //  TODO Move to new method and check it from UI
     if (!regionService.value.inCity) {
       alert("You should be in City to move items.");
       return;

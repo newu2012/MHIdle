@@ -62,6 +62,7 @@ export class RegionService {
     regionService.currentEvent =
       randomService.GetRandFromProportion(regionService.activeTerritory.territoryEvents);
     regionService.currentEventCapacity = regionService.currentEvent?.capacity ?? 0;
+    console.log(`Found ${regionService.currentEvent?.name}`);
 
     actionService.SetCurrentAction(this.actionService.availableActions.gather(3 * 1000));
   }
