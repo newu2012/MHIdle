@@ -4,11 +4,18 @@ import container from "../../inversify.config";
 import { Character } from "./Character";
 import TYPES from "../../types";
 import { ItemStack } from "../items/ItemStack";
+import { RegionService } from "../../services/RegionService";
 
 export class StorageInventory extends Inventory {
   isStorage = true;
 
   MoveToCurrentInventory(itemStack: ItemStack) {
+    const regionService = ref(container.get<RegionService>(TYPES.RegionService));
+    if (!regionService.value.inCity) {
+      alert("You should be in City to move items.");
+      return;
+    }
+
     const character = ref(container.get<Character>(TYPES.Character));
 
     const foundInCurrentItemIndex = character.value.currentInventory
@@ -24,6 +31,12 @@ export class StorageInventory extends Inventory {
   }
 
   SellItem(itemId: number, quantity: number = 1) {
+    const regionService = ref(container.get<RegionService>(TYPES.RegionService));
+    if (!regionService.value.inCity) {
+      alert("You should be in City to move items.");
+      return;
+    }
+
     const itemStack = this.itemStacks.find((is) => is.item?.id === itemId);
     if (itemStack === undefined) {
       throw new Error(`Can't find ${itemId} in ${this.itemStacks}`);
