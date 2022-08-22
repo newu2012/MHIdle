@@ -30,6 +30,7 @@ public class AdminController : ControllerBase
 
     private async Task ReseedAll()
     {
+        //  TODO Think out how to split Item.json to Resource.json and other types of items
         Reseed<Item>();
         Reseed<Region>();
         Reseed<Territory>();
