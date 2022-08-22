@@ -15,7 +15,6 @@ export class RandomService {
     for (let i = 0; i < objects.length; i++) {
       currentMaxValue += objects[i].value;
       if (currentMaxValue >= random) {
-        console.log(`Rolled ${objects[i].name} with ${random} from ${maxValue}`);
         return objects[i].obj;
       }
     }
