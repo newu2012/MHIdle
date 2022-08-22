@@ -41,5 +41,6 @@ defineEmits(["update:itemStackProp"]);
   font-size: small;
   text-align: center;
   width: 100%;
+  user-select: none;
 }
 </style>
