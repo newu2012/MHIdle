@@ -1,21 +1,23 @@
 import { injectable } from "inversify";
 import { Ref, ref } from "vue";
 import { Action } from "../models/Action";
+import container from "../inversify.config";
+import TYPES from "../types";
+import { RegionService } from "./RegionService";
 
 @injectable()
 export class ActionService {
   action: Ref<Action>;
   elapsed = ref(0);
-
   lastTime: number;
   handle: number;
   update: Function = this.Update.bind(this);
 
   Update() {
-    if (this.elapsed.value === this.action.value?.duration) {
+    if (this.elapsed.value >= this.action.value?.duration) {
       this.RestartActionTimer();
       this.lastTime = performance.now();
-      this.action.value.Execute(this.action.value.funcArgs);
+      this.action.value.Execute();
     } else {
       const time = performance.now();
       this.elapsed.value += Math.min(time - this.lastTime, this.action.value?.duration! - this.elapsed.value);
@@ -33,18 +35,33 @@ export class ActionService {
   }
 
   RestartActionTimer() {
-    this.elapsed.value = 0;
+    const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
+    actionService.elapsed = 0;
   }
 
   //  TODO Set changing currentAction only by selection from list of Actions
   availableActions = {
-    explore: this.#Explore,
+    explore: this.Explore,
+    gather: this.Gather,
   };
 
-  #Explore() {
-    // return new Action(
-    //   "Gather herbs",
-    //   10 * 1000,
-    //   this.regionService.GatherHerbs, this.character);
+  Explore(duration: number) {
+    return new Action(
+      "Exploring",
+      duration,
+      () => {
+        const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
+        return regionService.Explore();
+      });
+  }
+
+  Gather(duration: number) {
+    return new Action(
+      "Gathering",
+      duration,
+      () => {
+        const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
+        return regionService.Gather();
+      });
   }
 }
