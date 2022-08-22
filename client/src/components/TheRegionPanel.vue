@@ -20,7 +20,10 @@ function SetActive(territory: Territory) {
 
 <template>
   <h1>Region</h1>
-  <h2>Current place: {{ modelsService.regions[0].name }} - {{ regionService.activeTerritory.name }}</h2>
+  <h2>
+    Current place: {{ modelsService.regions.filter(r => r.id === regionService.activeTerritory.regionId)[0].name }} -
+    {{ regionService.activeTerritory.name }}
+  </h2>
   <h3>Regions</h3>
   <div
     v-for="region in modelsService.regions"
