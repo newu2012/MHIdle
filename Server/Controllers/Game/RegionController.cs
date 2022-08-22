@@ -19,20 +19,7 @@ public class RegionController : ControllerBase
     [HttpGet("/api/region")]
     public Region[] RegionsInfo()
     {
-        return _db.Regions.ToArray();
-    }
-
-    [HttpGet("/api/region/{i:int}")]
-    public Territory[] SelectedRegionInfo(int i)
-    {
-        //  TODO select all resources that Region mentions
-        // var regionInfo = (from r in _db.Regions
-        //     join t in _db.Territories on r.Id equals t.RegionId
-        //     select new { Reg = r, Ter = t }).ToArray();
-
-        var territory = _db.Territories.Where(t => t.RegionId == i).ToArray();
-
-        return territory;
+        return _db.Regions.Include(r => r.Territories).ToArray();
     }
 
     [HttpGet("/api/territory")]
