@@ -27,9 +27,6 @@ export class StartupLoadService {
     await this.LoadItemsFromServer().then(
       result => modelsService.items = result,
     );
-    await this.LoadRegionsFromServer().then(
-      result => modelsService.regions = result,
-    );
     await this.LoadResourceNodeEventsFromServer(modelsService).then(
       result => modelsService.resourceNodeEvents = result,
     );
@@ -38,6 +35,9 @@ export class StartupLoadService {
         modelsService.territories = result;
         regionService.activeTerritory = modelsService.territories[0];
       },
+    );
+    await this.LoadRegionsFromServer().then(
+      result => modelsService.regions = result,
     );
   }
 
@@ -65,26 +65,6 @@ export class StartupLoadService {
     }
 
     return items;
-  }
-
-  async LoadRegionsFromServer(): Promise<Region[]> {
-    const response: HttpResponse<[]> = await useFetch<[]>("/api/region");
-    const json = response!.parsedBody!;
-
-    const regions: Region[] = [];
-
-    for (let i = 0; i < json.length; i++) {
-      const region = new Region(
-        json[i]["id"],
-        json[i]["name"],
-        json[i]["description"],
-        json[i]["territories"],
-      );
-
-      regions.push(region);
-    }
-
-    return regions;
   }
 
   async LoadResourceNodeEventsFromServer(modelsService: ModelsService): Promise<ResourceNode[]> {
@@ -138,5 +118,25 @@ export class StartupLoadService {
     }
 
     return territories;
+  }
+
+  async LoadRegionsFromServer(): Promise<Region[]> {
+    const response: HttpResponse<[]> = await useFetch<[]>("/api/region");
+    const json = response!.parsedBody!;
+
+    const regions: Region[] = [];
+
+    for (let i = 0; i < json.length; i++) {
+      const region = new Region(
+        json[i]["id"],
+        json[i]["name"],
+        json[i]["description"],
+        (json[i]["territories"] as Territory[]),
+      );
+
+      regions.push(region);
+    }
+
+    return regions;
   }
 }
