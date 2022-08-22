@@ -12,14 +12,18 @@ import { ResourceNode } from "../models/region/ResourceNode";
 
 @injectable()
 export class RegionService {
+  modelsService: ModelsService;
   actionService: ActionService;
   character: Character;
   activeTerritory: Territory;
+  inCity = ref(true);
 
   constructor(
+    @inject(TYPES.ModelsService) modelsService: ModelsService,
     @inject(TYPES.ActionService) actionService: ActionService,
     @inject(TYPES.Character) character: Character,
   ) {
+    this.modelsService = modelsService;
     this.actionService = actionService;
     this.character = character;
   }
@@ -28,6 +32,10 @@ export class RegionService {
     console.log(`You moved from ${this.activeTerritory.name} to ${territory.name}`);
     this.actionService.RestartActionTimer();
     this.activeTerritory = territory;
+
+    this.inCity.value = this.modelsService.regions
+      .filter(r => r.name === "City")[0].territories
+      .filter(t => t.name === this.activeTerritory.name).length === 1;
   }
 
   AutoExplore() {
