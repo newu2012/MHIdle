@@ -24,16 +24,16 @@ function SetActive(territory: Territory) {
     Current place: {{ modelsService.regions.filter(r => r.id === regionService.activeTerritory.regionId)[0].name }} -
     {{ regionService.activeTerritory.name }}
   </h2>
-  <h3>Regions</h3>
   <div
     v-for="region in modelsService.regions"
     :key="region.name"
+    class="regionStyle"
   >
-    <span>{{ region.name }} - {{ region.description }}</span>
-    <h3>Territories</h3>
+    <h3>{{ region.name }} - {{ region.description }}</h3>
     <div
       v-for="territory in modelsService.territories.filter(t => t.regionId === region.id)"
       :key="territory.name"
+      class="territoryStyle"
     >
       <button
         :class="{activeTerritory: territory.name === activeTerritory}"
@@ -45,16 +45,18 @@ function SetActive(territory: Territory) {
       </button>
     </div>
   </div>
-  <h3>Items</h3>
-  <div
-    v-for="item in modelsService.items"
-    :key="item.name"
-  >
-    <span>{{ item.name }} - {{ item.description }}</span>
-  </div>
 </template>
 
 <style scoped>
+.regionStyle {
+  padding: 16px 32px;
+  text-align: start;
+}
+
+.territoryStyle {
+  padding: 8px 0;
+}
+
 .activeTerritory {
   background-color: #87939a;
 }
