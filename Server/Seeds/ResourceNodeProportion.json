@@ -1,37 +1,37 @@
 ﻿[
   {
     "id": 1,
-    "ProportionValue": 10.0,
+    "Value": 10.0,
     "TerritoryId": 1,
     "ResourceNodeEventId": 1
   },
   {
     "id": 2,
-    "ProportionValue": 1.0,
+    "Value": 1.0,
     "TerritoryId": 1,
     "ResourceNodeEventId": 2
   },
   {
     "id": 3,
-    "ProportionValue": 10.0,
+    "Value": 10.0,
     "TerritoryId": 2,
     "ResourceNodeEventId": 2
   },
   {
     "id": 4,
-    "ProportionValue": 1.0,
+    "Value": 1.0,
     "TerritoryId": 2,
     "ResourceNodeEventId": 1
   },
   {
     "id": 5,
-    "ProportionValue": 3.0,
+    "Value": 3.0,
     "TerritoryId": 3,
     "ResourceNodeEventId": 1
   },
   {
     "id": 6,
-    "ProportionValue": 1.0,
+    "Value": 1.0,
     "TerritoryId": 3,
     "ResourceNodeEventId": 3
   }
