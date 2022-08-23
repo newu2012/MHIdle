@@ -5,6 +5,7 @@ namespace EntityModels.Postgresql;
 [Table("ResourceNodeEvent")]
 public partial class ResourceNodeEvent : ITerritoryEvent
 {
+    //  TODO add instrumentType
     //  TODO add instrumentMinimumLevel
     //  TODO add instrumentOptimalLevel (x2 times faster for each level above and 4x slower for level below)
     //  TODO add optimalDuration
