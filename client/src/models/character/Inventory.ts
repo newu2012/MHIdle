@@ -71,6 +71,7 @@ export class Inventory {
       }
     }
 
+    //  TODO Change to notification
     console.log(result);
     return;
   }
@@ -91,6 +92,7 @@ export class Inventory {
         this.itemStacks[foundItemIndex]!.item = undefined;
       }
 
+      //  TODO Change to notification
       console.log(`Removed ${quantity} ${item.name} from ${this.isStorage ? "storage" : "current"} inventory.`);
     }
   }

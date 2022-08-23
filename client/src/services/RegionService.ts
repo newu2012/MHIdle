@@ -30,6 +30,7 @@ export class RegionService {
   }
 
   ChangeTerritory(territory: Territory) {
+    //  TODO Change to notification
     console.log(`You moved from ${this.activeTerritory.name} to ${territory.name}`);
     this.actionService.RestartActionTimer();
     this.activeTerritory = territory;
@@ -62,6 +63,7 @@ export class RegionService {
     regionService.currentEvent =
       randomService.GetRandFromProportion(regionService.activeTerritory.territoryEvents);
     regionService.currentEventCapacity = regionService.currentEvent?.capacity ?? 0;
+    //  TODO Change to notification
     console.log(`Found ${regionService.currentEvent?.name}`);
 
     actionService.SetCurrentAction(this.actionService.availableActions.gather(3 * 1000));

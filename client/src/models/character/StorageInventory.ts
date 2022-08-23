@@ -52,6 +52,7 @@ export class StorageInventory extends Inventory {
     const sellValue = quantityToSell * itemStack.item?.value!;
     character.currencies.zenny += sellValue;
     itemStack.quantity -= quantityToSell;
+    //  TODO Change to notification
     console.log(`Sold ${quantityToSell} of ${itemStack.item?.name} for ${sellValue}`);
 
     if (itemStack.quantity === 0) {
