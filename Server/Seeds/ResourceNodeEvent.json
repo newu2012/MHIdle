@@ -3,18 +3,30 @@
     "id": 1,
     "Name": "Small herb patch",
     "Description": "Some flowers and weeds, maybe you can find something useful.",
-    "Capacity": 3
+    "Capacity": 3,
+    "DurationSeconds": 4,
+    "InstrumentType": "sickle",
+    "InstrumentRequiredLevel": 0,
+    "InstrumentExpectedLevel": 0
   },
   {
     "id": 2,
     "Name": "Pile of pebbles",
     "Description": "Something different small rocks.",
-    "Capacity": 3
+    "Capacity": 3,
+    "DurationSeconds": 4,
+    "InstrumentType": "pickaxe",
+    "InstrumentRequiredLevel": 0,
+    "InstrumentExpectedLevel": 0
   },
   {
     "id": 3,
     "Name": "Small useful herb patch",
     "Description": "Some flowers and useful herbs, much better than what grows in city.",
-    "Capacity": 3
+    "Capacity": 3,
+    "DurationSeconds": 4,
+    "InstrumentType": "sickle",
+    "InstrumentRequiredLevel": 0,
+    "InstrumentExpectedLevel": 0
   }
 ]

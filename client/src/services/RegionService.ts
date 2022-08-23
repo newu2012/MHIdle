@@ -46,7 +46,6 @@ export class RegionService {
     actionService.SetCurrentAction(this.actionService.availableActions.explore(10 * 1000));
   }
 
-  //  TODO Rework
   AutoExplore() {
     //  TODO Move out duration time and it calculation to some stats class
     //  TODO NEW Get duration from activeTerritory this.activeTerritory.exploreDuration
@@ -67,10 +66,9 @@ export class RegionService {
     //  TODO Change to notification
     console.log(`Found ${regionService.currentEvent?.name}`);
 
-    actionService.SetCurrentAction(this.actionService.availableActions.gather(3 * 1000));
+    actionService.SetCurrentAction(this.actionService.availableActions.gather(regionService.currentEvent?.duration ?? 3 * 1000));
   }
 
-  //  TODO Change to Gather (Action - Gathering)
   Gather() {
     const character = ref(container.get<Character>(TYPES.Character)).value;
     const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;

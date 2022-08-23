@@ -93,7 +93,13 @@ export class StartupLoadService {
         json[i]["name"],
         json[i]["description"],
         json[i]["capacity"],
+        json[i]["durationSeconds"] * 1000, //  Convert seconds to ms
+        json[i]["instrumentType"],
+        json[i]["instrumentRequiredLevel"],
+        json[i]["instrumentExpectedLevel"],
       );
+
+      console.log(resourceNode);
 
       //  TODO Add value calculation based on events, when there will be more than 1 event
       resourceNodes.push(resourceNode);
