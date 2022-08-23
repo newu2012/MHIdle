@@ -42,16 +42,17 @@ export class RegionService {
     this.currentEvent = undefined;
 
     const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
-    //  Takes more time for first exploring of territory
-    actionService.SetCurrentAction(this.actionService.availableActions.explore(10 * 1000));
+    const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
+    actionService.SetCurrentAction(this.actionService.availableActions.explore(
+      regionService.activeTerritory.durationExploreOnEnter));
   }
 
   AutoExplore() {
     //  TODO Move out duration time and it calculation to some stats class
-    //  TODO NEW Get duration from activeTerritory this.activeTerritory.exploreDuration
     const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
-    //  Takes more time for first exploring of territory
-    actionService.SetCurrentAction(this.actionService.availableActions.explore(10 * 1000));
+    const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
+    actionService.SetCurrentAction(this.actionService.availableActions.explore(
+      regionService.activeTerritory.durationExploreInTerritory));
   }
 
   Explore() {
@@ -76,7 +77,10 @@ export class RegionService {
     const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
 
     if (regionService.currentEvent === undefined) {
-      actionService.SetCurrentAction(this.actionService.availableActions.explore(3 * 1000));
+      const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
+      actionService.SetCurrentAction(this.actionService.availableActions.explore(
+        regionService.activeTerritory.durationExploreInTerritory,
+      ));
       return;
     }
 
@@ -94,7 +98,9 @@ export class RegionService {
     if (regionService.currentEventCapacity > 1) {
       regionService.currentEventCapacity--;
     } else {
-      actionService.SetCurrentAction(this.actionService.availableActions.explore(3 * 1000));
+      actionService.SetCurrentAction(this.actionService.availableActions.explore(
+        regionService.activeTerritory.durationExploreInTerritory,
+      ));
     }
   }
 }

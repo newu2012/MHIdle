@@ -31,7 +31,7 @@ export class StartupLoadService {
     await this.LoadItemsFromServer().then(
       result => modelsService.items = result,
     );
-    await this.LoadResourceNodeEventsFromServer(modelsService).then(
+    await this.LoadResourceNodeEventsFromServer().then(
       result => modelsService.resourceNodeEvents = result,
     );
     await this.LoadTerritoriesFromServer(modelsService).then(
@@ -71,7 +71,7 @@ export class StartupLoadService {
     return items;
   }
 
-  async LoadResourceNodeEventsFromServer(modelsService: ModelsService): Promise<ResourceNode[]> {
+  async LoadResourceNodeEventsFromServer(): Promise<ResourceNode[]> {
     const response: HttpResponse<[]> = await useFetch<[]>("/api/event");
     const json = response!.parsedBody!;
 
@@ -99,8 +99,6 @@ export class StartupLoadService {
         json[i]["instrumentExpectedLevel"],
       );
 
-      console.log(resourceNode);
-
       //  TODO Add value calculation based on events, when there will be more than 1 event
       resourceNodes.push(resourceNode);
     }
@@ -120,6 +118,11 @@ export class StartupLoadService {
         json[i]["name"],
         json[i]["description"],
         json[i]["regionId"],
+        json[i]["durationSecondsExploreOnEnter"] * 1000,
+        json[i]["durationSecondsExploreInTerritory"] * 1000,
+        json[i]["instrumentType"],
+        json[i]["instrumentRequiredLevel"],
+        json[i]["instrumentExpectedLevel"],
         (json[i]["resourceNodeProportions"] as ResourceNodeProportion[])
           .map(rnp => new owp(
             modelsService.resourceNodeEvents.filter(rne => rne.id === rnp.resourceNodeEventId)[0],

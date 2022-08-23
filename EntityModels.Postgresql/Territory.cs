@@ -16,6 +16,11 @@ public partial class Territory
 
     [StringLength(50)] public string Name { get; set; } = null!;
     [StringLength(1000)] public string Description { get; set; } = null!;
+    public int DurationSecondsExploreOnEnter { get; set; }
+    public int DurationSecondsExploreInTerritory { get; set; }
+    [StringLength(50)] public string InstrumentType { get; set; } = null!;
+    public int InstrumentRequiredLevel { get; set; }
+    public int InstrumentExpectedLevel { get; set; } //  (x2 faster for level above and 4x slower for level below)
 
     public int? RegionId { get; set; }
     [ForeignKey("RegionId")] public virtual Region? Region { get; set; } = null!;

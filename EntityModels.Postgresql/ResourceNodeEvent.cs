@@ -6,10 +6,6 @@ namespace EntityModels.Postgresql;
 [Table("ResourceNodeEvent")]
 public partial class ResourceNodeEvent : ITerritoryEvent
 {
-    //  TODO add instrumentType
-    //  TODO add instrumentMinimumLevel
-    //  TODO add instrumentOptimalLevel 
-    //  TODO add optimalDuration
     public int Id { get; set; }
     public string Name { get; set; } = null!;
     public string Description { get; set; } = null!;

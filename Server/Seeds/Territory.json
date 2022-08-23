@@ -3,18 +3,33 @@
     "id": 1,
     "Name": "Outskirts",
     "Description": "You can find some basic resources there.",
+    "DurationSecondsExploreOnEnter": 5,
+    "DurationSecondsExploreInTerritory": 3,
+    "InstrumentType": "binoculars",
+    "InstrumentRequiredLevel": 0,
+    "InstrumentExpectedLevel": 0,
     "RegionId": 1
   },
   {
     "id": 2,
     "Name": "Abandoned mine",
     "Description": "Different stones are lying here and there.",
+    "DurationSecondsExploreOnEnter": 5,
+    "DurationSecondsExploreInTerritory": 3,
+    "InstrumentType": "binoculars",
+    "InstrumentRequiredLevel": 0,
+    "InstrumentExpectedLevel": 0,
     "RegionId": 1
   },
   {
     "id": 3,
     "Name": "Glade",
     "Description": "Pleasantly lit by the soft sun glade. Here you can find some useful herbs.",
+    "DurationSecondsExploreOnEnter": 10,
+    "DurationSecondsExploreInTerritory": 3,
+    "InstrumentType": "binoculars",
+    "InstrumentRequiredLevel": 0,
+    "InstrumentExpectedLevel": 0,
     "RegionId": 2
   }
 ]
