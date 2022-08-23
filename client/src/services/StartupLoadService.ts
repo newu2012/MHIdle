@@ -78,15 +78,17 @@ export class StartupLoadService {
     const resourceNodes = [];
 
     for (let i = 0; i < json.length; i++) {
-      const resourceNodeItems: owp<Item>[] = (json[i]["resourceNodeItems"] as ResourceNodeItem[])
-        .map(rni => new owp<Item>(
-          modelsService.items.filter(it => it.id === rni.itemId)[0],
-          rni.proportionValue,
-        ));
+      const resourceNodeItems: ResourceNodeItem[] = (json[i]["resourceNodeItems"] as ResourceNodeItem[])
+        .map(rni => {
+          return new ResourceNodeItem(
+            rni.itemId,
+            rni.value,
+            rni.minimumQuantity,
+            rni.maximumQuantity,
+          );
+        });
       const resourceNode = new ResourceNode(
         resourceNodeItems,
-        (json[i]["resourceNodeProportions"] as ResourceNodeProportion[])
-          .filter(rnp => rnp.resourceNodeEventId === json[i]["id"])[0].proportionValue,
         json[i]["id"],
         json[i]["name"],
         json[i]["description"],
@@ -115,7 +117,7 @@ export class StartupLoadService {
         (json[i]["resourceNodeProportions"] as ResourceNodeProportion[])
           .map(rnp => new owp(
             modelsService.resourceNodeEvents.filter(rne => rne.id === rnp.resourceNodeEventId)[0],
-            rnp.proportionValue)),
+            rnp.value)),
       );
 
       territories.push(region);

@@ -7,7 +7,7 @@ namespace EntityModels.Postgresql;
 public partial class ResourceNodeProportion
 {
     [Key] [Column("id")] public int Id { get; set; }
-    public double ProportionValue { get; set; } = 1;
+    public double Value { get; set; } = 1;
 
     public int TerritoryId { get; set; }
     [ForeignKey("TerritoryId")] public Territory Territory { get; set; } = null!;

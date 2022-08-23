@@ -8,6 +8,7 @@ import { Character } from "../models/character/Character";
 import { Territory } from "../models/region/Territory";
 import { ModelsService } from "./ModelsService";
 import { ResourceNode } from "../models/region/ResourceNode";
+import { ResourceNodeItem } from "../models/region/ResourceNodeItem";
 
 @injectable()
 export class RegionService {
@@ -61,7 +62,7 @@ export class RegionService {
 
     //  TODO Change from ResourceNode to owp<any> ???
     regionService.currentEvent =
-      randomService.GetRandFromProportion(regionService.activeTerritory.territoryEvents);
+      randomService.GetRandFromProportion(regionService.activeTerritory.territoryEvents).obj;
     regionService.currentEventCapacity = regionService.currentEvent?.capacity ?? 0;
     //  TODO Change to notification
     console.log(`Found ${regionService.currentEvent?.name}`);
@@ -80,11 +81,17 @@ export class RegionService {
       actionService.SetCurrentAction(this.actionService.availableActions.explore(3 * 1000));
       return;
     }
-    const randomResource = randomService.GetRandFromProportion(regionService.currentEvent.obj);
-    const amount = randomService.GetRandIntBetween({ from: 0, to: 3 });
 
-    character.currentInventory.AddItem(randomResource, amount);
-    character.currencies.researchPoints += amount * randomResource.value;
+    const randomResource = randomService
+      .GetRandFromProportion(regionService.currentEvent.obj) as ResourceNodeItem;
+    const amount = randomService
+      .GetRandIntBetween({
+        from: randomResource.minimumQuantity,
+        to: randomResource.maximumQuantity,
+      });
+
+    character.currentInventory.AddItem(randomResource.obj, amount);
+    character.currencies.researchPoints += amount * randomResource.obj.value;
 
     if (regionService.currentEventCapacity > 1) {
       regionService.currentEventCapacity--;

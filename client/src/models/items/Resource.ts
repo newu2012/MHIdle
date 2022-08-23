@@ -28,6 +28,7 @@ export class Resource implements Item {
   rarity: number
   value: number;
   imagePath: string;
+  //  TODO Make maximum's upgradable somehow
   maximumInInventory: number;
   maximumInStorage: number;
 }

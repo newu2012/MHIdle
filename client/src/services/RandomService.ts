@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { ObjectWithProportion } from "../models/ObjectWithProportion";
+import { ObjectWithProportion as owp } from "../models/ObjectWithProportion";
 
 @injectable()
 export class RandomService {
@@ -7,7 +7,7 @@ export class RandomService {
     return Math.round((Math.random() * (to - from)) + from);
   }
 
-  GetRandFromProportion<T>(objects: ObjectWithProportion<T>[]): T {
+  GetRandFromProportion<T>(objects: owp<T>[]): owp<T> {
     const maxValue = objects.reduce((sum, o) => sum + o.value, 0);
 
     const random = Math.random() * maxValue;
@@ -15,10 +15,10 @@ export class RandomService {
     for (let i = 0; i < objects.length; i++) {
       currentMaxValue += objects[i].value;
       if (currentMaxValue >= random) {
-        return objects[i].obj;
+        return objects[i];
       }
     }
 
-    return objects[0].obj;
+    return objects[0];
   }
 }
