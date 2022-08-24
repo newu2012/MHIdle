@@ -3,6 +3,7 @@ import { Region } from "../models/region/Region";
 import { Territory } from "../models/region/Territory";
 import { Item } from "../models/items/Item";
 import { ResourceNode } from "../models/region/ResourceNode";
+import { Recipe } from "../models/craft/Recipe";
 
 @injectable()
 export class ModelsService {
@@ -10,4 +11,5 @@ export class ModelsService {
   territories: Territory[] = [];
   resourceNodeEvents: ResourceNode[] = [];
   items: Item[] = [];
+  recipes: Recipe[] = [];
 }
