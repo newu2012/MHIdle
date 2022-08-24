@@ -4,6 +4,7 @@ import { Action } from "../models/Action";
 import container from "../inversify.config";
 import TYPES from "../types";
 import { RegionService } from "./RegionService";
+import { CraftService } from "./CraftService";
 
 @injectable()
 export class ActionService {
@@ -43,6 +44,7 @@ export class ActionService {
   availableActions = {
     explore: this.Explore,
     gather: this.Gather,
+    craft: this.Craft,
   };
 
   Explore(duration: number) {
@@ -62,6 +64,16 @@ export class ActionService {
       () => {
         const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
         return regionService.Gather();
+      });
+  }
+
+  Craft(duration: number) {
+    return new Action(
+      "Crafting",
+      duration,
+      () => {
+        const craftService = ref(container.get<CraftService>(TYPES.CraftService)).value;
+        return craftService.Craft();
       });
   }
 }

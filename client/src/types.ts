@@ -1,3 +1,5 @@
+import { CraftService } from "./services/CraftService";
+
 const TYPES = {
   ModelsService: Symbol("ModelsService"),
   StartupLoadService: Symbol("StartupLoadService"),
@@ -5,6 +7,7 @@ const TYPES = {
   ActionService: Symbol("ActionService"),
   RandomService: Symbol("RandomService"),
   RegionService: Symbol("RegionService"),
+  CraftService: Symbol("CraftService"),
 };
 
 export default TYPES

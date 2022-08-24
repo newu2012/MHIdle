@@ -12,14 +12,6 @@ import { ResourceNodeItem } from "../models/region/ResourceNodeItem";
 
 @injectable()
 export class RegionService {
-  modelsService: ModelsService;
-  actionService: ActionService;
-  character: Character;
-  activeTerritory: Territory;
-  inCity = ref(true);
-  currentEvent?: Ref<UnwrapRef<ResourceNode>>;
-  currentEventCapacity: number;
-
   constructor(
     @inject(TYPES.ModelsService) modelsService: ModelsService,
     @inject(TYPES.ActionService) actionService: ActionService,
@@ -29,6 +21,14 @@ export class RegionService {
     this.actionService = actionService;
     this.character = character;
   }
+
+  modelsService: ModelsService;
+  actionService: ActionService;
+  character: Character;
+  activeTerritory: Territory;
+  inCity = ref(true);
+  currentEvent?: Ref<UnwrapRef<ResourceNode>>;
+  currentEventCapacity: number;
 
   ChangeTerritory(territory: Territory) {
     //  TODO Change to notification

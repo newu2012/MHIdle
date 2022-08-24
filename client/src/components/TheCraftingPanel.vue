@@ -1,15 +1,16 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import container from "../inversify.config";
-import { Character } from "../models/character/Character";
 import TYPES from "../types";
+import { ModelsService } from "../services/ModelsService";
+import { CraftService } from "../services/CraftService";
 
 import TheCraftingItemPanel from "./TheCraftingItemPanel.vue";
-import { ModelsService } from "../services/ModelsService";
 import CraftingRecipe from "./CraftingRecipe.vue";
+import { ActionService } from "../services/ActionService";
 
-const character = ref(container.get<Character>(TYPES.Character));
 const modelsService = ref(container.get<ModelsService>(TYPES.ModelsService));
+const craftService = ref(container.get<CraftService>(TYPES.CraftService));
 
 let selectedRecipe = ref(-1);
 
@@ -18,9 +19,12 @@ function SetActive(itemStackIndex: number) {
 }
 
 function CraftItem(quantity: number) {
+  const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
+
   //  TODO Change to craft
-  character.value.storageInventory
-    .AddItem(modelsService.value.recipes[selectedRecipe.value].item, quantity);
+  craftService.value.activeRecipe = modelsService.value.recipes[selectedRecipe.value];
+  craftService.value.quantity = quantity;
+  actionService.SetCurrentAction(actionService.availableActions.craft(modelsService.value.recipes[selectedRecipe.value].duration));
 }
 </script>
 
