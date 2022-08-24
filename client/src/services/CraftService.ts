@@ -19,6 +19,7 @@ export class CraftService {
   activeRecipe?: Recipe;
   quantity: number = 0;
 
+  //  TODO Change craft when quantity > 0 from "big duration" to "multiple durations"
   Craft() {
     if (this.activeRecipe === undefined) {
       return;

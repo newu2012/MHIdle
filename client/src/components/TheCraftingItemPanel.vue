@@ -6,6 +6,7 @@ import container from "../inversify.config";
 import { Character } from "../models/character/Character";
 import TYPES from "../types";
 import { ItemStack } from "../models/items/ItemStack";
+import CraftingPanelRecipeMaterial from "./CraftingPanelRecipeMaterial.vue";
 
 const props = defineProps<{
   recipe?: Recipe,
@@ -27,7 +28,7 @@ const storageFull = computed(() => {
   return (character.value.storageInventory
       .GetItemOrEmptyItemStack(props.recipe?.item.name!) as ItemStack).quantity ===
     props.recipe?.item.maximumInStorage;
-})
+});
 
 const itemInCurrent = computed(() => {
   return props.recipe === undefined ?
@@ -39,13 +40,12 @@ const currentFull = computed(() => {
   return (character.value.currentInventory
       .GetItemOrEmptyItemStack(props.recipe?.item.name!) as ItemStack).quantity ===
     props.recipe?.item.maximumInInventory;
-})
-
-const maximumToCraft = computed(() => {
-  return props.recipe?.item.maximumInStorage! - itemInStorage.value?.quantity!;
 });
 
-
+const maximumToCraft = computed(() => {
+  //  TODO get value from CraftService internal calculation
+  return props.recipe?.item.maximumInStorage! - itemInStorage.value?.quantity!;
+});
 </script>
 
 <template>
@@ -68,7 +68,6 @@ const maximumToCraft = computed(() => {
           {{ recipe.item?.type }}
         </h3>
       </div>
-
       <div class="item-info">
         <div class="item-description-row">
           <img
@@ -105,6 +104,15 @@ const maximumToCraft = computed(() => {
           </div>
         </div>
       </div>
+      <div
+        class="recipe-materials"
+      >
+        <CraftingPanelRecipeMaterial
+          v-for="recipeMaterial in recipe.recipeMaterials"
+          :key="recipeMaterial.itemId"
+          :recipe-material="recipeMaterial"
+        />
+      </div>
       <div class="actions-row">
         <div class="craft-one">
           <button @click="$emit('craft-item', 1)">
@@ -139,7 +147,7 @@ const maximumToCraft = computed(() => {
 .item {
   display: flex;
   flex-flow: column;
-  gap: 8px;
+  gap: 16px;
 }
 
 .item-name-and-type {
@@ -199,6 +207,13 @@ const maximumToCraft = computed(() => {
 
 .item-quantity-full {
   color: darkorange;
+}
+
+.recipe-materials {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  gap: 8px;
 }
 
 .actions-row {
