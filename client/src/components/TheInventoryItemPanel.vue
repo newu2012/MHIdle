@@ -61,7 +61,7 @@ defineEmits([
             :class="{'item-quantity-full': itemQuantityFull }"
             class="item-quantity"
           >
-            In {{ isStorage ? "storage" : "current" }}
+            In {{ isStorage ? "storage" : "inventory" }}
             {{ itemPanelProp.quantity }}/{{
               isStorage ? itemPanelProp.item?.maximumInStorage : itemPanelProp.item?.maximumInInventory
             }}
