@@ -33,7 +33,7 @@
   },
   {
     "id": 5,
-    "Value": 70.0,
+    "Value": 50.0,
     "ItemId": 1,
     "MinimumQuantity": 1,
     "MaximumQuantity": 4,
@@ -41,7 +41,7 @@
   },
   {
     "id": 6,
-    "Value": 25.0,
+    "Value": 40.0,
     "ItemId": 2,
     "MinimumQuantity": 1,
     "MaximumQuantity": 2,
@@ -49,7 +49,7 @@
   },
   {
     "id": 7,
-    "Value": 5.0,
+    "Value": 10.0,
     "ItemId": 3,
     "MinimumQuantity": 0,
     "MaximumQuantity": 2,
