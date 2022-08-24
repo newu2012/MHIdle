@@ -93,14 +93,14 @@ const maximumToCraft = computed(() => {
               class="item-quantity"
             >
               In Inventory
-              {{ itemInCurrent.quantity }}/{{ recipe.item?.maximumInInventory }}
+              {{ itemInCurrent?.quantity ?? 0 }}/{{ recipe.item?.maximumInInventory }}
             </p>
             <p
               :class="{'item-quantity-full': storageFull }"
               class="item-quantity"
             >
               In Storage
-              {{ itemInStorage.quantity }}/{{ recipe.item?.maximumInStorage }}
+              {{ itemInStorage?.quantity ?? 0 }}/{{ recipe.item?.maximumInStorage }}
             </p>
           </div>
         </div>
