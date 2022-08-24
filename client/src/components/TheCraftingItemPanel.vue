@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 
-// import { computed, ref } from "vue";
 import { Recipe } from "../models/craft/Recipe";
-// import container from "../inversify.config";
-// import { Character } from "../models/character/Character";
-// import TYPES from "../types";
-// import { ItemStack } from "../models/items/ItemStack";
+import { computed, ref } from "vue";
+import container from "../inversify.config";
+import { Character } from "../models/character/Character";
+import TYPES from "../types";
+import { ItemStack } from "../models/items/ItemStack";
 
 const props = defineProps<{
   recipe?: Recipe,
@@ -15,13 +15,37 @@ defineEmits([
   "update:itemPanelProp",
   "craft-item"]);
 
-// const character = ref(container.get<Character>(TYPES.Character));
-// const itemInStorage = props.recipe === undefined ? undefined : character.value.storageInventory
-//   .GetItemOrEmptyItemStack(props.recipe?.item.name) as ItemStack;
-//
-// const itemQuantityFull = computed(() => {
-//   return itemInStorage?.quantity === props.recipe!.item?.maximumInStorage;
-// });
+const character = ref(container.get<Character>(TYPES.Character));
+
+const itemInStorage = computed(() => {
+  return props.recipe === undefined ?
+    undefined :
+    character.value.storageInventory
+      .GetItemOrEmptyItemStack(props.recipe?.item.name) as ItemStack;
+});
+const storageFull = computed(() => {
+  return (character.value.storageInventory
+      .GetItemOrEmptyItemStack(props.recipe?.item.name!) as ItemStack).quantity ===
+    props.recipe?.item.maximumInStorage;
+})
+
+const itemInCurrent = computed(() => {
+  return props.recipe === undefined ?
+    undefined :
+    character.value.currentInventory
+      .GetItemOrEmptyItemStack(props.recipe?.item.name) as ItemStack;
+});
+const currentFull = computed(() => {
+  return (character.value.currentInventory
+      .GetItemOrEmptyItemStack(props.recipe?.item.name!) as ItemStack).quantity ===
+    props.recipe?.item.maximumInInventory;
+})
+
+const maximumToCraft = computed(() => {
+  return props.recipe?.item.maximumInStorage! - itemInStorage.value?.quantity!;
+});
+
+
 </script>
 
 <template>
@@ -63,13 +87,22 @@ defineEmits([
           <p class="item-value">
             Value {{ recipe.item?.value }}
           </p>
-<!--          <p-->
-<!--            :class="{'item-quantity-full': itemQuantityFull }"-->
-<!--            class="item-quantity"-->
-<!--          >-->
-<!--            In inventory-->
-<!--            {{ recipe.quantity }}/{{ recipe.item?.maximumInInventory }}-->
-<!--          </p>-->
+          <div>
+            <p
+              :class="{'item-quantity-full': currentFull }"
+              class="item-quantity"
+            >
+              In Inventory
+              {{ itemInCurrent.quantity }}/{{ recipe.item?.maximumInInventory }}
+            </p>
+            <p
+              :class="{'item-quantity-full': storageFull }"
+              class="item-quantity"
+            >
+              In Storage
+              {{ itemInStorage.quantity }}/{{ recipe.item?.maximumInStorage }}
+            </p>
+          </div>
         </div>
       </div>
       <div class="actions-row">
@@ -77,13 +110,13 @@ defineEmits([
           <button @click="$emit('craft-item', 1)">
             Craft 1
           </button>
-          <span>CHANGE *duration* seconds</span>
+          <span>{{ recipe.duration / 1000 }} s</span>
         </div>
         <div class="craft-all">
-          <button @click="$emit('craft-item', recipe?.quantity)">
+          <button @click="$emit('craft-item', maximumToCraft)">
             Craft All
           </button>
-          <span>CHANGE *duration* seconds</span>
+          <span>{{ recipe.duration * maximumToCraft / 1000 }} s</span>
         </div>
       </div>
     </div>
@@ -149,6 +182,7 @@ defineEmits([
   flex-flow: row;
   gap: 8px;
   justify-content: space-between;
+  align-items: center;
 }
 
 .item-rarity {
