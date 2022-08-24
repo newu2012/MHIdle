@@ -42,5 +42,16 @@
     "ImagePath": "/icons/Ore_Icon_Grey.png",
     "MaximumInInventory": 10,
     "MaximumInStorage": 100
+  },
+  {
+    "id": 5,
+    "Type": "Sickle",
+    "Name": "Simple sickle",
+    "Description": "Allows you to collect common herbs faster.",
+    "Rarity": 1,
+    "Value": 10,
+    "ImagePath": "/icons/Question_Mark_Icon_Grey.png",
+    "MaximumInInventory": 3,
+    "MaximumInStorage": 100
   }
 ]

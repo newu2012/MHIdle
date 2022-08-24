@@ -34,6 +34,8 @@ public class AdminController : ControllerBase
         Reseed<ResourceNodeEvent>();
         Reseed<ResourceNodeItem>();
         Reseed<ResourceNodeProportion>();
+        Reseed<Recipe>();
+        Reseed<RecipeMaterial>();
 
         await _db.SaveChangesAsync();
     }

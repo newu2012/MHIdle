@@ -1,0 +1,11 @@
+﻿[
+  {
+    "id": 1,
+    "Type": "Instrument",
+    "ItemId": 5,
+    "DurationSeconds": 10,
+    "InstrumentType": "Crafting Tools",
+    "InstrumentRequiredLevel": 0,
+    "InstrumentExpectedLevel": 0
+  }
+]
