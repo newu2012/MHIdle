@@ -8,7 +8,7 @@
     "Value": 1,
     "ImagePath": "/icons/Herb_Icon_Green.png",
     "MaximumInInventory": 10,
-    "MaximumInStorage": 10000
+    "MaximumInStorage": 100
   },
   {
     "id": 2,
@@ -19,7 +19,7 @@
     "Value": 5,
     "ImagePath": "/icons/Herb_Icon_Red.png",
     "MaximumInInventory": 10,
-    "MaximumInStorage": 10000
+    "MaximumInStorage": 100
   },
   {
     "id": 3,
@@ -30,7 +30,7 @@
     "Value": 20,
     "ImagePath": "/icons/Herb_Icon_Blue.png",
     "MaximumInInventory": 10,
-    "MaximumInStorage": 10000
+    "MaximumInStorage": 100
   },
   {
     "id": 4,
@@ -41,6 +41,6 @@
     "Value": 1,
     "ImagePath": "/icons/Ore_Icon_Grey.png",
     "MaximumInInventory": 10,
-    "MaximumInStorage": 10000
+    "MaximumInStorage": 100
   }
 ]
