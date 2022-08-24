@@ -2,7 +2,7 @@
 import TYPES from "../types";
 import container from "../inversify.config";
 import { Character } from "../models/character/Character";
-import InventoryItemStack from "./InventoryItemStack.vue";
+import InventoryItemStack from "./InventoryPanelItemStack.vue";
 import { computed, ref } from "vue";
 import TheInventoryItemPanel from "./TheInventoryItemPanel.vue";
 import { ItemStack } from "../models/items/ItemStack";

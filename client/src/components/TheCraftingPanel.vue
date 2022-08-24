@@ -6,7 +6,7 @@ import { ModelsService } from "../services/ModelsService";
 import { CraftService } from "../services/CraftService";
 
 import TheCraftingItemPanel from "./TheCraftingItemPanel.vue";
-import CraftingRecipe from "./CraftingRecipe.vue";
+import CraftingRecipe from "./CraftingPanelRecipe.vue";
 import { ActionService } from "../services/ActionService";
 
 const modelsService = ref(container.get<ModelsService>(TYPES.ModelsService));
