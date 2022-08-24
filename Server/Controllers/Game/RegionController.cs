@@ -34,6 +34,12 @@ public class RegionController : ControllerBase
         return _db.Items.ToArray();
     }
 
+    [HttpGet("/api/recipe")]
+    public Recipe[] RecipesInfo()
+    {
+        return _db.Recipe.Include(r => r.RecipeMaterials).ToArray();
+    }
+
     [HttpGet("/api/event")]
     public ResourceNodeEvent[] EventsInfo()
     {
