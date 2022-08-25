@@ -31,7 +31,7 @@ export class StorageInventory extends Inventory {
     this.Remove(itemStack.item!, quantityToChange);
   }
 
-  SellItem(itemId: number, quantity: number = 1) {
+  SellItem(itemName: string, quantity: number = 1) {
     const regionService = ref(container.get<RegionService>(TYPES.RegionService));
     //  TODO Move to new method and check it from UI
     if (!regionService.value.inCity) {
@@ -39,9 +39,9 @@ export class StorageInventory extends Inventory {
       return;
     }
 
-    const itemStack = this.itemStacks.find((is) => is.item?.id === itemId);
+    const itemStack = this.itemStacks.find((is) => is.item?.name === itemName);
     if (itemStack === undefined) {
-      throw new Error(`Can't find ${itemId} in ${this.itemStacks}`);
+      throw new Error(`Can't find ${itemName} in ${this.itemStacks}`);
     }
 
     const quantityToSell = itemStack.quantity - quantity >= 0 ?

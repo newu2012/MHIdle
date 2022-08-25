@@ -4,11 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace EntityModels.Postgresql;
 
 [Table("ResourceNodeEvent")]
-public partial class ResourceNodeEvent : ITerritoryEvent
+public partial class ResourceNodeEvent
 {
-    public int Id { get; set; }
-    public string Name { get; set; } = null!;
-    public string Description { get; set; } = null!;
+    [Key] public string Name { get; set; } = null!;
+    [StringLength(1000)] public string Description { get; set; } = null!;
     public int Capacity { get; set; }
     public int DurationSeconds { get; set; }
     [StringLength(50)] public string InstrumentType { get; set; } = null!;

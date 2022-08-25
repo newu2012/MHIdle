@@ -9,9 +9,9 @@ public partial class ResourceNodeProportion
     [Key] [Column("id")] public int Id { get; set; }
     public double Value { get; set; } = 1;
 
-    public int TerritoryId { get; set; }
-    [ForeignKey("TerritoryId")] public Territory Territory { get; set; } = null!;
+    public string TerritoryName { get; set; } = null!;
+    public Territory Territory { get; set; } = null!;
 
-    public int ResourceNodeEventId { get; set; }
-    [ForeignKey("ResourceNodeEventId")] public ResourceNodeEvent ResourceNodeEvent { get; set; } = null!;
+    public string ResourceNodeEventName { get; set; } = null!;
+    public ResourceNodeEvent ResourceNodeEvent { get; set; } = null!;
 }

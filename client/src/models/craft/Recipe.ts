@@ -3,7 +3,7 @@ import { RecipeMaterial } from "./RecipeMaterial";
 
 export class Recipe {
   constructor(
-    id: number,
+    name: string,
     type: string,
     item: Item,
     duration: number,
@@ -11,7 +11,7 @@ export class Recipe {
     instrumentType: string,
     instrumentRequiredLevel: number,
     instrumentExpectedLevel: number) {
-    this.id = id;
+    this.name = name;
     this.type = type;
     this.item = item;
     this.duration = duration;
@@ -21,7 +21,7 @@ export class Recipe {
     this.instrumentExpectedLevel = instrumentExpectedLevel;
   }
 
-  id: number;
+  name: string;
   type: string;
   item: Item;
   duration: number;

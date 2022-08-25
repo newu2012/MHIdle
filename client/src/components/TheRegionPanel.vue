@@ -21,7 +21,7 @@ function SetActive(territory: Territory) {
 <template>
   <h1>Region</h1>
   <h2>
-    Current place: {{ modelsService.regions.filter(r => r.id === regionService.activeTerritory.regionId)[0].name }} -
+    Current place: {{ regionService.activeTerritory.regionName }} -
     {{ regionService.activeTerritory.name }}
   </h2>
   <div
@@ -31,7 +31,7 @@ function SetActive(territory: Territory) {
   >
     <h3>{{ region.name }} - {{ region.description }}</h3>
     <div
-      v-for="territory in modelsService.territories.filter(t => t.regionId === region.id)"
+      v-for="territory in modelsService.territories.filter(t => t.regionName === region.name)"
       :key="territory.name"
       class="territoryStyle"
     >

@@ -39,7 +39,8 @@ export class StartupLoadService {
     await this.LoadTerritoriesFromServer(modelsService).then(
       result => {
         modelsService.territories = result;
-        regionService.activeTerritory = modelsService.territories[0];
+        //  TODO Change to highest priority starting territory
+        regionService.activeTerritory = modelsService.territories.filter(t => t.name === "Outskirts")[0];
       },
     );
     await this.LoadRegionsFromServer().then(
@@ -94,7 +95,6 @@ export class StartupLoadService {
         });
       const resourceNode = new ResourceNode(
         resourceNodeItems,
-        json[i]["id"],
         json[i]["name"],
         json[i]["description"],
         json[i]["capacity"],
@@ -118,10 +118,9 @@ export class StartupLoadService {
 
     for (let i = 0; i < json.length; i++) {
       const region = new Territory(
-        json[i]["id"],
         json[i]["name"],
         json[i]["description"],
-        json[i]["regionId"],
+        json[i]["regionName"],
         json[i]["durationSecondsExploreOnEnter"] * 1000,
         json[i]["durationSecondsExploreInTerritory"] * 1000,
         json[i]["instrumentType"],
@@ -129,7 +128,7 @@ export class StartupLoadService {
         json[i]["instrumentExpectedLevel"],
         (json[i]["resourceNodeProportions"] as ResourceNodeProportion[])
           .map(rnp => new owp(
-            modelsService.resourceNodeEvents.filter(rne => rne.id === rnp.resourceNodeEventId)[0],
+            modelsService.resourceNodeEvents.filter(rne => rne.name === rnp.resourceNodeEventName)[0],
             rnp.value)),
       );
 
@@ -147,7 +146,6 @@ export class StartupLoadService {
 
     for (let i = 0; i < json.length; i++) {
       const region = new Region(
-        json[i]["id"],
         json[i]["name"],
         json[i]["description"],
         (json[i]["territories"] as Territory[]),
@@ -175,7 +173,7 @@ export class StartupLoadService {
           );
         });
       const recipe = new Recipe(
-        json[i]["id"],
+        json[i]["name"],
         json[i]["type"],
         modelsService.items.filter(item => item.name === json[i]["itemName"])[0],
         json[i]["durationSeconds"] * 1000, //  Convert seconds to ms

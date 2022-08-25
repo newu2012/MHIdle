@@ -1,11 +1,9 @@
 ﻿[
   {
-    "id": 1,
     "Name": "City",
     "Description": "Your starting city. There are some territories to explore."
   },
   {
-    "id": 2,
     "Name": "Ancient Forest",
     "Description": "This area is a thick lush forest that can't easily be traversed by normal means. The Ancient Forest is home to a variety of flora, fauna, and monsters."
   }

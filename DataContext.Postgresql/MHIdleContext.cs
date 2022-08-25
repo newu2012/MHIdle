@@ -43,12 +43,8 @@ public partial class MHIdleContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Region>().Property(r => r.Id).ValueGeneratedNever();
-        modelBuilder.Entity<Territory>().Property(t => t.Id).ValueGeneratedNever();
-        modelBuilder.Entity<ResourceNodeEvent>().Property(rne => rne.Id).ValueGeneratedNever();
         modelBuilder.Entity<ResourceNodeItem>().Property(rni => rni.Id).ValueGeneratedNever();
         modelBuilder.Entity<ResourceNodeProportion>().Property(rnp => rnp.Id).ValueGeneratedNever();
-        modelBuilder.Entity<Recipe>().Property(r => r.Id).ValueGeneratedNever();
         modelBuilder.Entity<RecipeMaterial>().Property(rm => rm.Id).ValueGeneratedNever();
 
         OnModelCreatingPartial(modelBuilder);

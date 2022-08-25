@@ -8,7 +8,7 @@ public abstract partial class Item
 {
     public Item() { }
 
-    [Key] [StringLength(50)] public string Name { get; set; } = null!;
+    [Key] public string Name { get; set; } = null!;
     [StringLength(50)] public string Type { get; set; } = null!;
     [StringLength(1000)] public string Description { get; set; } = null!;
     public int Rarity { get; set; } = 1;

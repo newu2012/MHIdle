@@ -33,7 +33,7 @@ function SetActive(itemStackIndex: number) {
 
 function SellItem(quantity: number) {
   storageInventory.SellItem(
-    selectedInventory.value.itemStacks[selectedItemIndex.value].item!.id!, quantity);
+    selectedInventory.value.itemStacks[selectedItemIndex.value].item!.name!, quantity);
   if (selectedInventory.value.itemStacks[selectedItemIndex.value].item === undefined) {
     selectedItemIndex.value = -1;
   }

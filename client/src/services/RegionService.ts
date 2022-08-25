@@ -48,7 +48,7 @@ export class RegionService {
   }
 
   AutoExplore() {
-    //  TODO Move out duration time and it calculation to some stats class
+    //  TODO Move out duration time and its calculation to some stats class
     const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
     const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
     actionService.SetCurrentAction(this.actionService.availableActions.explore(

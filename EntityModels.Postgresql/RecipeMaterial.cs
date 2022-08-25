@@ -7,9 +7,9 @@ namespace EntityModels.Postgresql;
 public partial class RecipeMaterial
 {
     [Key] [Column("id")] public int Id { get; set; }
-    public int RecipeId { get; set; }
+    public string RecipeName { get; set; } = null!;
     public Recipe Recipe { get; set; } = null!;
-    [ForeignKey("Name")] public string ItemName { get; set; } = null!;
+    public string ItemName { get; set; } = null!;
     public Item Item { get; set; } = null!;
     public int Quantity { get; set; }
 }

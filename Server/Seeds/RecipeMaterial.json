@@ -1,13 +1,13 @@
 ﻿[
   {
     "id": 1,
-    "RecipeId": 1,
+    "RecipeName": "Simple sickle",
     "ItemName": "Simple herb",
     "Quantity": 2
   },
   {
     "id": 2,
-    "RecipeId": 1,
+    "RecipeName": "Simple sickle",
     "ItemName": "Pebble",
     "Quantity": 3
   }

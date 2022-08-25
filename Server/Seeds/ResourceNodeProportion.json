@@ -2,37 +2,37 @@
   {
     "id": 1,
     "Value": 10.0,
-    "TerritoryId": 1,
-    "ResourceNodeEventId": 1
+    "TerritoryName": "Outskirts",
+    "ResourceNodeEventName": "Herb patch"
   },
   {
     "id": 2,
     "Value": 1.0,
-    "TerritoryId": 1,
-    "ResourceNodeEventId": 2
+    "TerritoryName": "Outskirts",
+    "ResourceNodeEventName": "Pile of pebbles"
   },
   {
     "id": 3,
     "Value": 10.0,
-    "TerritoryId": 2,
-    "ResourceNodeEventId": 2
+    "TerritoryName": "Abandoned mine",
+    "ResourceNodeEventName": "Pile of pebbles"
   },
   {
     "id": 4,
     "Value": 1.0,
-    "TerritoryId": 2,
-    "ResourceNodeEventId": 1
+    "TerritoryName": "Abandoned mine",
+    "ResourceNodeEventName": "Herb patch"
   },
   {
     "id": 5,
     "Value": 1.0,
-    "TerritoryId": 3,
-    "ResourceNodeEventId": 1
+    "TerritoryName": "Glade",
+    "ResourceNodeEventName": "Herb patch"
   },
   {
     "id": 6,
     "Value": 1.0,
-    "TerritoryId": 3,
-    "ResourceNodeEventId": 3
+    "TerritoryName": "Glade",
+    "ResourceNodeEventName": "Small useful herb patch"
   }
 ]
