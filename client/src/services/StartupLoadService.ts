@@ -14,6 +14,7 @@ import { ResourceNodeProportion } from "../models/region/ResourceNodeProportion"
 import { ref } from "vue";
 import { RecipeMaterial } from "../models/craft/RecipeMaterial";
 import { Recipe } from "../models/craft/Recipe";
+import { Instrument } from "../models/items/Instrument";
 
 @injectable()
 export class StartupLoadService {
@@ -52,24 +53,27 @@ export class StartupLoadService {
   }
 
   async LoadItemsFromServer(): Promise<Item[]> {
-    const resourceResponse: HttpResponse<[]> = await useFetch<[]>("/api/resource");
-    const instrumentResponse: HttpResponse<[]> = await useFetch<[]>("/api/instrument");
-    const json = resourceResponse!.parsedBody!.concat(instrumentResponse!.parsedBody!);
-
+    const responses = [
+      (await (await useFetch<[]>("/api/resource"))).parsedBody!,
+      (await (await useFetch<[]>("/api/instrument"))).parsedBody!,
+    ];
+    const json = [].concat(...responses);
     const items = [];
 
     for (let i = 0; i < json.length; i++) {
       //  TODO Add other item types (armor, instruments, etc.)
-      const item = new Resource(
-        json[i]["name"],
-        json[i]["type"],
-        json[i]["description"],
-        json[i]["rarity"],
-        json[i]["value"],
-        json[i]["imagePath"],
-        json[i]["maximumInInventory"],
-        json[i]["maximumInStorage"],
-      );
+      let item: Item;
+      switch (json[i]["type"]) {
+        case "Resource":
+          item = Resource.FromParsedBody(json[i]);
+          break;
+        case "Instrument":
+          item = Instrument.FromParsedBody(json[i]);
+          break;
+        default:
+          console.log(json[i]);
+          return items;
+      }
 
       items.push(item);
     }

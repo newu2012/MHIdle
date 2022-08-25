@@ -24,13 +24,13 @@ export class CraftService {
     if (this.activeRecipe === undefined) {
       return;
     }
+
     const character = ref(container.get<Character>(TYPES.Character)).value;
     const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
     const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
 
     const canCraftAmount = this.CanCraftAmount(this.activeRecipe);
     this.quantity = Math.min(this.quantity, canCraftAmount);
-
 
     if (this.quantity === 0) {
       console.log(`Not enough materials to create ${this.activeRecipe.item.name}`);
@@ -56,6 +56,7 @@ export class CraftService {
     if (recipe === undefined) {
       return 0;
     }
+
     const character = ref(container.get<Character>(TYPES.Character)).value;
 
     let maximumAmount = recipe.item.maximumInStorage - (character.storageInventory

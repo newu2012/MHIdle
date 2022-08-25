@@ -1,6 +1,6 @@
 import { Item } from "./Item";
 
-export class Resource implements Item {
+export class Instrument implements Item {
   constructor(name: string,
               type: string,
               description: string,
@@ -9,7 +9,10 @@ export class Resource implements Item {
               imagePath: string = "/icons/Unknown_Icon.png",
               maximumInInventory: number = 10,
               maximumInStorage: number = 100,
-              resourceType: string) {
+              instrumentType: string,
+              instrumentLevel: number,
+              chanceToBreak: number,
+  ) {
     this.name = name;
     this.type = type;
     this.description = description;
@@ -18,7 +21,9 @@ export class Resource implements Item {
     this.imagePath = imagePath;
     this.maximumInInventory = maximumInInventory;
     this.maximumInStorage = maximumInStorage;
-    this.resourceType = resourceType;
+    this.instrumentType = instrumentType;
+    this.instrumentLevel = instrumentLevel;
+    this.chanceToBreak = chanceToBreak;
   }
 
   name: string;
@@ -30,10 +35,12 @@ export class Resource implements Item {
   //  TODO Make maximum's upgradable somehow
   maximumInInventory: number;
   maximumInStorage: number;
-  resourceType: string;
+  instrumentType: string;
+  instrumentLevel: number;
+  chanceToBreak: number;
 
-  static FromParsedBody(json: any): Resource {
-    return new Resource(
+  static FromParsedBody(json: any): Instrument {
+    return new Instrument(
       json["name"],
       json["type"],
       json["description"],
@@ -42,7 +49,9 @@ export class Resource implements Item {
       json["imagePath"],
       json["maximumInInventory"],
       json["maximumInStorage"],
-      json["resourceType"],
+      json["instrumentType"],
+      json["instrumentLevel"],
+      json["chanceToBreak"],
     );
   }
 }
