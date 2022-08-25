@@ -1,8 +1,7 @@
 ﻿[
   {
-    "id": 1,
-    "Type": "Resource",
     "Name": "Simple herb",
+    "Type": "Resource",
     "Description": "Some simple herb needed to create various potions and build basic stuff. Nothing special.",
     "Rarity": 1,
     "Value": 1,
@@ -12,9 +11,8 @@
     "ResourceType": "Herb"
   },
   {
-    "id": 2,
-    "Type": "Resource",
     "Name": "Not so simple herb",
+    "Type": "Resource",
     "Description": "Other herb.",
     "Rarity": 2,
     "Value": 5,
@@ -24,10 +22,9 @@
     "ResourceType": "Herb"
   },
   {
-    "id": 3,
+    "Name": "Useful herb",
     "Type": "Resource",
-    "Name": "Another herb",
-    "Description": "Somewhat rare herb.",
+    "Description": "Somewhat rare herb. Simple potions use this in their recipes.",
     "Rarity": 3,
     "Value": 20,
     "ImagePath": "/icons/Herb_Icon_Blue.png",
@@ -36,9 +33,8 @@
     "ResourceType": "Herb"
   },
   {
-    "id": 4,
-    "Type": "Resource",
     "Name": "Pebble",
+    "Type": "Resource",
     "Description": "Simple pebble.",
     "Rarity": 1,
     "Value": 1,

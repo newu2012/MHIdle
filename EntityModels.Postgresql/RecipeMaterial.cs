@@ -9,7 +9,7 @@ public partial class RecipeMaterial
     [Key] [Column("id")] public int Id { get; set; }
     public int RecipeId { get; set; }
     public Recipe Recipe { get; set; } = null!;
-    public int ItemId { get; set; }
+    [ForeignKey("Name")] public string ItemName { get; set; } = null!;
     public Item Item { get; set; } = null!;
     public int Quantity { get; set; }
 }

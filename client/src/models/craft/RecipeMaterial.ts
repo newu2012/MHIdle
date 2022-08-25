@@ -2,15 +2,15 @@ import { Item } from "../items/Item";
 
 export class RecipeMaterial {
   constructor(
-    itemId: number,
+    itemName: string,
     item: Item,
     quantity: number) {
-    this.itemId = itemId;
+    this.itemName = itemName;
     this.item = item;
     this.quantity = quantity;
   }
 
-  itemId: number;
+  itemName: string;
   item: Item;
   quantity: number;
 }

@@ -11,11 +11,11 @@ public partial class MHIdleContext : DbContext
         : base(options) { }
 
     //  TODO sort variables alphabetically
-    
+
     //  Items
     public virtual DbSet<Resource> Resources { get; set; } = null!;
     public virtual DbSet<Instrument> Instruments { get; set; } = null!;
-    
+
     //  Regions
     public virtual DbSet<Region> Regions { get; set; } = null!;
     public virtual DbSet<Territory> Territories { get; set; } = null!;
@@ -43,7 +43,6 @@ public partial class MHIdleContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Item>().Property(i => i.Id).ValueGeneratedNever();
         modelBuilder.Entity<Region>().Property(r => r.Id).ValueGeneratedNever();
         modelBuilder.Entity<Territory>().Property(t => t.Id).ValueGeneratedNever();
         modelBuilder.Entity<ResourceNodeEvent>().Property(rne => rne.Id).ValueGeneratedNever();

@@ -5,7 +5,7 @@
     "Description": "You can find some basic resources there.",
     "DurationSecondsExploreOnEnter": 5,
     "DurationSecondsExploreInTerritory": 3,
-    "InstrumentType": "binoculars",
+    "InstrumentType": "Binoculars",
     "InstrumentRequiredLevel": 0,
     "InstrumentExpectedLevel": 0,
     "RegionId": 1
@@ -16,7 +16,7 @@
     "Description": "Different stones are lying here and there.",
     "DurationSecondsExploreOnEnter": 5,
     "DurationSecondsExploreInTerritory": 3,
-    "InstrumentType": "binoculars",
+    "InstrumentType": "Binoculars",
     "InstrumentRequiredLevel": 0,
     "InstrumentExpectedLevel": 0,
     "RegionId": 1
@@ -27,7 +27,7 @@
     "Description": "Pleasantly lit by the soft sun glade. Here you can find some useful herbs.",
     "DurationSecondsExploreOnEnter": 10,
     "DurationSecondsExploreInTerritory": 3,
-    "InstrumentType": "binoculars",
+    "InstrumentType": "Binoculars",
     "InstrumentRequiredLevel": 0,
     "InstrumentExpectedLevel": 0,
     "RegionId": 2

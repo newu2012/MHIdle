@@ -1,18 +1,16 @@
 import { Item } from "./Item";
 
 export class Resource implements Item {
-  constructor(id: number,
+  constructor(name: string,
               type: string,
-              name: string,
               description: string,
               rarity: number,
               value: number,
               imagePath: string = "/icons/Unknown_Icon.png",
               maximumInInventory: number = 10,
               maximumInStorage: number = 10000) {
-    this.id = id;
-    this.type = type;
     this.name = name;
+    this.type = type;
     this.description = description;
     this.rarity = rarity;
     this.value = value;
@@ -21,9 +19,8 @@ export class Resource implements Item {
     this.maximumInStorage = maximumInStorage;
   }
 
-  id: number;
-  type: string;
   name: string;
+  type: string;
   description: string;
   rarity: number
   value: number;

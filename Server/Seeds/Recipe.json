@@ -2,7 +2,7 @@
   {
     "id": 1,
     "Type": "Instrument",
-    "ItemId": 5,
+    "ItemName": "Simple sickle",
     "DurationSeconds": 10,
     "InstrumentType": "Crafting Tools",
     "InstrumentRequiredLevel": 0,

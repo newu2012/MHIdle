@@ -8,9 +8,8 @@ public abstract partial class Item
 {
     public Item() { }
 
-    [Key] [Column("id")] public int Id { get; set; }
+    [Key] [StringLength(50)] public string Name { get; set; } = null!;
     [StringLength(50)] public string Type { get; set; } = null!;
-    [StringLength(50)] public string Name { get; set; } = null!;
     [StringLength(1000)] public string Description { get; set; } = null!;
     public int Rarity { get; set; } = 1;
     public int Value { get; set; } = 1;

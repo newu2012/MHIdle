@@ -8,7 +8,7 @@ public partial class Recipe
 {
     [Key] [Column("id")] public int Id { get; set; }
     [StringLength(50)] public string Type { get; set; } = null!;
-    public int ItemId { get; set; }
+    [ForeignKey("Name")]  public string ItemName { get; set; } = null!;
     public Item Item { get; set; } = null!;
     public int DurationSeconds { get; set; }
     public ICollection<RecipeMaterial> RecipeMaterials { get; set; } = null!;

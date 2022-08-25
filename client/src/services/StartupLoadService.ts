@@ -55,15 +55,13 @@ export class StartupLoadService {
     const instrumentResponse: HttpResponse<[]> = await useFetch<[]>("/api/instrument");
     const json = resourceResponse!.parsedBody!.concat(instrumentResponse!.parsedBody!);
 
-    console.log(json);
     const items = [];
 
     for (let i = 0; i < json.length; i++) {
       //  TODO Add other item types (armor, instruments, etc.)
       const item = new Resource(
-        json[i]["id"],
-        json[i]["type"],
         json[i]["name"],
+        json[i]["type"],
         json[i]["description"],
         json[i]["rarity"],
         json[i]["value"],
@@ -88,7 +86,7 @@ export class StartupLoadService {
       const resourceNodeItems: ResourceNodeItem[] = (json[i]["resourceNodeItems"] as ResourceNodeItem[])
         .map(rni => {
           return new ResourceNodeItem(
-            rni.itemId,
+            rni.itemName,
             rni.value,
             rni.minimumQuantity,
             rni.maximumQuantity,
@@ -171,15 +169,15 @@ export class StartupLoadService {
       const recipeMaterials: RecipeMaterial[] = (json[i]["recipeMaterials"] as RecipeMaterial[])
         .map(rm => {
           return new RecipeMaterial(
-            rm.itemId,
-            modelsService.items.filter(i => i.id === rm.itemId)[0],
+            rm.itemName,
+            modelsService.items.filter(i => i.name === rm.itemName)[0],
             rm.quantity,
           );
         });
       const recipe = new Recipe(
         json[i]["id"],
         json[i]["type"],
-        modelsService.items.filter(item => item.id === json[i]["itemId"])[0],
+        modelsService.items.filter(item => item.name === json[i]["itemName"])[0],
         json[i]["durationSeconds"] * 1000, //  Convert seconds to ms
         recipeMaterials,
         json[i]["instrumentType"],

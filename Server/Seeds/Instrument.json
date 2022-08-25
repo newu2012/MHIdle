@@ -1,13 +1,12 @@
 ﻿[
   {
-    "id": 5,
-    "Type": "Instrument",
     "Name": "Simple sickle",
+    "Type": "Instrument",
     "Description": "Allows you to collect common herbs faster.",
     "Rarity": 1,
-    "Value": 10,
+    "Value": 5,
     "ImagePath": "/icons/Question_Mark_Icon_Grey.png",
-    "MaximumInInventory": 3,
+    "MaximumInInventory": 5,
     "MaximumInStorage": 100,
     "InstrumentType": "Sickle",
     "InstrumentLevel": 1,
