@@ -110,7 +110,7 @@ const maximumToCraft = computed(() => {
       >
         <CraftingPanelRecipeMaterial
           v-for="recipeMaterial in recipe.recipeMaterials"
-          :key="recipeMaterial.itemId"
+          :key="recipeMaterial.itemName"
           :recipe-material="recipeMaterial"
         />
       </div>
