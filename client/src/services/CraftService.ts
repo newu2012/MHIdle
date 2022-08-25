@@ -28,36 +28,50 @@ export class CraftService {
     const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
     const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
 
-    const itemStack: ItemStack = character.storageInventory
-      .GetItemOrEmptyItemStack(this.activeRecipe.item.name);
+    const canCraftAmount = this.CanCraftAmount(this.activeRecipe);
+    this.quantity = Math.min(this.quantity, canCraftAmount);
 
-    if (itemStack.item !== undefined &&
-      itemStack.item.maximumInStorage - itemStack.quantity < this.quantity) {
-      this.quantity = itemStack.item!.maximumInStorage - itemStack.quantity;
-    }
 
-    for (let i = 0; i < this.activeRecipe.recipeMaterials.length; i++) {
-      const rm = this.activeRecipe.recipeMaterials[i];
-      const is: ItemStack = character.storageInventory
-        .GetItemOrEmptyItemStack(rm.item.name);
+    if (this.quantity === 0) {
+      console.log(`Not enough materials to create ${this.activeRecipe.item.name}`);
 
-      if (is.quantity < rm.quantity) {
-        console.log(`There were only ${is.quantity} of ${rm.item.name}, but ${rm.quantity} was needed`);
-        actionService.SetCurrentAction(this.actionService.availableActions.explore(
-          regionService.activeTerritory.durationExploreInTerritory));
-        return;
-      }
+      actionService.SetCurrentAction(this.actionService.availableActions.explore(
+        regionService.activeTerritory.durationExploreInTerritory));
+      return;
     }
 
     //  TODO Change to notification
-    console.log(`Crafted ${this.quantity == 1 ? "" : this.quantity + " of"} ${this.activeRecipe.item.name}`);
+    console.log(`Crafted${this.quantity === 1 ? "" : " " + this.quantity + " of"} ${this.activeRecipe.item.name}`);
     for (let i = 0; i < this.activeRecipe.recipeMaterials.length; i++) {
       const rm = this.activeRecipe.recipeMaterials[i];
-      character.storageInventory.Remove(rm.item, rm.quantity);
+      character.storageInventory.Remove(rm.item, rm.quantity * this.quantity);
     }
     character.storageInventory.AddItem(this.activeRecipe.item, this.quantity);
 
     actionService.SetCurrentAction(this.actionService.availableActions.explore(
       regionService.activeTerritory.durationExploreInTerritory));
+  }
+
+  CanCraftAmount(recipe: Recipe): number {
+    if (recipe === undefined) {
+      return 0;
+    }
+    const character = ref(container.get<Character>(TYPES.Character)).value;
+
+    let maximumAmount = recipe.item.maximumInStorage - (character.storageInventory
+      .GetItemOrEmptyItemStack(recipe.item.name) as ItemStack).quantity;
+
+    for (let i = 0; i < recipe.recipeMaterials.length; i++) {
+      const rm = recipe.recipeMaterials[i];
+      const is: ItemStack = character.storageInventory
+        .GetItemOrEmptyItemStack(rm.item.name);
+
+      if (is.quantity < rm.quantity) {
+        return 0;
+      }
+      maximumAmount = Math.min(maximumAmount, Math.floor(is.quantity / rm.quantity));
+    }
+
+    return maximumAmount;
   }
 }

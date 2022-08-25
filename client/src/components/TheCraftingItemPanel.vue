@@ -7,6 +7,7 @@ import { Character } from "../models/character/Character";
 import TYPES from "../types";
 import { ItemStack } from "../models/items/ItemStack";
 import CraftingPanelRecipeMaterial from "./CraftingPanelRecipeMaterial.vue";
+import { CraftService } from "../services/CraftService";
 
 const props = defineProps<{
   recipe?: Recipe,
@@ -17,6 +18,7 @@ defineEmits([
   "craft-item"]);
 
 const character = ref(container.get<Character>(TYPES.Character));
+const craftService = ref(container.get<CraftService>(TYPES.CraftService));
 
 const itemInStorage = computed(() => {
   return props.recipe === undefined ?
@@ -43,8 +45,7 @@ const currentFull = computed(() => {
 });
 
 const maximumToCraft = computed(() => {
-  //  TODO get value from CraftService internal calculation
-  return props.recipe?.item.maximumInStorage! - itemInStorage.value?.quantity!;
+  return craftService.value.CanCraftAmount(props.recipe!);
 });
 </script>
 
@@ -115,14 +116,19 @@ const maximumToCraft = computed(() => {
       </div>
       <div class="actions-row">
         <div class="craft-one">
-          <button @click="$emit('craft-item', 1)">
+          <button
+            :disabled="maximumToCraft === 0"
+            @click="$emit('craft-item', 1)"
+          >
             Craft 1
           </button>
           <span>{{ recipe.duration / 1000 }} s</span>
         </div>
         <div class="craft-all">
-          <button @click="$emit('craft-item', maximumToCraft)">
-            Craft All
+          <button
+            :disabled="maximumToCraft === 0"
+            @click="$emit('craft-item', maximumToCraft)">
+            Craft All ({{ maximumToCraft }})
           </button>
           <span>{{ recipe.duration * maximumToCraft / 1000 }} s</span>
         </div>
