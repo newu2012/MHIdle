@@ -28,7 +28,7 @@ public class AdminController : ControllerBase
     private async Task ReseedAll()
     {
         //  TODO Think out how to split Item.json to Resource.json and other types of items
-        Reseed<Item>();
+        ReseedItems();
         Reseed<Region>();
         Reseed<Territory>();
         Reseed<ResourceNodeEvent>();
@@ -72,5 +72,11 @@ public class AdminController : ControllerBase
         Console.WriteLine(objId);
 
         return valId == objId;
+    }
+
+    private void ReseedItems()
+    {
+        Reseed<Resource>();
+        Reseed<Instrument>();
     }
 }

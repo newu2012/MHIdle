@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace EntityModels.Postgresql;
 
 [Table("Item")]
-public partial class Item
+public abstract partial class Item
 {
     public Item() { }
 

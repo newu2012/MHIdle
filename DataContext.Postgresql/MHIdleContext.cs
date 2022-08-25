@@ -11,13 +11,19 @@ public partial class MHIdleContext : DbContext
         : base(options) { }
 
     //  TODO sort variables alphabetically
-    public virtual DbSet<Item> Items { get; set; } = null!;
+    
+    //  Items
+    public virtual DbSet<Resource> Resources { get; set; } = null!;
+    public virtual DbSet<Instrument> Instruments { get; set; } = null!;
+    
+    //  Regions
     public virtual DbSet<Region> Regions { get; set; } = null!;
     public virtual DbSet<Territory> Territories { get; set; } = null!;
     public virtual DbSet<ResourceNodeEvent> ResourceNodeEvents { get; set; } = null!;
     public virtual DbSet<ResourceNodeItem> ResourceNodeItems { get; set; } = null!;
     public virtual DbSet<ResourceNodeProportion> ResourceNodeProportions { get; set; } = null!;
 
+    //  Craft
     public virtual DbSet<Recipe> Recipe { get; set; } = null!;
     public virtual DbSet<RecipeMaterial> RecipeMaterial { get; set; } = null!;
 

@@ -3,6 +3,7 @@ using System;
 using DataContext.Postgresql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Server.Migrations
 {
     [DbContext(typeof(MHIdleContext))]
-    partial class MHIdleContextModelSnapshot : ModelSnapshot
+    [Migration("20220825172654_SplitItemToResourceAndInstrument")]
+    partial class SplitItemToResourceAndInstrument
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -306,11 +308,6 @@ namespace Server.Migrations
             modelBuilder.Entity("EntityModels.Postgresql.Resource", b =>
                 {
                     b.HasBaseType("EntityModels.Postgresql.Item");
-
-                    b.Property<string>("ResourceType")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
 
                     b.ToTable("Item");
 

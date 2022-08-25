@@ -1,57 +1,50 @@
 ﻿[
   {
     "id": 1,
-    "Type": "Herb",
+    "Type": "Resource",
     "Name": "Simple herb",
     "Description": "Some simple herb needed to create various potions and build basic stuff. Nothing special.",
     "Rarity": 1,
     "Value": 1,
     "ImagePath": "/icons/Herb_Icon_Green.png",
     "MaximumInInventory": 10,
-    "MaximumInStorage": 100
+    "MaximumInStorage": 100,
+    "ResourceType": "Herb"
   },
   {
     "id": 2,
-    "Type": "Herb",
+    "Type": "Resource",
     "Name": "Not so simple herb",
     "Description": "Other herb.",
     "Rarity": 2,
     "Value": 5,
     "ImagePath": "/icons/Herb_Icon_Red.png",
     "MaximumInInventory": 10,
-    "MaximumInStorage": 100
+    "MaximumInStorage": 100,
+    "ResourceType": "Herb"
   },
   {
     "id": 3,
-    "Type": "Herb",
+    "Type": "Resource",
     "Name": "Another herb",
     "Description": "Somewhat rare herb.",
     "Rarity": 3,
     "Value": 20,
     "ImagePath": "/icons/Herb_Icon_Blue.png",
     "MaximumInInventory": 10,
-    "MaximumInStorage": 100
+    "MaximumInStorage": 100,
+    "ResourceType": "Herb"
   },
   {
     "id": 4,
-    "Type": "Rock",
+    "Type": "Resource",
     "Name": "Pebble",
     "Description": "Simple pebble.",
     "Rarity": 1,
     "Value": 1,
     "ImagePath": "/icons/Ore_Icon_Grey.png",
     "MaximumInInventory": 10,
-    "MaximumInStorage": 100
-  },
-  {
-    "id": 5,
-    "Type": "Sickle",
-    "Name": "Simple sickle",
-    "Description": "Allows you to collect common herbs faster.",
-    "Rarity": 1,
-    "Value": 10,
-    "ImagePath": "/icons/Question_Mark_Icon_Grey.png",
-    "MaximumInInventory": 3,
-    "MaximumInStorage": 100
+    "MaximumInStorage": 100,
+    "ResourceType": "Rock"
   }
 ]

@@ -51,9 +51,11 @@ export class StartupLoadService {
   }
 
   async LoadItemsFromServer(): Promise<Item[]> {
-    const response: HttpResponse<[]> = await useFetch<[]>("/api/item");
-    const json = response!.parsedBody!;
+    const resourceResponse: HttpResponse<[]> = await useFetch<[]>("/api/resource");
+    const instrumentResponse: HttpResponse<[]> = await useFetch<[]>("/api/instrument");
+    const json = resourceResponse!.parsedBody!.concat(instrumentResponse!.parsedBody!);
 
+    console.log(json);
     const items = [];
 
     for (let i = 0; i < json.length; i++) {

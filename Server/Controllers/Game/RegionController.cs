@@ -28,10 +28,16 @@ public class RegionController : ControllerBase
         return _db.Territories.Include(t => t.ResourceNodeProportions).ToArray();
     }
 
-    [HttpGet("/api/item")]
-    public Item[] ItemsInfo()
+    [HttpGet("/api/resource")]
+    public Resource[] ResourcesInfo()
     {
-        return _db.Items.ToArray();
+        return _db.Resources.ToArray();
+    }
+    
+    [HttpGet("/api/instrument")]
+    public Instrument[] InstrumentsInfo()
+    {
+        return _db.Instruments.ToArray();
     }
 
     [HttpGet("/api/recipe")]

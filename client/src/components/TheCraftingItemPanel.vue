@@ -127,7 +127,8 @@ const maximumToCraft = computed(() => {
         <div class="craft-all">
           <button
             :disabled="maximumToCraft === 0"
-            @click="$emit('craft-item', maximumToCraft)">
+            @click="$emit('craft-item', maximumToCraft)"
+          >
             Craft All ({{ maximumToCraft }})
           </button>
           <span>{{ recipe.duration * maximumToCraft / 1000 }} s</span>
