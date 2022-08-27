@@ -4,7 +4,6 @@ import TYPES from "../types";
 import { ref } from "vue";
 import container from "../inversify.config";
 import { Recipe } from "../models/craft/Recipe";
-import { RegionService } from "./RegionService";
 import { Character } from "../models/character/Character";
 import { ItemStack } from "../models/items/ItemStack";
 import { Instrument } from "../models/items/Instrument";
@@ -20,6 +19,11 @@ export class CraftService {
   activeRecipe?: Recipe;
   quantity: number = 0;
 
+  SetRecipe(recipe: Recipe, quantity: number) {
+    this.activeRecipe = recipe;
+    this.quantity = quantity;
+  }
+
   //  TODO Change craft when quantity > 0 from "big duration" to "multiple durations"
   Craft() {
     if (this.activeRecipe === undefined) {
@@ -28,7 +32,6 @@ export class CraftService {
 
     const character = ref(container.get<Character>(TYPES.Character)).value;
     const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
-    const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
 
     const canCraftAmount = this.CanCraftAmount(this.activeRecipe);
     this.quantity = Math.min(this.quantity, canCraftAmount);
@@ -36,8 +39,7 @@ export class CraftService {
     if (this.quantity === 0) {
       console.log(`Not enough materials to create ${this.activeRecipe.item.name}`);
 
-      actionService.SetCurrentAction(this.actionService.availableActions.explore(
-        regionService.activeTerritory.durationExploreInTerritory));
+      actionService.SetCurrentAction(this.actionService.availableActions.explore());
       return;
     }
 
@@ -49,8 +51,7 @@ export class CraftService {
     }
     character.storageInventory.AddItem(this.activeRecipe.item, this.quantity);
 
-    actionService.SetCurrentAction(this.actionService.availableActions.explore(
-      regionService.activeTerritory.durationExploreInTerritory));
+    actionService.SetCurrentAction(this.actionService.availableActions.explore());
   }
 
   CanCraftAmount(recipe: Recipe): number {
@@ -77,31 +78,25 @@ export class CraftService {
     return maximumAmount;
   }
 
-  TimeToCraftActiveRecipe(): number {
+  GetCraftDuration(): number {
     if (this.activeRecipe === undefined) {
       return -1;
     }
 
+    let duration = this.activeRecipe.duration;
     const character = ref(container.get<Character>(TYPES.Character)).value;
+    const maximumInstrument = character.storageInventory
+      .GetBestInstrumentOfType(this.activeRecipe.instrumentType);
 
-    let timeToCraft = this.activeRecipe.duration;
-    const itemStacksOfNeededType = character.storageInventory.GetItemStacksByType(this.activeRecipe.instrumentType);
+    const maximumInstrumentLevel = maximumInstrument === undefined ?
+      0 :
+      (maximumInstrument.item as Instrument).instrumentLevel;
+    const resultLevel = this.activeRecipe.instrumentExpectedLevel - maximumInstrumentLevel;
+    const timeModifier = (resultLevel < 0 ?
+      1 / Math.pow(2, -resultLevel) :
+      Math.pow(4, resultLevel));
+    duration = duration * timeModifier;
 
-    if (itemStacksOfNeededType.length > 0) {
-      //  TODO Test when will be more than 1 instrument
-      const maximumInstrumentLevel = (itemStacksOfNeededType.sort((a, b) => {
-        const aLvl = (a.item as Instrument).instrumentLevel;
-        const bLvl = (b.item as Instrument).instrumentLevel;
-
-        return aLvl === bLvl ? 0 : aLvl > bLvl ? 1 : -1;
-      })[0].item as Instrument).instrumentLevel;
-
-      const resultLevel = this.activeRecipe.instrumentExpectedLevel - maximumInstrumentLevel;
-      const timeModifier = (resultLevel < 0 ? 1 / Math.pow(2, -resultLevel) : Math.pow(4, resultLevel));
-
-      timeToCraft = this.activeRecipe.duration * timeModifier;
-    }
-
-    return timeToCraft;
+    return duration;
   }
 }

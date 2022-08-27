@@ -21,10 +21,10 @@ function SetActive(itemStackIndex: number) {
 function CraftItem(quantity: number) {
   const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
 
-  //  TODO Change to craft
-  craftService.value.activeRecipe = modelsService.value.recipes[selectedRecipe.value];
-  craftService.value.quantity = quantity;
-  actionService.SetCurrentAction(actionService.availableActions.craft(craftService.value.TimeToCraftActiveRecipe()));
+  craftService.value.SetRecipe(
+    modelsService.value.recipes[selectedRecipe.value],
+    quantity);
+  actionService.SetCurrentAction(actionService.availableActions.craft());
 }
 </script>
 

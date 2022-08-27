@@ -1,6 +1,7 @@
 import { Item } from "../items/Item";
 import { reactive } from "vue";
 import { ItemStack } from "../items/ItemStack";
+import { Instrument } from "../items/Instrument";
 
 export class Inventory {
   itemStacks: ItemStack[];
@@ -34,15 +35,30 @@ export class Inventory {
       this.itemStacks[this.FindEmptyItemStackIndex()];
   }
 
-  GetItemStacksByType(itemType: string) {
+  GetItemStacksByType(itemType: string): ItemStack[] {
     return this.itemStacks.filter(is => is.item?.type === itemType);
+  }
+
+  GetBestInstrumentOfType(instrumentType: string): ItemStack | undefined {
+    const itemStacks = this.itemStacks
+      .filter(is => is.item?.type === "Instrument" &&
+        (is.item as Instrument).instrumentType === instrumentType);
+
+    if (itemStacks.length > 0) {
+      //  TODO Test when will be more than 1 instrument
+      return itemStacks.sort((a, b) => {
+        const aLvl = (a.item as Instrument).instrumentLevel;
+        const bLvl = (b.item as Instrument).instrumentLevel;
+
+        return aLvl === bLvl ? 0 : aLvl > bLvl ? 1 : -1;
+      })[0];
+    }
   }
 
   AtMaximumCapacity = (item: Item, foundItemIndex: number): boolean => {
     return this.isStorage ?
       item.maximumInStorage === this.itemStacks[foundItemIndex].quantity :
       item.maximumInInventory === this.itemStacks[foundItemIndex].quantity;
-
   };
 
   AddItem(item: Item, quantity: number = 1) {

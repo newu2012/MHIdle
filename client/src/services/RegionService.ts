@@ -9,6 +9,7 @@ import { Territory } from "../models/region/Territory";
 import { ModelsService } from "./ModelsService";
 import { ResourceNode } from "../models/region/ResourceNode";
 import { ResourceNodeItem } from "../models/region/ResourceNodeItem";
+import { Instrument } from "../models/items/Instrument";
 
 @injectable()
 export class RegionService {
@@ -42,17 +43,13 @@ export class RegionService {
     this.currentEvent = undefined;
 
     const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
-    const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
-    actionService.SetCurrentAction(this.actionService.availableActions.explore(
-      regionService.activeTerritory.durationExploreOnEnter));
+    actionService.SetCurrentAction(this.actionService.availableActions.explore());
   }
 
   AutoExplore() {
     //  TODO Move out duration time and its calculation to some stats class
     const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
-    const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
-    actionService.SetCurrentAction(this.actionService.availableActions.explore(
-      regionService.activeTerritory.durationExploreInTerritory));
+    actionService.SetCurrentAction(this.actionService.availableActions.explore());
   }
 
   Explore() {
@@ -67,7 +64,31 @@ export class RegionService {
     //  TODO Change to notification
     console.log(`Found ${regionService.currentEvent?.name}`);
 
-    actionService.SetCurrentAction(this.actionService.availableActions.gather(regionService.currentEvent?.duration ?? 3 * 1000));
+    actionService.SetCurrentAction(this.actionService.availableActions.gather());
+  }
+
+  GetExploreDuration(): number {
+    if (this.activeTerritory === undefined) {
+      return -1;
+    }
+
+    let duration = this.currentEvent === undefined ?
+      this.activeTerritory.durationExploreOnEnter :
+      this.activeTerritory.durationExploreInTerritory;
+    const character = ref(container.get<Character>(TYPES.Character)).value;
+    const maximumInstrument = character.storageInventory
+      .GetBestInstrumentOfType(this.activeTerritory.instrumentType);
+
+    const maximumInstrumentLevel = maximumInstrument === undefined ?
+      0 :
+      (maximumInstrument.item as Instrument).instrumentLevel;
+    const resultLevel = this.activeTerritory.instrumentExpectedLevel - maximumInstrumentLevel;
+    const timeModifier = (resultLevel < 0 ?
+      1 / Math.pow(2, -resultLevel) :
+      Math.pow(4, resultLevel));
+    duration = duration * timeModifier;
+
+    return duration;
   }
 
   Gather() {
@@ -77,10 +98,7 @@ export class RegionService {
     const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
 
     if (regionService.currentEvent === undefined) {
-      const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
-      actionService.SetCurrentAction(this.actionService.availableActions.explore(
-        regionService.activeTerritory.durationExploreInTerritory,
-      ));
+      actionService.SetCurrentAction(this.actionService.availableActions.explore());
       return;
     }
 
@@ -98,9 +116,30 @@ export class RegionService {
     if (regionService.currentEventCapacity > 1) {
       regionService.currentEventCapacity--;
     } else {
-      actionService.SetCurrentAction(this.actionService.availableActions.explore(
-        regionService.activeTerritory.durationExploreInTerritory,
-      ));
+      actionService.SetCurrentAction(this.actionService.availableActions.explore());
     }
+  }
+
+  GetGatherDuration(): number {
+    if (this.currentEvent === undefined) {
+      return -1;
+    }
+
+    const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
+    const character = ref(container.get<Character>(TYPES.Character)).value;
+    let duration = regionService.currentEvent?.duration!;
+    const maximumInstrument = character.storageInventory
+      .GetBestInstrumentOfType(regionService.currentEvent?.instrumentType!);
+
+    const maximumInstrumentLevel = maximumInstrument === undefined ?
+      0 :
+      (maximumInstrument.item as Instrument).instrumentLevel;
+    const resultLevel = regionService.currentEvent?.instrumentExpectedLevel! - maximumInstrumentLevel;
+    const timeModifier = (resultLevel < 0 ?
+      1 / Math.pow(2, -resultLevel) :
+      Math.pow(4, resultLevel));
+    duration = duration * timeModifier;
+
+    return duration;
   }
 }

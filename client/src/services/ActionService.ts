@@ -46,30 +46,36 @@ export class ActionService {
     craft: this.Craft,
   };
 
-  Explore(duration: number) {
+  Explore() {
+    const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
+
     return new Action(
       "Exploring",
-      duration,
+      regionService.GetExploreDuration(),
       () => {
         const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
         return regionService.Explore();
       });
   }
 
-  Gather(duration: number) {
+  Gather() {
+    const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
+
     return new Action(
       "Gathering",
-      duration,
+      regionService.GetGatherDuration(),
       () => {
         const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
         return regionService.Gather();
       });
   }
 
-  Craft(duration: number) {
+  Craft() {
+    const craftService = ref(container.get<CraftService>(TYPES.CraftService)).value;
+
     return new Action(
       "Crafting",
-      duration,
+      craftService.GetCraftDuration(),
       () => {
         const craftService = ref(container.get<CraftService>(TYPES.CraftService)).value;
         return craftService.Craft();
