@@ -3,7 +3,7 @@ import { reactive } from "vue";
 import { ItemStack } from "../items/ItemStack";
 
 export class Inventory {
-  itemStacks;
+  itemStacks: ItemStack[];
   isStorage = false;
 
   constructor(stacksQuantity: number) {
@@ -26,11 +26,16 @@ export class Inventory {
     return this.itemStacks.findIndex((is) => is.item === undefined);
   }
 
+  //  TODO Split into 2 methods, seems like this method does 2 different tasks
   GetItemOrEmptyItemStack(itemName: string) {
     const itemIndex = this.FindItemIndexByName(itemName);
     return itemIndex >= 0 ?
       this.itemStacks[itemIndex] :
       this.itemStacks[this.FindEmptyItemStackIndex()];
+  }
+
+  GetItemStacksByType(itemType: string) {
+    return this.itemStacks.filter(is => is.item?.type === itemType);
   }
 
   AtMaximumCapacity = (item: Item, foundItemIndex: number): boolean => {

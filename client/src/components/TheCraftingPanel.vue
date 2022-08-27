@@ -24,7 +24,7 @@ function CraftItem(quantity: number) {
   //  TODO Change to craft
   craftService.value.activeRecipe = modelsService.value.recipes[selectedRecipe.value];
   craftService.value.quantity = quantity;
-  actionService.SetCurrentAction(actionService.availableActions.craft(modelsService.value.recipes[selectedRecipe.value].duration));
+  actionService.SetCurrentAction(actionService.availableActions.craft(craftService.value.TimeToCraftActiveRecipe()));
 }
 </script>
 

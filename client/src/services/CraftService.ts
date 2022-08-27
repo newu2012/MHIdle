@@ -7,6 +7,7 @@ import { Recipe } from "../models/craft/Recipe";
 import { RegionService } from "./RegionService";
 import { Character } from "../models/character/Character";
 import { ItemStack } from "../models/items/ItemStack";
+import { Instrument } from "../models/items/Instrument";
 
 @injectable()
 export class CraftService {
@@ -74,5 +75,33 @@ export class CraftService {
     }
 
     return maximumAmount;
+  }
+
+  TimeToCraftActiveRecipe(): number {
+    if (this.activeRecipe === undefined) {
+      return -1;
+    }
+
+    const character = ref(container.get<Character>(TYPES.Character)).value;
+
+    let timeToCraft = this.activeRecipe.duration;
+    const itemStacksOfNeededType = character.storageInventory.GetItemStacksByType(this.activeRecipe.instrumentType);
+
+    if (itemStacksOfNeededType.length > 0) {
+      //  TODO Test when will be more than 1 instrument
+      const maximumInstrumentLevel = (itemStacksOfNeededType.sort((a, b) => {
+        const aLvl = (a.item as Instrument).instrumentLevel;
+        const bLvl = (b.item as Instrument).instrumentLevel;
+
+        return aLvl === bLvl ? 0 : aLvl > bLvl ? 1 : -1;
+      })[0].item as Instrument).instrumentLevel;
+
+      const resultLevel = this.activeRecipe.instrumentExpectedLevel - maximumInstrumentLevel;
+      const timeModifier = (resultLevel < 0 ? 1 / Math.pow(2, -resultLevel) : Math.pow(4, resultLevel));
+
+      timeToCraft = this.activeRecipe.duration * timeModifier;
+    }
+
+    return timeToCraft;
   }
 }
