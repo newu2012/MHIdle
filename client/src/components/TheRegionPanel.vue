@@ -12,7 +12,6 @@ const regionService: RegionService = container.get<RegionService>(TYPES.RegionSe
 const activeTerritory = ref(regionService.activeTerritory.name);
 
 function SetActive(territory: Territory) {
-  //  TODO call change active territory method in regionService
   regionService.ChangeTerritory(territory);
   activeTerritory.value = territory.name;
 }

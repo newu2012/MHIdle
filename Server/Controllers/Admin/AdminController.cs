@@ -27,7 +27,6 @@ public class AdminController : ControllerBase
 
     private async Task ReseedAll()
     {
-        //  TODO Think out how to split Item.json to Resource.json and other types of items
         ReseedItems();
         Reseed<Region>();
         Reseed<Territory>();
@@ -45,10 +44,7 @@ public class AdminController : ControllerBase
         var newObjects = EntitySeeding.Seeding<T>().ToArray();
         var table = _db.Set<T>();
 
-        //  TODO Set up Equals for Entities to update entities without deleting all the time
-
-        //  Delete all current rows and add new from Seeds file
-        // _db.Database.ExecuteSqlRaw($"TRUNCATE \"{typeof(T).Name}\" RESTART IDENTITY");
+        //  TODO Think out some clean way to updateOrAdd only when not equals (Equals() seems like not a clean way) 
         foreach (var obj in newObjects)
         {
             if (table.AsNoTracking().AsEnumerable().Any(r => PropertiesAreEqual(r, obj)))
@@ -64,6 +60,12 @@ public class AdminController : ControllerBase
         _db.SaveChanges();
     }
 
+    private void ReseedItems()
+    {
+        Reseed<Resource>();
+        Reseed<Instrument>();
+    }
+
     private bool PropertiesAreEqual<T>(T val, T obj)
     {
         var valId = (int)(val?.GetType().GetProperty("Id")?.GetValue(val) ?? 0);
@@ -72,11 +74,5 @@ public class AdminController : ControllerBase
         Console.WriteLine(objId);
 
         return valId == objId;
-    }
-
-    private void ReseedItems()
-    {
-        Reseed<Resource>();
-        Reseed<Instrument>();
     }
 }

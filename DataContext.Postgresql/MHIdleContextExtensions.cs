@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DataContext.Postgresql;
@@ -7,7 +8,7 @@ namespace DataContext.Postgresql;
 public static class MHIdleContextExtensions
 {
     /// <summary>
-    /// Adds MHIdleContext to the specified IServiceCollection. Uses the Postgresql database provider.
+    ///     Adds MHIdleContext to the specified IServiceCollection. Uses the Postgresql database provider.
     /// </summary>
     /// <param name="services"></param>
     /// <param name="connectionString">Set to override the default.</param>
@@ -30,8 +31,7 @@ public static class MHIdleContextExtensions
             options.LogTo(Console.WriteLine, // Console
                 new[]
                 {
-                    Microsoft.EntityFrameworkCore
-                        .Diagnostics.RelationalEventId.CommandExecuting
+                    RelationalEventId.CommandExecuting
                 });
         });
 

@@ -40,7 +40,6 @@ export class ActionService {
     actionService.elapsed = 0;
   }
 
-  //  TODO Set changing currentAction only by selection from list of Actions
   availableActions = {
     explore: this.Explore,
     gather: this.Gather,
