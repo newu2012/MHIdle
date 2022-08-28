@@ -41,7 +41,7 @@ export class StartupLoadService {
       result => {
         modelsService.territories = result;
         //  TODO Change to highest priority starting territory
-        regionService.activeTerritory = modelsService.territories.filter(t => t.name === "Outskirts")[0];
+        regionService.activeTerritory = modelsService.territories[0];
       },
     );
     await this.LoadRegionsFromServer().then(
@@ -125,6 +125,7 @@ export class StartupLoadService {
         json[i]["name"],
         json[i]["description"],
         json[i]["regionName"],
+        json[i]["order"],
         json[i]["durationSecondsExploreOnEnter"] * 1000,
         json[i]["durationSecondsExploreInTerritory"] * 1000,
         json[i]["instrumentType"],
@@ -138,6 +139,7 @@ export class StartupLoadService {
 
       territories.push(region);
     }
+    territories.sort((a, b) => a.order - b.order);
 
     return territories;
   }
@@ -151,12 +153,14 @@ export class StartupLoadService {
     for (let i = 0; i < json.length; i++) {
       const region = new Region(
         json[i]["name"],
+        json[i]["order"],
         json[i]["description"],
         (json[i]["territories"] as Territory[]),
       );
 
       regions.push(region);
     }
+    regions.sort((a, b) => a.order - b.order);
 
     return regions;
   }

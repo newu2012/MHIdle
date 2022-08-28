@@ -5,6 +5,7 @@ export class Territory {
     name: string,
     description: string,
     regionName: string,
+    order: number,
     durationExploreOnEnter: number,
     durationExploreInTerritory: number,
     instrumentType: string,
@@ -14,6 +15,7 @@ export class Territory {
     this.name = name;
     this.description = description;
     this.regionName = regionName;
+    this.order = order;
     this.territoryEvents = territoryEvents;
     this.durationExploreOnEnter = durationExploreOnEnter;
     this.durationExploreInTerritory = durationExploreInTerritory;
@@ -25,6 +27,7 @@ export class Territory {
   name: string;
   description: string;
   regionName: string;
+  order: number;
   durationExploreOnEnter: number;
   durationExploreInTerritory: number;
   instrumentType: string = "binoculars";

@@ -8,6 +8,7 @@ public partial class Region
 {
     [Key] public string Name { get; set; } = null!;
     [StringLength(1000)] public string Description { get; set; } = null!;
+    public int Order { get; set; }
 
     public virtual ICollection<Territory> Territories { get; set; } = null!;
 }

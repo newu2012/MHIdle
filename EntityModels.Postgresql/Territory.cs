@@ -16,6 +16,7 @@ public partial class Territory
 
     public string RegionName { get; set; } = null!;
     public virtual Region Region { get; set; } = null!;
+    public int Order { get; set; }
 
     public ICollection<ResourceNodeProportion> ResourceNodeProportions { get; set; } = null!;
 }
