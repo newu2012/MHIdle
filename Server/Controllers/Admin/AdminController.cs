@@ -30,7 +30,7 @@ public class AdminController : ControllerBase
         ReseedItems();
         Reseed<Region>();
         Reseed<Territory>();
-        Reseed<ResourceNodeEvent>();
+        Reseed<ResourceNode>();
         Reseed<ResourceNodeItem>();
         Reseed<ResourceNodeProportion>();
         Reseed<Recipe>();

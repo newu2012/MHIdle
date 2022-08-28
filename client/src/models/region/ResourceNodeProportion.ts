@@ -3,15 +3,15 @@ export class ResourceNodeProportion {
     id: number,
     value: number,
     territoryName: string,
-    resourceNodeEventName: string) {
+    resourceNodeName: string) {
     this.id = id;
     this.value = value;
     this.territoryName = territoryName;
-    this.resourceNodeEventName = resourceNodeEventName;
+    this.resourceNodeName = resourceNodeName;
   }
 
   id: number;
   value: number;
   territoryName: string;
-  resourceNodeEventName: string;
+  resourceNodeName: string;
 }

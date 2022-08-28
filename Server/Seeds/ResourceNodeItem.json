@@ -5,7 +5,7 @@
     "ItemName": "Simple herb",
     "MinimumQuantity": 1,
     "MaximumQuantity": 3,
-    "ResourceNodeEventName": "Herb patch"
+    "ResourceNodeName": "Herb patch"
   },
   {
     "id": 2,
@@ -13,7 +13,7 @@
     "ItemName": "Not so simple herb",
     "MinimumQuantity": 0,
     "MaximumQuantity": 2,
-    "ResourceNodeEventName": "Herb patch"
+    "ResourceNodeName": "Herb patch"
   },
   {
     "id": 3,
@@ -21,7 +21,7 @@
     "ItemName": "Useful herb",
     "MinimumQuantity": 0,
     "MaximumQuantity": 1,
-    "ResourceNodeEventName": "Herb patch"
+    "ResourceNodeName": "Herb patch"
   },
   {
     "id": 4,
@@ -29,7 +29,7 @@
     "ItemName": "Pebble",
     "MinimumQuantity": 1,
     "MaximumQuantity": 3,
-    "ResourceNodeEventName": "Pile of pebbles"
+    "ResourceNodeName": "Pile of pebbles"
   },
   {
     "id": 5,
@@ -37,7 +37,7 @@
     "ItemName": "Simple herb",
     "MinimumQuantity": 1,
     "MaximumQuantity": 4,
-    "ResourceNodeEventName": "Small useful herb patch"
+    "ResourceNodeName": "Small useful herb patch"
   },
   {
     "id": 6,
@@ -45,7 +45,7 @@
     "ItemName": "Not so simple herb",
     "MinimumQuantity": 1,
     "MaximumQuantity": 2,
-    "ResourceNodeEventName": "Small useful herb patch"
+    "ResourceNodeName": "Small useful herb patch"
   },
   {
     "id": 7,
@@ -53,6 +53,6 @@
     "ItemName": "Useful herb",
     "MinimumQuantity": 0,
     "MaximumQuantity": 2,
-    "ResourceNodeEventName": "Small useful herb patch"
+    "ResourceNodeName": "Small useful herb patch"
   }
 ]

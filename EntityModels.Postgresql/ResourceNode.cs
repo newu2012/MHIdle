@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntityModels.Postgresql;
 
-[Table("ResourceNodeEvent")]
-public partial class ResourceNodeEvent
+[Table("ResourceNode")]
+public partial class ResourceNode
 {
     [Key] public string Name { get; set; } = null!;
     [StringLength(1000)] public string Description { get; set; } = null!;

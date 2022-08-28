@@ -34,8 +34,8 @@ export class StartupLoadService {
     await this.LoadItemsFromServer().then(
       result => modelsService.items = result,
     );
-    await this.LoadResourceNodeEventsFromServer().then(
-      result => modelsService.resourceNodeEvents = result,
+    await this.LoadResourceNodesFromServer().then(
+      result => modelsService.resourceNodes = result,
     );
     await this.LoadTerritoriesFromServer(modelsService).then(
       result => {
@@ -81,8 +81,8 @@ export class StartupLoadService {
     return items;
   }
 
-  async LoadResourceNodeEventsFromServer(): Promise<ResourceNode[]> {
-    const response: HttpResponse<[]> = await useFetch<[]>("/api/event");
+  async LoadResourceNodesFromServer(): Promise<ResourceNode[]> {
+    const response: HttpResponse<[]> = await useFetch<[]>("/api/resource-node");
     const json = response!.parsedBody!;
 
     const resourceNodes = [];
@@ -132,7 +132,7 @@ export class StartupLoadService {
         json[i]["instrumentExpectedLevel"],
         (json[i]["resourceNodeProportions"] as ResourceNodeProportion[])
           .map(rnp => new owp(
-            modelsService.resourceNodeEvents.filter(rne => rne.name === rnp.resourceNodeEventName)[0],
+            modelsService.resourceNodes.filter(rn => rn.name === rnp.resourceNodeName)[0],
             rnp.value)),
       );
 

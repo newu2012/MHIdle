@@ -9,7 +9,7 @@ import { Recipe } from "../models/craft/Recipe";
 export class ModelsService {
   regions: Region[] = [];
   territories: Territory[] = [];
-  resourceNodeEvents: ResourceNode[] = [];
+  resourceNodes: ResourceNode[] = [];
   items: Item[] = [];
   recipes: Recipe[] = [];
 }

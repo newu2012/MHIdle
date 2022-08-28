@@ -19,7 +19,9 @@ public partial class MHIdleContext : DbContext
     //  Regions
     public virtual DbSet<Region> Regions { get; set; } = null!;
     public virtual DbSet<Territory> Territories { get; set; } = null!;
-    public virtual DbSet<ResourceNodeEvent> ResourceNodeEvents { get; set; } = null!;
+
+    //  ResourceNode
+    public virtual DbSet<ResourceNode> ResourceNodes { get; set; } = null!;
     public virtual DbSet<ResourceNodeItem> ResourceNodeItems { get; set; } = null!;
     public virtual DbSet<ResourceNodeProportion> ResourceNodeProportions { get; set; } = null!;
 

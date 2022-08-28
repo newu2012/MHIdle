@@ -14,6 +14,6 @@ public partial class ResourceNodeItem
     public int MinimumQuantity { get; set; }
     public int MaximumQuantity { get; set; }
 
-    public string ResourceNodeEventName { get; set; } = null!;
-    public ResourceNodeEvent ResourceNodeEvent { get; set; } = null!;
+    public string ResourceNodeName { get; set; } = null!;
+    public ResourceNode ResourceNode { get; set; } = null!;
 }

@@ -12,6 +12,6 @@ public partial class ResourceNodeProportion
     public string TerritoryName { get; set; } = null!;
     public Territory Territory { get; set; } = null!;
 
-    public string ResourceNodeEventName { get; set; } = null!;
-    public ResourceNodeEvent ResourceNodeEvent { get; set; } = null!;
+    public string ResourceNodeName { get; set; } = null!;
+    public ResourceNode ResourceNode { get; set; } = null!;
 }
