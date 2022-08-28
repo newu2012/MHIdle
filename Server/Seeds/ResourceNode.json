@@ -1,6 +1,7 @@
 ﻿[
   {
     "Name": "Herb patch",
+    "Type": "Resource node",
     "Description": "Some flowers and weeds, maybe you can find something useful.",
     "Capacity": 1,
     "DurationSeconds": 2,
@@ -10,6 +11,7 @@
   },
   {
     "Name": "Pile of pebbles",
+    "Type": "Resource node",
     "Description": "Somewhat different small rocks.",
     "Capacity": 1,
     "DurationSeconds": 2,
@@ -19,6 +21,7 @@
   },
   {
     "Name": "Small useful herb patch",
+    "Type": "Resource node",
     "Description": "Some flowers and useful herbs, much better than what grows in city.",
     "Capacity": 3,
     "DurationSeconds": 4,
