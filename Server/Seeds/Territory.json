@@ -1,6 +1,16 @@
 ﻿[
   {
     "Order": 0,
+    "Name": "Hunter camp",
+    "Description": "Here are the tents of beginner hunters. At the end is yours.",
+    "DurationSecondsExploreOnEnter": 5,
+    "DurationSecondsExploreInTerritory": 0,
+    "InstrumentType": "Binoculars",
+    "InstrumentRequiredLevel": 0,
+    "InstrumentExpectedLevel": 0,
+    "RegionName": "City"
+  },  {
+    "Order": 1,
     "Name": "Outskirts",
     "Description": "You can find some basic resources there.",
     "DurationSecondsExploreOnEnter": 5,

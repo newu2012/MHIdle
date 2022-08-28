@@ -29,19 +29,20 @@ function SetActive(territory: Territory) {
     class="regionStyle"
   >
     <h3>{{ region.name }} - {{ region.description }}</h3>
-    <div
-      v-for="territory in modelsService.territories.filter(t => t.regionName === region.name)"
-      :key="territory.name"
-      class="territoryStyle"
-    >
-      <button
-        :class="{activeTerritory: territory.name === activeTerritory}"
-        @click="SetActive(territory)"
+    <div class="territories">
+      <div
+        v-for="territory in modelsService.territories.filter(t => t.regionName === region.name)"
+        :key="territory.name"
+        :title="territory.description"
+        class="territoryStyle"
       >
-        {{ territory.name }} - {{
-          territory.description
-        }}
-      </button>
+        <button
+          :class="{activeTerritory: territory.name === activeTerritory}"
+          @click="SetActive(territory)"
+        >
+          {{ territory.name }}
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -52,8 +53,9 @@ function SetActive(territory: Territory) {
   text-align: start;
 }
 
-.territoryStyle {
-  padding: 8px 0;
+.territories {
+  display: flex;
+  gap: 8px;
 }
 
 .activeTerritory {

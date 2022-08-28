@@ -43,7 +43,11 @@ export class RegionService {
     this.activeEvent = undefined;
 
     const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
-    actionService.SetCurrentAction(this.actionService.availableActions.explore());
+    if (this.activeTerritory.territoryEvents.length > 0) {
+      actionService.SetCurrentAction(this.actionService.availableActions.explore());
+    } else {
+      actionService.SetCurrentAction(this.actionService.availableActions.idle());
+    }
   }
 
   AutoExplore() {
