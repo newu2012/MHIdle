@@ -31,8 +31,9 @@ public class AdminController : ControllerBase
         Reseed<Region>();
         Reseed<Territory>();
         Reseed<ResourceNode>();
-        Reseed<ResourceNodeItem>();
-        Reseed<ResourceNodeProportion>();
+        ReseedMonster();
+        Reseed<TerritoryEventItem>();
+        Reseed<TerritoryEventProportion>();
         Reseed<Recipe>();
         Reseed<RecipeMaterial>();
 
@@ -64,6 +65,12 @@ public class AdminController : ControllerBase
     {
         Reseed<Resource>();
         Reseed<Instrument>();
+    }
+
+    private void ReseedMonster()
+    {
+        Reseed<Monster>();
+        Reseed<MonsterPart>();
     }
 
     private bool PropertiesAreEqual<T>(T val, T obj)

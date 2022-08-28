@@ -3,36 +3,42 @@
     "id": 1,
     "Value": 10.0,
     "TerritoryName": "Outskirts",
-    "ResourceNodeName": "Herb patch"
+    "TerritoryEventName": "Herb patch"
   },
   {
     "id": 2,
     "Value": 1.0,
     "TerritoryName": "Outskirts",
-    "ResourceNodeName": "Pile of pebbles"
+    "TerritoryEventName": "Pile of pebbles"
   },
   {
     "id": 3,
     "Value": 10.0,
     "TerritoryName": "Abandoned mine",
-    "ResourceNodeName": "Pile of pebbles"
+    "TerritoryEventName": "Pile of pebbles"
   },
   {
     "id": 4,
     "Value": 1.0,
     "TerritoryName": "Abandoned mine",
-    "ResourceNodeName": "Herb patch"
+    "TerritoryEventName": "Herb patch"
   },
   {
     "id": 5,
     "Value": 1.0,
     "TerritoryName": "Glade",
-    "ResourceNodeName": "Herb patch"
+    "TerritoryEventName": "Herb patch"
   },
   {
     "id": 6,
     "Value": 1.0,
     "TerritoryName": "Glade",
-    "ResourceNodeName": "Small useful herb patch"
+    "TerritoryEventName": "Small useful herb patch"
+  },
+  {
+    "id": 7,
+    "Value": 1.0,
+    "TerritoryName": "Glade",
+    "TerritoryEventName": "Aptonoth"
   }
 ]

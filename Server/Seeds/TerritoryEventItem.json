@@ -5,7 +5,7 @@
     "ItemName": "Simple herb",
     "MinimumQuantity": 1,
     "MaximumQuantity": 3,
-    "ResourceNodeName": "Herb patch"
+    "TerritoryEventName": "Herb patch"
   },
   {
     "id": 2,
@@ -13,7 +13,7 @@
     "ItemName": "Not so simple herb",
     "MinimumQuantity": 0,
     "MaximumQuantity": 2,
-    "ResourceNodeName": "Herb patch"
+    "TerritoryEventName": "Herb patch"
   },
   {
     "id": 3,
@@ -21,7 +21,7 @@
     "ItemName": "Useful herb",
     "MinimumQuantity": 0,
     "MaximumQuantity": 1,
-    "ResourceNodeName": "Herb patch"
+    "TerritoryEventName": "Herb patch"
   },
   {
     "id": 4,
@@ -29,7 +29,7 @@
     "ItemName": "Pebble",
     "MinimumQuantity": 1,
     "MaximumQuantity": 3,
-    "ResourceNodeName": "Pile of pebbles"
+    "TerritoryEventName": "Pile of pebbles"
   },
   {
     "id": 5,
@@ -37,7 +37,7 @@
     "ItemName": "Simple herb",
     "MinimumQuantity": 1,
     "MaximumQuantity": 4,
-    "ResourceNodeName": "Small useful herb patch"
+    "TerritoryEventName": "Small useful herb patch"
   },
   {
     "id": 6,
@@ -45,7 +45,7 @@
     "ItemName": "Not so simple herb",
     "MinimumQuantity": 1,
     "MaximumQuantity": 2,
-    "ResourceNodeName": "Small useful herb patch"
+    "TerritoryEventName": "Small useful herb patch"
   },
   {
     "id": 7,
@@ -53,6 +53,14 @@
     "ItemName": "Useful herb",
     "MinimumQuantity": 0,
     "MaximumQuantity": 2,
-    "ResourceNodeName": "Small useful herb patch"
+    "TerritoryEventName": "Small useful herb patch"
+  },
+  {
+    "id": 8,
+    "Value": 10.0,
+    "ItemName": "Aptonoth hide",
+    "MinimumQuantity": 0,
+    "MaximumQuantity": 2,
+    "TerritoryEventName": "Aptonoth"
   }
 ]

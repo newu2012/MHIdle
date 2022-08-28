@@ -42,5 +42,16 @@
     "MaximumInInventory": 10,
     "MaximumInStorage": 100,
     "ResourceType": "Rock"
+  },
+  {
+    "Name": "Aptonoth hide",
+    "Type": "Resource",
+    "Description": "Hide of common herbivore.",
+    "Rarity": 2,
+    "Value": 5,
+    "ImagePath": "/icons/Hide_Icon_Light_Yellow.png",
+    "MaximumInInventory": 10,
+    "MaximumInStorage": 100,
+    "ResourceType": "Hide"
   }
 ]

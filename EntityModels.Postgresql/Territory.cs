@@ -18,5 +18,5 @@ public partial class Territory
     public virtual Region Region { get; set; } = null!;
     public int Order { get; set; }
 
-    public ICollection<ResourceNodeProportion> ResourceNodeProportions { get; set; } = null!;
+    public ICollection<TerritoryEventProportion> TerritoryEventProportions { get; set; } = null!;
 }

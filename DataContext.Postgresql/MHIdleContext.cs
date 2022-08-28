@@ -20,10 +20,15 @@ public partial class MHIdleContext : DbContext
     public virtual DbSet<Region> Regions { get; set; } = null!;
     public virtual DbSet<Territory> Territories { get; set; } = null!;
 
+    public virtual DbSet<TerritoryEventProportion> TerritoryEventProportions { get; set; } = null!;
+    public virtual DbSet<TerritoryEventItem> ResourceNodeItems { get; set; } = null!;
+
     //  ResourceNode
     public virtual DbSet<ResourceNode> ResourceNodes { get; set; } = null!;
-    public virtual DbSet<ResourceNodeItem> ResourceNodeItems { get; set; } = null!;
-    public virtual DbSet<ResourceNodeProportion> ResourceNodeProportions { get; set; } = null!;
+
+    //  Monster
+    public virtual DbSet<Monster> Monsters { get; set; } = null!;
+    public virtual DbSet<MonsterPart> MonsterParts { get; set; } = null!;
 
     //  Craft
     public virtual DbSet<Recipe> Recipe { get; set; } = null!;
@@ -45,8 +50,9 @@ public partial class MHIdleContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<ResourceNodeItem>().Property(rni => rni.Id).ValueGeneratedNever();
-        modelBuilder.Entity<ResourceNodeProportion>().Property(rnp => rnp.Id).ValueGeneratedNever();
+        modelBuilder.Entity<TerritoryEventProportion>().Property(tep => tep.Id).ValueGeneratedNever();
+
+        modelBuilder.Entity<TerritoryEventItem>().Property(rni => rni.Id).ValueGeneratedNever();
         modelBuilder.Entity<RecipeMaterial>().Property(rm => rm.Id).ValueGeneratedNever();
 
         OnModelCreatingPartial(modelBuilder);

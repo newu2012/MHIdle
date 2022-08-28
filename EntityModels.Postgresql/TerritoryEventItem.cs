@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntityModels.Postgresql;
 
-[Table("ResourceNodeItem")]
-public partial class ResourceNodeItem
+[Table("TerritoryEventItem")]
+public partial class TerritoryEventItem
 {
     [Key] [Column("id")] public int Id { get; set; }
     public double Value { get; set; } = 1;
@@ -14,6 +14,6 @@ public partial class ResourceNodeItem
     public int MinimumQuantity { get; set; }
     public int MaximumQuantity { get; set; }
 
-    public string ResourceNodeName { get; set; } = null!;
-    public ResourceNode ResourceNode { get; set; } = null!;
+    public string TerritoryEventName { get; set; } = null!;
+    public TerritoryEvent TerritoryEvent { get; set; } = null!;
 }

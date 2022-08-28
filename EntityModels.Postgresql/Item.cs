@@ -6,8 +6,6 @@ namespace EntityModels.Postgresql;
 [Table("Item")]
 public abstract partial class Item
 {
-    public Item() { }
-
     [Key] public string Name { get; set; } = null!;
     [StringLength(50)] public string Type { get; set; } = null!;
     [StringLength(1000)] public string Description { get; set; } = null!;

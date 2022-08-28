@@ -7,6 +7,9 @@ export class RandomService {
     return Math.round((Math.random() * (to - from)) + from);
   }
 
+  //  TODO Add simultaneous rand, so player can get 3 of 5 items at one drop
+
+  //  TODO Rename to
   GetRandFromProportion<T>(objects: owp<T>[]): owp<T> {
     const maxValue = objects.reduce((sum, o) => sum + o.value, 0);
 

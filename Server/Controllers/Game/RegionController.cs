@@ -25,7 +25,7 @@ public class RegionController : ControllerBase
     [HttpGet("/api/territory")]
     public Territory[] TerritoriesInfo()
     {
-        return _db.Territories.Include(t => t.ResourceNodeProportions).ToArray();
+        return _db.Territories.Include(t => t.TerritoryEventProportions).ToArray();
     }
 
     [HttpGet("/api/resource")]
@@ -47,11 +47,21 @@ public class RegionController : ControllerBase
     }
 
     [HttpGet("/api/resource-node")]
-    public ResourceNode[] EventsInfo()
+    public ResourceNode[] ResourceNodesInfo()
     {
         return _db.ResourceNodes
-            .Include(rne => rne.ResourceNodeItems)
-            .Include(rne => rne.ResourceNodeProportions)
+            .Include(rn => rn.TerritoryEventItems)
+            .Include(rn => rn.TerritoryEventProportions)
+            .ToArray();
+    }
+    
+    [HttpGet("/api/monster")]
+    public Monster[] MonstersInfo()
+    {
+        return _db.Monsters
+            .Include(m => m.MonsterParts)
+            .Include(m => m.TerritoryEventItems)
+            .Include(m => m.TerritoryEventProportions)
             .ToArray();
     }
 }
