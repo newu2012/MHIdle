@@ -129,6 +129,8 @@ export class StartupLoadService {
         json[i]["description"],
         json[i]["regionName"],
         json[i]["order"],
+        json[i]["isCity"],
+        json[i]["isCamp"],
         json[i]["durationSecondsExploreOnEnter"] * 1000,
         json[i]["durationSecondsExploreInTerritory"] * 1000,
         json[i]["instrumentType"],

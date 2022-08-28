@@ -10,8 +10,8 @@ export class CurrentInventory extends Inventory {
   MoveToStorageInventory(itemStack: ItemStack) {
     const regionService = ref(container.get<RegionService>(TYPES.RegionService));
     //  TODO Move to new method and check it from UI
-    if (!regionService.value.inCity) {
-      alert("You should be in City to move items.");
+    if (!regionService.value.activeTerritory.isCamp) {
+      alert("You should be in Camp to move items.");
       return;
     }
 

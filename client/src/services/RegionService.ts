@@ -27,7 +27,6 @@ export class RegionService {
   actionService: ActionService;
   character: Character;
   activeTerritory: Territory;
-  inCity = ref(true);
   activeEvent?: Ref<UnwrapRef<ResourceNode>>;
   activeEventCapacity: number;
 
@@ -36,10 +35,6 @@ export class RegionService {
     console.log(`You moved from ${this.activeTerritory.name} to ${territory.name}`);
     this.actionService.RestartActionTimer();
     this.activeTerritory = territory;
-
-    this.inCity.value = this.modelsService.regions
-      .filter(r => r.name === "City")[0].territories
-      .filter(t => t.name === this.activeTerritory.name).length === 1;
     this.activeEvent = undefined;
 
     const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;

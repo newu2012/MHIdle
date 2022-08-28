@@ -6,6 +6,8 @@ export class Territory {
     description: string,
     regionName: string,
     order: number,
+    isCity: boolean,
+    isCamp: boolean,
     durationExploreOnEnter: number,
     durationExploreInTerritory: number,
     instrumentType: string,
@@ -16,6 +18,8 @@ export class Territory {
     this.description = description;
     this.regionName = regionName;
     this.order = order;
+    this.isCity = isCity;
+    this.isCamp = isCamp;
     this.territoryEvents = territoryEvents;
     this.durationExploreOnEnter = durationExploreOnEnter;
     this.durationExploreInTerritory = durationExploreInTerritory;
@@ -28,6 +32,8 @@ export class Territory {
   description: string;
   regionName: string;
   order: number;
+  isCity: boolean;
+  isCamp: boolean;
   durationExploreOnEnter: number;
   durationExploreInTerritory: number;
   instrumentType: string = "binoculars";
