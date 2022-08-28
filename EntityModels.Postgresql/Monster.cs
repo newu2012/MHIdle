@@ -2,6 +2,7 @@
 
 public partial class Monster : TerritoryEvent
 {
+    //  TODO Add icon!!!
     //  TODO Add health
     //  TODO Add attacks
     //  TODO Add loot

@@ -112,9 +112,6 @@ export class StartupLoadService {
         json[i]["instrumentExpectedLevel"],
       );
 
-      // eslint-disable-next-line no-debugger
-      debugger;
-
       territoryEvents.push(territoryEvent);
     }
 
