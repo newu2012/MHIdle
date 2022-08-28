@@ -2,6 +2,8 @@
   {
     "Order": 0,
     "Name": "Hunter camp",
+    "IsCity": true,
+    "IsCamp": true,
     "Description": "Here are the tents of beginner hunters. At the end is yours.",
     "DurationSecondsExploreOnEnter": 5,
     "DurationSecondsExploreInTerritory": 0,
@@ -9,9 +11,12 @@
     "InstrumentRequiredLevel": 0,
     "InstrumentExpectedLevel": 0,
     "RegionName": "City"
-  },  {
+  },
+  {
     "Order": 1,
     "Name": "Outskirts",
+    "IsCity": true,
+    "IsCamp": false,
     "Description": "You can find some basic resources there.",
     "DurationSecondsExploreOnEnter": 5,
     "DurationSecondsExploreInTerritory": 3,
@@ -23,6 +28,8 @@
   {
     "Order": 2,
     "Name": "Abandoned mine",
+    "IsCity": true,
+    "IsCamp": false,
     "Description": "Different stones are lying here and there.",
     "DurationSecondsExploreOnEnter": 5,
     "DurationSecondsExploreInTerritory": 3,
@@ -34,6 +41,8 @@
   {
     "Order": 1,
     "Name": "Glade",
+    "IsCity": false,
+    "IsCamp": false,
     "Description": "Pleasantly lit by the soft sun glade. Here you can find some useful herbs.",
     "DurationSecondsExploreOnEnter": 10,
     "DurationSecondsExploreInTerritory": 3,

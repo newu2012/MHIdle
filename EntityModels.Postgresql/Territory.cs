@@ -8,6 +8,8 @@ public partial class Territory
 {
     [Key] public string Name { get; set; } = null!;
     [StringLength(1000)] public string Description { get; set; } = null!;
+    public bool IsCity { get; set; }
+    public bool IsCamp { get; set; }
     public int DurationSecondsExploreOnEnter { get; set; }
     public int DurationSecondsExploreInTerritory { get; set; }
     [StringLength(50)] public string InstrumentType { get; set; } = null!;

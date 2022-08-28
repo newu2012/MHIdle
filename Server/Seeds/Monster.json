@@ -7,6 +7,9 @@
     "DurationSeconds": 8,
     "InstrumentType": "Knife",
     "InstrumentRequiredLevel": 0,
-    "InstrumentExpectedLevel": 1
+    "InstrumentExpectedLevel": 1,
+    "IconPath": "/icons/Aptonoth_Icon.png",
+    "MaximumHealth": 50,
+    "CurrentHealth": 50
   }
 ]

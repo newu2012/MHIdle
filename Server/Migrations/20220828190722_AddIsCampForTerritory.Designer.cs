@@ -2,6 +2,7 @@
 using DataContext.Postgresql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Server.Migrations
 {
     [DbContext(typeof(MHIdleContext))]
-    partial class MHIdleContextModelSnapshot : ModelSnapshot
+    [Migration("20220828190722_AddIsCampForTerritory")]
+    partial class AddIsCampForTerritory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,10 +78,6 @@ namespace Server.Migrations
                         .HasColumnType("double precision");
 
                     b.Property<string>("MonsterName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PartType")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -197,9 +195,6 @@ namespace Server.Migrations
                         .HasColumnType("character varying(50)");
 
                     b.Property<bool>("IsCamp")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsCity")
                         .HasColumnType("boolean");
 
                     b.Property<int>("Order")
@@ -340,17 +335,6 @@ namespace Server.Migrations
             modelBuilder.Entity("EntityModels.Postgresql.Monster", b =>
                 {
                     b.HasBaseType("EntityModels.Postgresql.TerritoryEvent");
-
-                    b.Property<int>("CurrentHealth")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("IconPath")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
-
-                    b.Property<int>("MaximumHealth")
-                        .HasColumnType("integer");
 
                     b.ToTable("TerritoryEvent");
 
