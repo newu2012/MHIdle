@@ -4,6 +4,7 @@ import { ResourceNodeItem } from "./ResourceNodeItem";
 export class ResourceNode extends owp<ResourceNodeItem[]> {
   constructor(obj: ResourceNodeItem[],
               name: string,
+              type: string,
               description: string,
               capacity: number,
               duration: number,
@@ -13,6 +14,7 @@ export class ResourceNode extends owp<ResourceNodeItem[]> {
     super(obj, 0, name, description);
     this.obj = obj;
     this.name = name;
+    this.type = type;
     this.capacity = capacity;
     this.duration = duration;
     this.instrumentType = instrumentType;
@@ -22,6 +24,7 @@ export class ResourceNode extends owp<ResourceNodeItem[]> {
 
   declare obj: ResourceNodeItem[];
   name: string;
+  type: string;
   capacity: number;
   duration: number;
   instrumentType: string;

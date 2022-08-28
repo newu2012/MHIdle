@@ -28,8 +28,8 @@ export class RegionService {
   character: Character;
   activeTerritory: Territory;
   inCity = ref(true);
-  currentEvent?: Ref<UnwrapRef<ResourceNode>>;
-  currentEventCapacity: number;
+  activeEvent?: Ref<UnwrapRef<ResourceNode>>;
+  activeEventCapacity: number;
 
   ChangeTerritory(territory: Territory) {
     //  TODO Change to notification
@@ -40,7 +40,7 @@ export class RegionService {
     this.inCity.value = this.modelsService.regions
       .filter(r => r.name === "City")[0].territories
       .filter(t => t.name === this.activeTerritory.name).length === 1;
-    this.currentEvent = undefined;
+    this.activeEvent = undefined;
 
     const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
     actionService.SetCurrentAction(this.actionService.availableActions.explore());
@@ -58,13 +58,19 @@ export class RegionService {
     const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
 
     //  TODO Change from ResourceNode to owp<any> ???
-    regionService.currentEvent =
+    regionService.activeEvent =
       randomService.GetRandFromProportion(regionService.activeTerritory.territoryEvents).obj;
-    regionService.currentEventCapacity = regionService.currentEvent?.capacity ?? 0;
+    regionService.activeEventCapacity = regionService.activeEvent?.capacity ?? 0;
     //  TODO Change to notification
-    console.log(`Found ${regionService.currentEvent?.name}`);
+    console.log(`Found ${regionService.activeEvent?.name}`);
 
-    actionService.SetCurrentAction(this.actionService.availableActions.gather());
+    if (regionService.activeEvent?.type === "Monster") {
+      //  TODO set hunting as current action
+      //   actionService.SetCurrentAction(this.actionService.availableActions.hunt());
+      actionService.SetCurrentAction(this.actionService.availableActions.gather());
+    } else {
+      actionService.SetCurrentAction(this.actionService.availableActions.gather());
+    }
   }
 
   GetExploreDuration(): number {
@@ -72,7 +78,7 @@ export class RegionService {
       return -1;
     }
 
-    let duration = this.currentEvent === undefined ?
+    let duration = this.activeEvent === undefined ?
       this.activeTerritory.durationExploreOnEnter :
       this.activeTerritory.durationExploreInTerritory;
     const character = ref(container.get<Character>(TYPES.Character)).value;
@@ -97,13 +103,13 @@ export class RegionService {
     const randomService = ref(container.get<RandomService>(TYPES.RandomService)).value;
     const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
 
-    if (regionService.currentEvent === undefined) {
+    if (regionService.activeEvent === undefined) {
       actionService.SetCurrentAction(this.actionService.availableActions.explore());
       return;
     }
 
     const randomResource = randomService
-      .GetRandFromProportion(regionService.currentEvent.obj) as ResourceNodeItem;
+      .GetRandFromProportion(regionService.activeEvent.obj) as ResourceNodeItem;
     const amount = randomService
       .GetRandIntBetween({
         from: randomResource.minimumQuantity,
@@ -113,28 +119,28 @@ export class RegionService {
     character.currentInventory.AddItem(randomResource.obj, amount);
     character.currencies.researchPoints += amount * randomResource.obj.value;
 
-    if (regionService.currentEventCapacity > 1) {
-      regionService.currentEventCapacity--;
+    if (regionService.activeEventCapacity > 1) {
+      regionService.activeEventCapacity--;
     } else {
       actionService.SetCurrentAction(this.actionService.availableActions.explore());
     }
   }
 
   GetGatherDuration(): number {
-    if (this.currentEvent === undefined) {
+    if (this.activeEvent === undefined) {
       return -1;
     }
 
     const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
     const character = ref(container.get<Character>(TYPES.Character)).value;
-    let duration = regionService.currentEvent?.duration!;
+    let duration = regionService.activeEvent?.duration!;
     const maximumInstrument = character.storageInventory
-      .GetBestInstrumentOfType(regionService.currentEvent?.instrumentType!);
+      .GetBestInstrumentOfType(regionService.activeEvent?.instrumentType!);
 
     const maximumInstrumentLevel = maximumInstrument === undefined ?
       0 :
       (maximumInstrument.item as Instrument).instrumentLevel;
-    const resultLevel = regionService.currentEvent?.instrumentExpectedLevel! - maximumInstrumentLevel;
+    const resultLevel = regionService.activeEvent?.instrumentExpectedLevel! - maximumInstrumentLevel;
     const timeModifier = (resultLevel < 0 ?
       1 / Math.pow(2, -resultLevel) :
       Math.pow(4, resultLevel));

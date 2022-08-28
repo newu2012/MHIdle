@@ -81,14 +81,17 @@ export class StartupLoadService {
     return items;
   }
 
+  //  TODO update to TerritoryEvent with Monster and ResourceNode
   async LoadResourceNodesFromServer(): Promise<ResourceNode[]> {
-    const response: HttpResponse<[]> = await useFetch<[]>("/api/resource-node");
-    const json = response!.parsedBody!;
-
-    const resourceNodes = [];
+    const responses = [
+      (await (await useFetch<[]>("/api/resource-node"))).parsedBody!,
+      (await (await useFetch<[]>("/api/monster"))).parsedBody!,
+    ];
+    const json = [].concat(...responses);
+    const territoryEvents = [];
 
     for (let i = 0; i < json.length; i++) {
-      const resourceNodeItems: ResourceNodeItem[] = (json[i]["resourceNodeItems"] as ResourceNodeItem[])
+      const resourceNodeItems: ResourceNodeItem[] = (json[i]["territoryEventItems"] as ResourceNodeItem[])
         .map(rni => {
           return new ResourceNodeItem(
             rni.itemName,
@@ -97,9 +100,10 @@ export class StartupLoadService {
             rni.maximumQuantity,
           );
         });
-      const resourceNode = new ResourceNode(
+      const territoryEvent = new ResourceNode(
         resourceNodeItems,
         json[i]["name"],
+        json[i]["type"],
         json[i]["description"],
         json[i]["capacity"],
         json[i]["durationSeconds"] * 1000, //  Convert seconds to ms
@@ -108,10 +112,13 @@ export class StartupLoadService {
         json[i]["instrumentExpectedLevel"],
       );
 
-      resourceNodes.push(resourceNode);
+      // eslint-disable-next-line no-debugger
+      debugger;
+
+      territoryEvents.push(territoryEvent);
     }
 
-    return resourceNodes;
+    return territoryEvents;
   }
 
   async LoadTerritoriesFromServer(modelsService: ModelsService): Promise<Territory[]> {
@@ -131,9 +138,9 @@ export class StartupLoadService {
         json[i]["instrumentType"],
         json[i]["instrumentRequiredLevel"],
         json[i]["instrumentExpectedLevel"],
-        (json[i]["resourceNodeProportions"] as ResourceNodeProportion[])
+        (json[i]["territoryEventProportions"] as ResourceNodeProportion[])
           .map(rnp => new owp(
-            modelsService.resourceNodes.filter(rn => rn.name === rnp.resourceNodeName)[0],
+            modelsService.resourceNodes.filter(rn => rn.name === rnp.territoryEventName)[0],
             rnp.value)),
       );
 
