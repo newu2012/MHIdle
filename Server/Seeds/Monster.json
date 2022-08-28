@@ -1,7 +1,7 @@
 ﻿[
   {
     "Name": "Aptonoth",
-    "Type": "Herbivore",
+    "Type": "Monster",
     "Description": "Docile herbivores that graze in packs. Their meat is considered a delicacy and is rich in nutrients. If one member of the herd is attacked, the rest will flee immediately.",
     "Capacity": 2,
     "DurationSeconds": 8,
