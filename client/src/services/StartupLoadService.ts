@@ -26,7 +26,6 @@ export class StartupLoadService {
   ) {
     this.LoadServices(modelsService, regionService).then(r => {
       this.isLoaded.value = true;
-      regionService.AutoExplore();
     });
   }
 

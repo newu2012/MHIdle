@@ -39,7 +39,7 @@ export class CraftService {
     if (this.quantity === 0) {
       console.log(`Not enough materials to create ${this.activeRecipe.item.name}`);
 
-      actionService.SetCurrentAction(this.actionService.availableActions.explore());
+      actionService.SetCurrentAction(this.actionService.availableActions.idle());
       return;
     }
 
@@ -51,7 +51,7 @@ export class CraftService {
     }
     character.storageInventory.AddItem(this.activeRecipe.item, this.quantity);
 
-    actionService.SetCurrentAction(this.actionService.availableActions.explore());
+    actionService.SetCurrentAction(this.actionService.availableActions.idle());
   }
 
   CanCraftAmount(recipe: Recipe): number {

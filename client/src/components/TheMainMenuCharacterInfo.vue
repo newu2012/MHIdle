@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onUnmounted, ref } from "vue";
+import { computed, onUnmounted, ref } from "vue";
 import container from "../inversify.config";
 import { Character } from "../models/character/Character";
 import TYPES from "../types";
@@ -12,6 +12,11 @@ onUnmounted(() => {
   cancelAnimationFrame(actionService.value.handle);
 });
 
+const progressValue = computed(() => {
+  return actionService.value.action?.duration === 0 ?
+    0 :
+    actionService.value.elapsed / (actionService.value.action?.duration ?? 1000);
+});
 </script>
 
 <template>
@@ -35,7 +40,7 @@ onUnmounted(() => {
       <p class="action-name">
         {{ actionService.action?.name ?? "Nothing" }}
       </p>
-      <progress :value="(actionService.elapsed / (actionService.action?.duration ?? 1000))" />
+      <progress :value="progressValue" />
       <p>{{ ((actionService.action?.duration ?? 1000) / 1000 - actionService.elapsed / 1000).toFixed(1) ?? "0" }}s</p>
     </div>
   </div>

@@ -8,6 +8,10 @@ import { CraftService } from "./CraftService";
 
 @injectable()
 export class ActionService {
+  constructor() {
+    this.action = ref(this.availableActions.idle());
+  }
+
   action: Ref<Action>;
   elapsed = ref(0);
   lastTime: number;
@@ -19,7 +23,7 @@ export class ActionService {
       this.RestartActionTimer();
       this.lastTime = performance.now();
       this.action.value.Execute();
-    } else {
+    } else if (this.action.value.name !== "Idle") {
       const time = performance.now();
       this.elapsed.value += Math.min(time - this.lastTime, this.action.value?.duration! - this.elapsed.value);
       this.lastTime = time;
@@ -41,10 +45,19 @@ export class ActionService {
   }
 
   availableActions = {
+    idle: this.Idle,
     explore: this.Explore,
     gather: this.Gather,
     craft: this.Craft,
   };
+
+  Idle() {
+    return new Action(
+      "Idle",
+      0,
+      () => {
+      });
+  }
 
   Explore() {
     const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
