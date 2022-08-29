@@ -41,7 +41,7 @@ const progressValue = computed(() => {
         {{ actionMainService.action?.name ?? "Nothing" }}
       </p>
       <progress :value="progressValue" />
-      <p>{{ ((actionMainService.action?.duration ?? 1000) / 1000 - actionMainService.elapsed / 1000).toFixed(1) ?? "0" }}s</p>
+      <p>{{ ((actionMainService.action?.duration ?? 0) / 1000 - actionMainService.elapsed / 1000).toFixed(1) ?? "0" }}s</p>
     </div>
   </div>
 </template>

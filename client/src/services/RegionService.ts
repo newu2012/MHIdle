@@ -118,9 +118,9 @@ export class RegionService {
     character.currentInventory.AddItem(randomResource.obj, amount);
     character.currencies.researchPoints += amount * randomResource.obj.value;
 
-    if (regionService.activeEventCapacity > 1) {
-      regionService.activeEventCapacity--;
-    } else {
+    regionService.activeEventCapacity--;
+
+    if (regionService.activeEventCapacity < 1) {
       actionMainService.SetCurrentAction(this.actionMainService.availableActions.explore());
     }
   }
