@@ -28,8 +28,9 @@ onUnmounted(() => {
 });
 
 const canGather = computed(() => {
-  return (regionService.value.activeEvent?.type !== "Monster" ||
-    huntService.value.monsterCurrentHealth <= 0)
+  return regionService.value.activeEvent?.type !== "Monster" ||
+    (huntService.value.monsterCurrentHealth !== undefined &&
+      huntService.value.monsterCurrentHealth <= 0);
 });
 
 const activeActionService = computed(() => {
@@ -54,17 +55,15 @@ const actionDuration = computed(() => {
 });
 
 const eventMeterMax = computed(() => {
-  return regionService.value.activeEvent?.type === "Monster" &&
-  huntService.value.monsterCurrentHealth > 0 ?
-    (regionService.value.activeEvent as Monster).maximumHealth :
-    regionService.value.activeEvent?.capacity;
+  return canGather.value ?
+    regionService.value.activeEvent?.capacity :
+    (regionService.value.activeEvent as Monster).maximumHealth;
 });
 
 const eventMeterCurrent = computed(() => {
-  return regionService.value.activeEvent?.type === "Monster" &&
-  huntService.value.monsterCurrentHealth > 0 ?
-    huntService.value.monsterCurrentHealth :
-    regionService.value.activeEventCapacity;
+  return canGather.value ?
+    regionService.value.activeEventCapacity :
+    huntService.value.monsterCurrentHealth;
 });
 </script>
 
@@ -98,10 +97,10 @@ const eventMeterCurrent = computed(() => {
         class="territory-event-icon"
       >
       <meter
+        :class="{'can-gather': canGather}"
         :max="eventMeterMax"
         :min="0"
         :value="eventMeterCurrent"
-        :class="{'can-gather': canGather}"
         class="territory-event-meter"
       />
     </div>
