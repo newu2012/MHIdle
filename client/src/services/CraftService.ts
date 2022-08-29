@@ -7,15 +7,16 @@ import { Recipe } from "../models/craft/Recipe";
 import { Character } from "../models/character/Character";
 import { ItemStack } from "../models/items/ItemStack";
 import { Instrument } from "../models/items/Instrument";
+import { ActionMainService } from "./ActionMainService";
 
 @injectable()
 export class CraftService {
   constructor(
-    @inject(TYPES.ActionService) actionService: ActionService) {
-    this.actionService = actionService;
+    @inject(TYPES.ActionMainService) actionMainService: ActionMainService) {
+    this.actionMainService = actionMainService;
   }
 
-  actionService: ActionService;
+  actionMainService: ActionService;
   activeRecipe?: Recipe;
   quantity: number = 0;
 
@@ -27,11 +28,11 @@ export class CraftService {
   //  TODO Change craft when quantity > 0 from "big duration" to "multiple durations"
   Craft() {
     const character = ref(container.get<Character>(TYPES.Character)).value;
-    const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
+    const actionMainService = ref(container.get<ActionMainService>(TYPES.ActionMainService)).value;
 
     if (this.activeRecipe === undefined) {
       console.log(`No active recipe found`);
-      actionService.SetCurrentAction(this.actionService.availableActions.idle());
+      actionMainService.SetCurrentAction(this.actionMainService.availableActions.idle());
       return;
     }
 
@@ -40,7 +41,7 @@ export class CraftService {
 
     if (this.quantity === 0) {
       console.log(`Not enough materials to create ${this.activeRecipe.item.name}`);
-      actionService.SetCurrentAction(this.actionService.availableActions.idle());
+      actionMainService.SetCurrentAction(this.actionMainService.availableActions.idle());
       return;
     }
 
@@ -52,7 +53,7 @@ export class CraftService {
     }
     character.storageInventory.AddItem(this.activeRecipe.item, this.quantity);
 
-    actionService.SetCurrentAction(this.actionService.availableActions.idle());
+    actionMainService.SetCurrentAction(this.actionMainService.availableActions.idle());
   }
 
   CanCraftAmount(recipe: Recipe): number {

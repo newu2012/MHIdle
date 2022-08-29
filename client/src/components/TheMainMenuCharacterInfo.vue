@@ -3,19 +3,19 @@ import { computed, onUnmounted, ref } from "vue";
 import container from "../inversify.config";
 import { Character } from "../models/character/Character";
 import TYPES from "../types";
-import { ActionService } from "../services/ActionService";
+import { ActionMainService } from "../services/ActionMainService";
 
 const character = ref(container.get<Character>(TYPES.Character));
-const actionService = ref(container.get<ActionService>(TYPES.ActionService));
+const actionMainService = ref(container.get<ActionMainService>(TYPES.ActionMainService));
 
 onUnmounted(() => {
-  cancelAnimationFrame(actionService.value.handle);
+  cancelAnimationFrame(actionMainService.value.handle);
 });
 
 const progressValue = computed(() => {
-  return actionService.value.action?.duration === 0 ?
+  return actionMainService.value.action?.duration === 0 ?
     0 :
-    actionService.value.elapsed / (actionService.value.action?.duration ?? 1000);
+    actionMainService.value.elapsed / (actionMainService.value.action?.duration ?? 1000);
 });
 </script>
 
@@ -38,10 +38,10 @@ const progressValue = computed(() => {
     </div>
     <div class="current-action">
       <p class="action-name">
-        {{ actionService.action?.name ?? "Nothing" }}
+        {{ actionMainService.action?.name ?? "Nothing" }}
       </p>
       <progress :value="progressValue" />
-      <p>{{ ((actionService.action?.duration ?? 1000) / 1000 - actionService.elapsed / 1000).toFixed(1) ?? "0" }}s</p>
+      <p>{{ ((actionMainService.action?.duration ?? 1000) / 1000 - actionMainService.elapsed / 1000).toFixed(1) ?? "0" }}s</p>
     </div>
   </div>
 </template>

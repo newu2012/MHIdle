@@ -1,6 +1,6 @@
 export class Action {
   constructor(name: string,
-              duration: number,
+              duration?: number,
               func?: Function) {
     this.name = name;
     this.duration = duration;
@@ -8,7 +8,7 @@ export class Action {
   }
 
   name: string;
-  duration: number;
+  duration?: number;
   func?: Function;
 
   Execute() {

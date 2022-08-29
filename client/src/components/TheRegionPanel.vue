@@ -55,13 +55,14 @@ const monsterInTerritory = computed(() => {
   >
     <h3>{{ regionService.activeEvent?.name }}</h3>
     <img
+      :alt="regionService.activeEvent?.description"
       :src="regionService.activeEvent?.iconPath"
       class="monster-icon"
     >
     <meter
       :max="regionService.activeEvent?.maximumHealth"
       :min="0"
-      :value="regionService.activeEvent?.currentHealth - 10"
+      :value="regionService.activeEvent?.currentHealth"
       class="monster-health"
     />
   </div>

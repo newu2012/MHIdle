@@ -1,6 +1,5 @@
 import { inject, injectable } from "inversify";
 import TYPES from "../types";
-import { ActionService } from "./ActionService";
 import { RandomService } from "./RandomService";
 import { Ref, ref, UnwrapRef } from "vue";
 import container from "../inversify.config";
@@ -10,21 +9,22 @@ import { ModelsService } from "./ModelsService";
 import { ResourceNode } from "../models/region/ResourceNode";
 import { TerritoryEventItem } from "../models/region/TerritoryEventItem";
 import { Instrument } from "../models/items/Instrument";
+import { ActionMainService } from "./ActionMainService";
 
 @injectable()
 export class RegionService {
   constructor(
     @inject(TYPES.ModelsService) modelsService: ModelsService,
-    @inject(TYPES.ActionService) actionService: ActionService,
+    @inject(TYPES.ActionMainService) actionMainService: ActionMainService,
     @inject(TYPES.Character) character: Character,
   ) {
     this.modelsService = modelsService;
-    this.actionService = actionService;
+    this.actionMainService = actionMainService;
     this.character = character;
   }
 
   modelsService: ModelsService;
-  actionService: ActionService;
+  actionMainService: ActionMainService;
   character: Character;
   activeTerritory: Territory;
   activeEvent?: Ref<UnwrapRef<ResourceNode>>;
@@ -33,28 +33,28 @@ export class RegionService {
   ChangeTerritory(territory: Territory) {
     //  TODO Change to notification
     console.log(`You moved from ${this.activeTerritory.name} to ${territory.name}`);
-    this.actionService.RestartActionTimer();
+    this.actionMainService.RestartActionTimer();
     this.activeTerritory = territory;
     this.activeEvent = undefined;
 
-    const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
+    const actionMainService = ref(container.get<ActionMainService>(TYPES.ActionMainService)).value;
     if (this.activeTerritory.territoryEvents.length > 0) {
-      actionService.SetCurrentAction(this.actionService.availableActions.explore());
+      actionMainService.SetCurrentAction(this.actionMainService.availableActions.explore());
     } else {
-      actionService.SetCurrentAction(this.actionService.availableActions.idle());
+      actionMainService.SetCurrentAction(this.actionMainService.availableActions.idle());
     }
   }
 
   AutoExplore() {
     //  TODO Move out duration time and its calculation to some stats class
-    const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
-    actionService.SetCurrentAction(this.actionService.availableActions.explore());
+    const actionMainService = ref(container.get<ActionMainService>(TYPES.ActionMainService)).value;
+    actionMainService.SetCurrentAction(this.actionMainService.availableActions.explore());
   }
 
   Explore() {
     const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
     const randomService = ref(container.get<RandomService>(TYPES.RandomService)).value;
-    const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
+    const actionMainService = ref(container.get<ActionMainService>(TYPES.ActionMainService)).value;
 
     //  TODO Change from ResourceNode to owp<any> ???
     regionService.activeEvent =
@@ -66,9 +66,9 @@ export class RegionService {
     if (regionService.activeEvent?.type === "Monster") {
       //  TODO set hunting as current action
       //   actionService.SetCurrentAction(this.actionService.availableActions.hunt());
-      actionService.SetCurrentAction(this.actionService.availableActions.gather());
+      actionMainService.SetCurrentAction(this.actionMainService.availableActions.hunt());
     } else {
-      actionService.SetCurrentAction(this.actionService.availableActions.gather());
+      actionMainService.SetCurrentAction(this.actionMainService.availableActions.gather());
     }
   }
 
@@ -100,10 +100,10 @@ export class RegionService {
     const character = ref(container.get<Character>(TYPES.Character)).value;
     const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
     const randomService = ref(container.get<RandomService>(TYPES.RandomService)).value;
-    const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
+    const actionMainService = ref(container.get<ActionMainService>(TYPES.ActionMainService)).value;
 
     if (regionService.activeEvent === undefined) {
-      actionService.SetCurrentAction(this.actionService.availableActions.explore());
+      actionMainService.SetCurrentAction(this.actionMainService.availableActions.explore());
       return;
     }
 
@@ -121,7 +121,7 @@ export class RegionService {
     if (regionService.activeEventCapacity > 1) {
       regionService.activeEventCapacity--;
     } else {
-      actionService.SetCurrentAction(this.actionService.availableActions.explore());
+      actionMainService.SetCurrentAction(this.actionMainService.availableActions.explore());
     }
   }
 

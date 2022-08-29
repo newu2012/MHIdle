@@ -14,6 +14,7 @@ export class Inventory {
     }
   }
 
+  //  TODO Move out all logic to service?
   FindItemIndexByName(itemName: string): number {
     for (let i = 0; i < this.itemStacks.length; i++) {
       if (this.itemStacks[i].item?.name === itemName) {

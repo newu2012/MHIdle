@@ -7,7 +7,7 @@ import { CraftService } from "../services/CraftService";
 
 import TheCraftingItemPanel from "./TheCraftingItemPanel.vue";
 import CraftingRecipe from "./CraftingPanelRecipe.vue";
-import { ActionService } from "../services/ActionService";
+import { ActionMainService } from "../services/ActionMainService";
 
 const modelsService = ref(container.get<ModelsService>(TYPES.ModelsService));
 const craftService = ref(container.get<CraftService>(TYPES.CraftService));
@@ -19,12 +19,12 @@ function SetActive(itemStackIndex: number) {
 }
 
 function CraftItem(quantity: number) {
-  const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
+  const actionMainService = ref(container.get<ActionMainService>(TYPES.ActionMainService)).value;
 
   craftService.value.SetRecipe(
     modelsService.value.recipes[selectedRecipe.value],
     quantity);
-  actionService.SetCurrentAction(actionService.availableActions.craft());
+  actionMainService.SetCurrentAction(actionMainService.availableActions.craft());
 }
 </script>
 
