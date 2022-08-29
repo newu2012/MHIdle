@@ -3,18 +3,22 @@ import container from "../inversify.config";
 import TYPES from "../types";
 import { ModelsService } from "../services/ModelsService";
 import { RegionService } from "../services/RegionService";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { Territory } from "../models/region/Territory";
 
-const modelsService: ModelsService = container.get<ModelsService>(TYPES.ModelsService);
-const regionService: RegionService = container.get<RegionService>(TYPES.RegionService);
+const modelsService = ref(container.get<ModelsService>(TYPES.ModelsService));
+const regionService = ref(container.get<RegionService>(TYPES.RegionService));
 
-const activeTerritory = ref(regionService.activeTerritory.name);
+const activeTerritory = ref(regionService.value.activeTerritory.name);
 
 function SetActive(territory: Territory) {
-  regionService.ChangeTerritory(territory);
+  regionService.value.ChangeTerritory(territory);
   activeTerritory.value = territory.name;
 }
+
+const monsterInTerritory = computed(() => {
+  return regionService.value.activeEvent?.type === "Monster";
+});
 </script>
 
 <template>
@@ -26,7 +30,7 @@ function SetActive(territory: Territory) {
   <div
     v-for="region in modelsService.regions"
     :key="region.name"
-    class="regionStyle"
+    class="region-style"
   >
     <h3>{{ region.name }} - {{ region.description }}</h3>
     <div class="territories">
@@ -34,7 +38,7 @@ function SetActive(territory: Territory) {
         v-for="territory in modelsService.territories.filter(t => t.regionName === region.name)"
         :key="territory.name"
         :title="territory.description"
-        class="territoryStyle"
+        class="territory-style"
       >
         <button
           :class="{activeTerritory: territory.name === activeTerritory}"
@@ -45,10 +49,26 @@ function SetActive(territory: Territory) {
       </div>
     </div>
   </div>
+  <div
+    v-if="monsterInTerritory"
+    class="hunt-panel"
+  >
+    <h3>{{ regionService.activeEvent?.name }}</h3>
+    <img
+      :src="regionService.activeEvent?.iconPath"
+      class="monster-icon"
+    >
+    <meter
+      :max="regionService.activeEvent?.maximumHealth"
+      :min="0"
+      :value="regionService.activeEvent?.currentHealth - 10"
+      class="monster-health"
+    />
+  </div>
 </template>
 
 <style scoped>
-.regionStyle {
+.region-style {
   padding: 16px 32px;
   text-align: start;
 }
@@ -60,5 +80,20 @@ function SetActive(territory: Territory) {
 
 .activeTerritory {
   background-color: #87939a;
+}
+
+.hunt-panel {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.monster-icon {
+  height: 64px;
+  width: 64px;
+}
+
+.monster-health::-webkit-meter-bar {
+  background: red;
 }
 </style>
