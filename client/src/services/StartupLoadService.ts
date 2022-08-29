@@ -9,13 +9,13 @@ import { Territory } from "../models/region/Territory";
 import { ResourceNode } from "../models/region/ResourceNode";
 import { ModelsService } from "./ModelsService";
 import { Item } from "../models/items/Item";
-import { TerritoryEventItem } from "../models/region/TerritoryEventItem";
 import { TerritoryEventProportion } from "../models/region/TerritoryEventProportion";
 import { ref } from "vue";
 import { RecipeMaterial } from "../models/craft/RecipeMaterial";
 import { Recipe } from "../models/craft/Recipe";
 import { Instrument } from "../models/items/Instrument";
 import { TerritoryEvent } from "../models/region/TerritoryEvent";
+import { Monster } from "../models/region/Monster";
 
 @injectable()
 export class StartupLoadService {
@@ -91,26 +91,19 @@ export class StartupLoadService {
     const territoryEvents = [];
 
     for (let i = 0; i < json.length; i++) {
-      const resourceNodeItems: TerritoryEventItem[] = (json[i]["territoryEventItems"] as TerritoryEventItem[])
-        .map(rni => {
-          return new TerritoryEventItem(
-            rni.itemName,
-            rni.value,
-            rni.minimumQuantity,
-            rni.maximumQuantity,
-          );
-        });
-      const territoryEvent = new ResourceNode(
-        resourceNodeItems,
-        json[i]["name"],
-        json[i]["type"],
-        json[i]["description"],
-        json[i]["capacity"],
-        json[i]["durationSeconds"] * 1000, //  Convert seconds to ms
-        json[i]["instrumentType"],
-        json[i]["instrumentRequiredLevel"],
-        json[i]["instrumentExpectedLevel"],
-      );
+      let territoryEvent: TerritoryEvent;
+
+      switch (json[i]["type"]) {
+        case "Resource node":
+          territoryEvent = ResourceNode.FromParsedBody(json[i]);
+          break;
+        case "Monster":
+          territoryEvent = Monster.FromParsedBody(json[i]);
+          break;
+        default:
+          console.log(json[i]);
+          return territoryEvents;
+      }
 
       territoryEvents.push(territoryEvent);
     }
