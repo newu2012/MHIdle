@@ -1,4 +1,4 @@
-export class ResourceNodeProportion {
+export class TerritoryEventProportion {
   constructor(
     id: number,
     value: number,

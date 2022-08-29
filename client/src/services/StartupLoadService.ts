@@ -9,12 +9,13 @@ import { Territory } from "../models/region/Territory";
 import { ResourceNode } from "../models/region/ResourceNode";
 import { ModelsService } from "./ModelsService";
 import { Item } from "../models/items/Item";
-import { ResourceNodeItem } from "../models/region/ResourceNodeItem";
-import { ResourceNodeProportion } from "../models/region/ResourceNodeProportion";
+import { TerritoryEventItem } from "../models/region/TerritoryEventItem";
+import { TerritoryEventProportion } from "../models/region/TerritoryEventProportion";
 import { ref } from "vue";
 import { RecipeMaterial } from "../models/craft/RecipeMaterial";
 import { Recipe } from "../models/craft/Recipe";
 import { Instrument } from "../models/items/Instrument";
+import { TerritoryEvent } from "../models/region/TerritoryEvent";
 
 @injectable()
 export class StartupLoadService {
@@ -24,7 +25,7 @@ export class StartupLoadService {
     @inject(TYPES.ModelsService) modelsService: ModelsService,
     @inject(TYPES.RegionService) regionService: RegionService,
   ) {
-    this.LoadServices(modelsService, regionService).then(r => {
+    this.LoadServices(modelsService, regionService).then(() => {
       this.isLoaded.value = true;
     });
   }
@@ -33,8 +34,8 @@ export class StartupLoadService {
     await this.LoadItemsFromServer().then(
       result => modelsService.items = result,
     );
-    await this.LoadResourceNodesFromServer().then(
-      result => modelsService.resourceNodes = result,
+    await this.LoadTerritoryEventsFromServer().then(
+      result => modelsService.territoryEvents = result,
     );
     await this.LoadTerritoriesFromServer(modelsService).then(
       result => {
@@ -81,7 +82,7 @@ export class StartupLoadService {
   }
 
   //  TODO update to TerritoryEvent with Monster and ResourceNode
-  async LoadResourceNodesFromServer(): Promise<ResourceNode[]> {
+  async LoadTerritoryEventsFromServer(): Promise<TerritoryEvent[]> {
     const responses = [
       (await (await useFetch<[]>("/api/resource-node"))).parsedBody!,
       (await (await useFetch<[]>("/api/monster"))).parsedBody!,
@@ -90,9 +91,9 @@ export class StartupLoadService {
     const territoryEvents = [];
 
     for (let i = 0; i < json.length; i++) {
-      const resourceNodeItems: ResourceNodeItem[] = (json[i]["territoryEventItems"] as ResourceNodeItem[])
+      const resourceNodeItems: TerritoryEventItem[] = (json[i]["territoryEventItems"] as TerritoryEventItem[])
         .map(rni => {
-          return new ResourceNodeItem(
+          return new TerritoryEventItem(
             rni.itemName,
             rni.value,
             rni.minimumQuantity,
@@ -136,9 +137,9 @@ export class StartupLoadService {
         json[i]["instrumentType"],
         json[i]["instrumentRequiredLevel"],
         json[i]["instrumentExpectedLevel"],
-        (json[i]["territoryEventProportions"] as ResourceNodeProportion[])
+        (json[i]["territoryEventProportions"] as TerritoryEventProportion[])
           .map(rnp => new owp(
-            modelsService.resourceNodes.filter(rn => rn.name === rnp.territoryEventName)[0],
+            modelsService.territoryEvents.filter(rn => rn.name === rnp.territoryEventName)[0],
             rnp.value)),
       );
 

@@ -5,7 +5,7 @@ import container from "../../inversify.config";
 import TYPES from "../../types";
 import { ModelsService } from "../../services/ModelsService";
 
-export class ResourceNodeItem extends owp<Item> {
+export class TerritoryEventItem extends owp<Item> {
   constructor(
     itemName: string,
     value: number,

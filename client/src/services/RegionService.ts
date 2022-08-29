@@ -8,7 +8,7 @@ import { Character } from "../models/character/Character";
 import { Territory } from "../models/region/Territory";
 import { ModelsService } from "./ModelsService";
 import { ResourceNode } from "../models/region/ResourceNode";
-import { ResourceNodeItem } from "../models/region/ResourceNodeItem";
+import { TerritoryEventItem } from "../models/region/TerritoryEventItem";
 import { Instrument } from "../models/items/Instrument";
 
 @injectable()
@@ -108,7 +108,7 @@ export class RegionService {
     }
 
     const randomResource = randomService
-      .GetRandFromProportion(regionService.activeEvent.obj) as ResourceNodeItem;
+      .GetRandFromProportion(regionService.activeEvent.obj) as TerritoryEventItem;
     const amount = randomService
       .GetRandIntBetween({
         from: randomResource.minimumQuantity,

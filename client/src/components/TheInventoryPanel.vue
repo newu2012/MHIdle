@@ -62,7 +62,7 @@ function SendToStorageInventory(newValue: ItemStack) {
       >
       <span class="slider round" />
     </label>
-    <p>Current</p>
+    <p>Inventory</p>
   </div>
   <div class="inventory-panel">
     <div class="grid-container">
