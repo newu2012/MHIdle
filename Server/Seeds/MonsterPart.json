@@ -4,6 +4,6 @@
     "PartName": "Aptonoth body",
     "PartType": "Body",
     "MaximumHealth": 50,
-    "CurrentHealth": 50
+    "StartingHealth": 50
   }
 ]

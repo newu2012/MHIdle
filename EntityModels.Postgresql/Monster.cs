@@ -6,8 +6,8 @@ public partial class Monster : TerritoryEvent
 {
     [StringLength(1000)] public string IconPath { get; set; } = null!;
     public int MaximumHealth { get; set; }
-    public int CurrentHealth { get; set; }
-    //  TODO Add attacks
+    public int StartingHealth { get; set; }
+    //  TODO Add actions
 
     public ICollection<MonsterPart> MonsterParts { get; set; } = null!;
 }

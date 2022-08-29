@@ -1,13 +1,13 @@
 export class MonsterPart {
-  constructor(partName: string, partType: string, maximumHealth: number, currentHealth: number) {
+  constructor(partName: string, partType: string, maximumHealth: number, startingHealth: number) {
     this.partName = partName;
     this.partType = partType;
     this.maximumHealth = maximumHealth;
-    this.currentHealth = currentHealth;
+    this.startingHealth = startingHealth;
   }
 
   partName: string;
   partType: string;
   maximumHealth: number;
-  currentHealth: number;
+  startingHealth: number;
 }

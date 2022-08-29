@@ -10,6 +10,6 @@
     "InstrumentExpectedLevel": 1,
     "IconPath": "/icons/Aptonoth_Icon.png",
     "MaximumHealth": 50,
-    "CurrentHealth": 50
+    "StartingHealth": 50
   }
 ]

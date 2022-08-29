@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import { Ref, ref } from "vue";
+import { ref } from "vue";
 import { Action } from "../models/Action";
 import container from "../inversify.config";
 import TYPES from "../types";

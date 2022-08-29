@@ -11,6 +11,7 @@ import { ActionMainService } from "./ActionMainService";
 @injectable()
 export class HuntService {
   monster?: Monster;
+  monsterCurrentHealth: number;
 
   Hunt() {
     const character = ref(container.get<Character>(TYPES.Character)).value;
@@ -25,6 +26,7 @@ export class HuntService {
       return;
     } else if (this.monster === undefined) {
       this.monster = regionService.activeEvent as Monster;
+      this.monsterCurrentHealth = this.monster.startingHealth;
     }
 
     actionHuntCharacterService.SetCurrentAction(actionHuntCharacterService.availableActions.attack());
@@ -39,9 +41,9 @@ export class HuntService {
       this.monster = regionService.activeEvent as Monster;
     }
 
-    this.monster!.currentHealth -= 5;
+    this.monsterCurrentHealth -= 5;
 
-    if (this.monster.currentHealth <= 0) {
+    if (this.monsterCurrentHealth <= 0) {
       this.monster = undefined;
       actionHuntCharacterService.SetCurrentAction(actionHuntCharacterService.availableActions.idle());
       actionMainService.SetCurrentAction(actionMainService.availableActions.gather());

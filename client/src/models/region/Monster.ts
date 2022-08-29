@@ -15,18 +15,18 @@ export class Monster extends TerritoryEvent {
     instrumentExpectedLevel: number,
     iconPath: string,
     maximumHealth: number,
-    currentHealth: number,
+    startingHealth: number,
     monsterParts: MonsterPart[]) {
     super(obj, name, type, description, capacity, duration, instrumentType, instrumentRequiredLevel, instrumentExpectedLevel);
     this.iconPath = iconPath;
     this.maximumHealth = maximumHealth;
-    this.currentHealth = currentHealth;
+    this.startingHealth = startingHealth;
     this.monsterParts = monsterParts;
   }
 
   iconPath: string;
   maximumHealth: number;
-  currentHealth: number;
+  startingHealth: number;
   monsterParts: MonsterPart[];
 
   static FromParsedBody(json: any): Monster {
@@ -50,14 +50,14 @@ export class Monster extends TerritoryEvent {
       json["instrumentExpectedLevel"],
       json["iconPath"],
       json["maximumHealth"],
-      json["currentHealth"],
+      json["startingHealth"],
       (json["monsterParts"] as MonsterPart[])
         .map(mp => {
           return new MonsterPart(
             mp.partName,
             mp.partType,
             mp.maximumHealth,
-            mp.currentHealth,
+            mp.startingHealth,
           );
         }),
     );
