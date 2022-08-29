@@ -16,6 +16,7 @@ export class ResourceNode extends TerritoryEvent {
       json["name"],
       json["type"],
       json["description"],
+      json["iconPath"],
       json["capacity"],
       json["durationSeconds"] * 1000, //  Convert seconds to ms
       json["instrumentType"],

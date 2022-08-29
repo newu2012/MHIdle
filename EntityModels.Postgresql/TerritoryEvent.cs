@@ -9,6 +9,7 @@ public abstract partial class TerritoryEvent
     [Key] public string Name { get; set; } = null!;
     [StringLength(50)] public string Type { get; set; } = null!;
     [StringLength(1000)] public string Description { get; set; } = null!;
+    [StringLength(1000)] public string? IconPath { get; set; }
     public int Capacity { get; set; }
     public int DurationSeconds { get; set; }
     [StringLength(50)] public string InstrumentType { get; set; } = null!;

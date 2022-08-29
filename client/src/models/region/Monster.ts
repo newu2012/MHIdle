@@ -17,7 +17,7 @@ export class Monster extends TerritoryEvent {
     maximumHealth: number,
     startingHealth: number,
     monsterParts: MonsterPart[]) {
-    super(obj, name, type, description, capacity, duration, instrumentType, instrumentRequiredLevel, instrumentExpectedLevel);
+    super(obj, name, type, description, iconPath, capacity, duration, instrumentType, instrumentRequiredLevel, instrumentExpectedLevel);
     this.iconPath = iconPath;
     this.maximumHealth = maximumHealth;
     this.startingHealth = startingHealth;

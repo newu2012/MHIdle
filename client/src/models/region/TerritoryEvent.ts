@@ -6,6 +6,7 @@ export class TerritoryEvent extends owp<TerritoryEventItem[]> {
               name: string,
               type: string,
               description: string,
+              iconPath: string,
               capacity: number,
               duration: number,
               instrumentType: string,
@@ -14,6 +15,8 @@ export class TerritoryEvent extends owp<TerritoryEventItem[]> {
     super(obj, 0, name, description);
     this.obj = obj;
     this.name = name;
+    this.description = description;
+    this.iconPath = iconPath;
     this.type = type;
     this.capacity = capacity;
     this.duration = duration;
@@ -24,6 +27,7 @@ export class TerritoryEvent extends owp<TerritoryEventItem[]> {
 
   declare obj: TerritoryEventItem[];
   name: string;
+  iconPath: string;
   type: string;
   capacity: number;
   duration: number;
