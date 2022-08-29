@@ -10,6 +10,8 @@ import { ResourceNode } from "../models/region/ResourceNode";
 import { TerritoryEventItem } from "../models/region/TerritoryEventItem";
 import { Instrument } from "../models/items/Instrument";
 import { ActionMainService } from "./ActionMainService";
+import { ActionHuntCharacterService } from "./ActionHuntCharacterService";
+import { HuntService } from "./HuntService";
 
 @injectable()
 export class RegionService {
@@ -36,6 +38,13 @@ export class RegionService {
     this.actionMainService.RestartActionTimer();
     this.activeTerritory = territory;
     this.activeEvent = undefined;
+
+    const actionHuntCharacterService = ref(container.get<ActionHuntCharacterService>(TYPES.ActionHuntCharacterService)).value;
+    if (actionHuntCharacterService.action.name !== "Idle") {
+      const huntService = ref(container.get<HuntService>(TYPES.HuntService)).value;
+      actionHuntCharacterService.SetCurrentAction(actionHuntCharacterService.availableActions.idle());
+      huntService.RunAway();
+    }
 
     const actionMainService = ref(container.get<ActionMainService>(TYPES.ActionMainService)).value;
     if (this.activeTerritory.territoryEvents.length > 0) {
