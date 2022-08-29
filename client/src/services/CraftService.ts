@@ -26,19 +26,20 @@ export class CraftService {
 
   //  TODO Change craft when quantity > 0 from "big duration" to "multiple durations"
   Craft() {
-    if (this.activeRecipe === undefined) {
-      return;
-    }
-
     const character = ref(container.get<Character>(TYPES.Character)).value;
     const actionService = ref(container.get<ActionService>(TYPES.ActionService)).value;
+
+    if (this.activeRecipe === undefined) {
+      console.log(`No active recipe found`);
+      actionService.SetCurrentAction(this.actionService.availableActions.idle());
+      return;
+    }
 
     const canCraftAmount = this.CanCraftAmount(this.activeRecipe);
     this.quantity = Math.min(this.quantity, canCraftAmount);
 
     if (this.quantity === 0) {
       console.log(`Not enough materials to create ${this.activeRecipe.item.name}`);
-
       actionService.SetCurrentAction(this.actionService.availableActions.idle());
       return;
     }
