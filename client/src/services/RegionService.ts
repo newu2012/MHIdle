@@ -29,14 +29,36 @@ export class RegionService {
   actionMainService: ActionMainService;
   character: Character;
   activeTerritory: Territory;
+  territoryToSet?: Territory;
   activeEvent?: Ref<UnwrapRef<ResourceNode>>;
   activeEventCapacity: number;
 
   ChangeTerritory(territory: Territory) {
+    const actionHuntCharacterService = ref(container.get<ActionHuntCharacterService>(TYPES.ActionHuntCharacterService)).value;
+    const actionMainService = ref(container.get<ActionMainService>(TYPES.ActionMainService)).value;
+
+    if (territory === this.activeTerritory) {
+      actionMainService.SetCurrentAction(this.actionMainService.availableActions.idle());
+    } else if (territory === this.territoryToSet) {
+      return;
+    } else {
+      this.territoryToSet = territory;
+      actionMainService.SetCurrentAction(actionMainService.availableActions.moveToTerritory());
+
+      if (actionHuntCharacterService.action.name !== "Idle") {
+        actionHuntCharacterService.SetCurrentAction(actionHuntCharacterService.availableActions.idle());
+      }
+    }
+  }
+
+  MoveToTerritory() {
+    if (this.territoryToSet === undefined) {
+      console.log("RegionService.territoryToSet was undefined");
+      return;
+    }
     //  TODO Change to notification
-    console.log(`You moved from ${this.activeTerritory.name} to ${territory.name}`);
-    this.actionMainService.RestartActionTimer();
-    this.activeTerritory = territory;
+    console.log(`You moved from ${this.activeTerritory.name} to ${this.territoryToSet.name}`);
+    this.activeTerritory = this.territoryToSet;
     this.activeEvent = undefined;
 
     const actionHuntCharacterService = ref(container.get<ActionHuntCharacterService>(TYPES.ActionHuntCharacterService)).value;
@@ -52,6 +74,29 @@ export class RegionService {
     } else {
       actionMainService.SetCurrentAction(this.actionMainService.availableActions.idle());
     }
+    this.territoryToSet = undefined;
+  }
+
+  GetMoveToTerritoryDuration(): number {
+    if (this.territoryToSet === undefined) {
+      return -1;
+    }
+
+    let duration = this.territoryToSet.durationExploreOnEnter;
+    const character = ref(container.get<Character>(TYPES.Character)).value;
+    const maximumInstrument = character.storageInventory
+      .GetBestInstrumentOfType(this.activeTerritory.instrumentType);
+
+    const maximumInstrumentLevel = maximumInstrument === undefined ?
+      0 :
+      (maximumInstrument.item as Instrument).instrumentLevel;
+    const resultLevel = this.activeTerritory.instrumentExpectedLevel - maximumInstrumentLevel;
+    const timeModifier = (resultLevel < 0 ?
+      1 / Math.pow(2, -resultLevel) :
+      Math.pow(4, resultLevel));
+    duration = duration * timeModifier;
+
+    return duration;
   }
 
   AutoExplore() {

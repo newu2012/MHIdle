@@ -22,6 +22,7 @@ export class ActionMainService extends ActionService {
 
   availableActions = {
     idle: this.Idle,
+    moveToTerritory: this.MoveToTerritory,
     explore: this.Explore,
     gather: this.Gather,
     craft: this.Craft,
@@ -33,6 +34,18 @@ export class ActionMainService extends ActionService {
       "Idle",
       undefined,
       () => {
+      });
+  }
+
+  MoveToTerritory() {
+    const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
+
+    return new Action(
+      "Changing area",
+      regionService.GetMoveToTerritoryDuration(),
+      () => {
+        const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
+        return regionService.MoveToTerritory();
       });
   }
 
