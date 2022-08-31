@@ -81,24 +81,19 @@ export class CraftService {
   }
 
   GetCraftDuration(): number {
-    if (this.activeRecipe === undefined) {
+    const craftService = ref(container.get<CraftService>(TYPES.CraftService)).value;
+
+    if (craftService.activeRecipe === undefined) {
+      console.log("CraftService.activeRecipe was undefined");
       return -1;
     }
 
-    let duration = this.activeRecipe.duration;
-    const character = ref(container.get<Character>(TYPES.Character)).value;
-    const maximumInstrument = character.storageInventory
-      .GetBestInstrumentOfType(this.activeRecipe.instrumentType);
+    const actionMainService = ref(container.get<ActionMainService>(TYPES.ActionMainService)).value;
 
-    const maximumInstrumentLevel = maximumInstrument === undefined ?
-      0 :
-      (maximumInstrument.item as Instrument).instrumentLevel;
-    const resultLevel = this.activeRecipe.instrumentExpectedLevel - maximumInstrumentLevel;
-    const timeModifier = (resultLevel < 0 ?
-      1 / Math.pow(2, -resultLevel) :
-      Math.pow(4, resultLevel));
-    duration = duration * timeModifier;
-
-    return duration;
+    return actionMainService
+      .CalculateActionDurationFromInstrumentType(
+        craftService.activeRecipe.duration,
+        craftService.activeRecipe.instrumentType,
+        craftService.activeRecipe.instrumentExpectedLevel);
   }
 }

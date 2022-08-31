@@ -8,7 +8,6 @@ import { Territory } from "../models/region/Territory";
 import { ModelsService } from "./ModelsService";
 import { ResourceNode } from "../models/region/ResourceNode";
 import { TerritoryEventItem } from "../models/region/TerritoryEventItem";
-import { Instrument } from "../models/items/Instrument";
 import { ActionMainService } from "./ActionMainService";
 import { ActionHuntCharacterService } from "./ActionHuntCharacterService";
 import { HuntService } from "./HuntService";
@@ -82,21 +81,13 @@ export class RegionService {
       return -1;
     }
 
-    let duration = this.territoryToSet.durationExploreOnEnter;
-    const character = ref(container.get<Character>(TYPES.Character)).value;
-    const maximumInstrument = character.storageInventory
-      .GetBestInstrumentOfType(this.activeTerritory.instrumentType);
+    const actionMainService = ref(container.get<ActionMainService>(TYPES.ActionMainService)).value;
 
-    const maximumInstrumentLevel = maximumInstrument === undefined ?
-      0 :
-      (maximumInstrument.item as Instrument).instrumentLevel;
-    const resultLevel = this.activeTerritory.instrumentExpectedLevel - maximumInstrumentLevel;
-    const timeModifier = (resultLevel < 0 ?
-      1 / Math.pow(2, -resultLevel) :
-      Math.pow(4, resultLevel));
-    duration = duration * timeModifier;
-
-    return duration;
+    return actionMainService
+      .CalculateActionDurationFromInstrumentType(
+        this.territoryToSet.durationExploreOnEnter,
+        this.activeTerritory.instrumentType,
+        this.activeTerritory.instrumentExpectedLevel);
   }
 
   AutoExplore() {
@@ -131,23 +122,17 @@ export class RegionService {
       return -1;
     }
 
-    let duration = this.activeEvent === undefined ?
+    const actionMainService = ref(container.get<ActionMainService>(TYPES.ActionMainService)).value;
+
+    const duration = this.activeEvent === undefined ?
       this.activeTerritory.durationExploreOnEnter :
       this.activeTerritory.durationExploreInTerritory;
-    const character = ref(container.get<Character>(TYPES.Character)).value;
-    const maximumInstrument = character.storageInventory
-      .GetBestInstrumentOfType(this.activeTerritory.instrumentType);
 
-    const maximumInstrumentLevel = maximumInstrument === undefined ?
-      0 :
-      (maximumInstrument.item as Instrument).instrumentLevel;
-    const resultLevel = this.activeTerritory.instrumentExpectedLevel - maximumInstrumentLevel;
-    const timeModifier = (resultLevel < 0 ?
-      1 / Math.pow(2, -resultLevel) :
-      Math.pow(4, resultLevel));
-    duration = duration * timeModifier;
-
-    return duration;
+    return actionMainService
+      .CalculateActionDurationFromInstrumentType(
+        duration,
+        this.activeTerritory.instrumentType,
+        this.activeTerritory.instrumentExpectedLevel);
   }
 
   Gather() {
@@ -180,25 +165,19 @@ export class RegionService {
   }
 
   GetGatherDuration(): number {
-    if (this.activeEvent === undefined) {
+    const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
+
+    if (regionService.activeEvent === undefined) {
+      console.log("RegionService.activeEvent was undefined");
       return -1;
     }
 
-    const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
-    const character = ref(container.get<Character>(TYPES.Character)).value;
-    let duration = regionService.activeEvent?.duration!;
-    const maximumInstrument = character.storageInventory
-      .GetBestInstrumentOfType(regionService.activeEvent?.instrumentType!);
+    const actionMainService = ref(container.get<ActionMainService>(TYPES.ActionMainService)).value;
 
-    const maximumInstrumentLevel = maximumInstrument === undefined ?
-      0 :
-      (maximumInstrument.item as Instrument).instrumentLevel;
-    const resultLevel = regionService.activeEvent?.instrumentExpectedLevel! - maximumInstrumentLevel;
-    const timeModifier = (resultLevel < 0 ?
-      1 / Math.pow(2, -resultLevel) :
-      Math.pow(4, resultLevel));
-    duration = duration * timeModifier;
-
-    return duration;
+    return actionMainService
+      .CalculateActionDurationFromInstrumentType(
+        regionService.activeEvent.duration,
+        regionService.activeEvent.instrumentType,
+        regionService.activeEvent.instrumentExpectedLevel);
   }
 }
