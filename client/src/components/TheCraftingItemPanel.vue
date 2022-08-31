@@ -8,6 +8,7 @@ import TYPES from "../types";
 import { ItemStack } from "../models/items/ItemStack";
 import CraftingPanelRecipeMaterial from "./CraftingPanelRecipeMaterial.vue";
 import { CraftService } from "../services/CraftService";
+import { RegionService } from "../services/RegionService";
 
 const props = defineProps<{
   recipe?: Recipe,
@@ -46,6 +47,14 @@ const currentFull = computed(() => {
 
 const maximumToCraft = computed(() => {
   return craftService.value.CanCraftAmount(props.recipe!);
+});
+
+const canCraft = computed(() => {
+  const regionService = ref(container.get<RegionService>(TYPES.RegionService)).value;
+
+  return maximumToCraft.value > 0 &&
+    regionService.activeTerritory.isCity &&
+    regionService.activeTerritory.isCamp;
 });
 </script>
 
@@ -117,7 +126,7 @@ const maximumToCraft = computed(() => {
       <div class="actions-row">
         <div class="craft-one">
           <button
-            :disabled="maximumToCraft === 0"
+            :disabled="!canCraft"
             @click="$emit('craft-item', 1)"
           >
             Craft 1
@@ -126,7 +135,7 @@ const maximumToCraft = computed(() => {
         </div>
         <div class="craft-all">
           <button
-            :disabled="maximumToCraft === 0"
+            :disabled="!canCraft"
             @click="$emit('craft-item', maximumToCraft)"
           >
             Craft All ({{ maximumToCraft }})
