@@ -1,5 +1,7 @@
 using System.Text.Json.Serialization;
 using DataContext.Postgresql;
+using Microsoft.EntityFrameworkCore;
+using Server.Controllers.Admin;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,5 +53,17 @@ app.UseSpa(config =>
         config.UseProxyToSpaDevelopmentServer("http://localhost:3000/");
     }
 });
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<MHIdleContext>();
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        context.Database.Migrate();
+        await new AdminController(context).UpdateSeeds();
+    }
+}
 
 app.Run();
